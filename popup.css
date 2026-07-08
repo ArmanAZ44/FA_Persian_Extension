@@ -1,0 +1,212 @@
+@font-face {
+  font-family: 'Vazirmatn';
+  src: url('fonts/Vazirmatn-Regular.woff2') format('woff2');
+  font-weight: 400; font-display: swap;
+}
+@font-face {
+  font-family: 'Vazirmatn';
+  src: url('fonts/Vazirmatn-Medium.woff2') format('woff2');
+  font-weight: 500; font-display: swap;
+}
+@font-face {
+  font-family: 'Vazirmatn';
+  src: url('fonts/Vazirmatn-Bold.woff2') format('woff2');
+  font-weight: 700; font-display: swap;
+}
+
+:root {
+  --bg: #f6f7f9;
+  --card: #ffffff;
+  --text: #0f172a;
+  --muted: #64748b;
+  --border: #e6e8ec;
+  --brand: #16a34a;
+  --brand-soft: #e7f6ec;
+  --green: #16a34a;
+  --red: #dc2626;
+  --track: #e2e8f0;
+  --shadow: 0 6px 24px rgba(15, 23, 42, .08);
+  --radius: 14px;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0b1020;
+    --card: #121829;
+    --text: #e8ecf4;
+    --muted: #94a3b8;
+    --border: #26304a;
+    --brand: #22c55e;
+    --brand-soft: #0f2a1b;
+    --track: #26304a;
+    --shadow: 0 6px 24px rgba(0,0,0,.35);
+  }
+}
+html[data-theme="light"] {
+  --bg:#f6f7f9;--card:#fff;--text:#0f172a;--muted:#64748b;--border:#e6e8ec;--brand:#16a34a;--brand-soft:#e7f6ec;--track:#e2e8f0;--shadow:0 6px 24px rgba(15,23,42,.08);
+}
+html[data-theme="dark"] {
+  --bg:#0b1020;--card:#121829;--text:#e8ecf4;--muted:#94a3b8;--border:#26304a;--brand:#22c55e;--brand-soft:#0f2a1b;--track:#26304a;--shadow:0 6px 24px rgba(0,0,0,.35);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Vazirmatn', Tahoma, sans-serif;
+  direction: rtl;
+  width: 330px;
+  background: var(--bg);
+  color: var(--text);
+  padding: 14px;
+  -webkit-font-smoothing: antialiased;
+}
+
+.header {
+  display: flex; align-items: center; gap: 10px; margin-bottom: 12px;
+}
+.logo {
+  width: 38px; height: 38px; border-radius: 11px;
+  object-fit: contain; flex: none;
+  box-shadow: var(--shadow);
+}
+.header .title { font-weight: 700; font-size: 15px; line-height: 1.3; }
+.header .subtitle { font-size: 11px; color: var(--muted); }
+
+.site-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 12px 14px; margin-bottom: 12px;
+  box-shadow: var(--shadow);
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+}
+.site-card .host {
+  font-weight: 600; font-size: 13px; direction: ltr; text-align: left;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1;
+}
+.status-badge {
+  font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 999px;
+  white-space: nowrap;
+}
+.status-badge.on  { background: rgba(22,163,74,.12); color: var(--green); }
+.status-badge.rtl { background: var(--brand-soft); color: var(--brand); }
+.status-badge.off { background: rgba(220,38,38,.12); color: var(--red); }
+
+.section-label {
+  font-size: 11px; color: var(--muted); margin: 4px 2px 6px; font-weight: 600;
+}
+
+.card { background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); box-shadow: var(--shadow);
+  overflow: hidden; margin-bottom: 12px; }
+
+.row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 14px; gap: 10px;
+}
+.row + .row { border-top: 1px solid var(--border); }
+.row .label { font-size: 13px; font-weight: 500; }
+.row .hint  { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.row.highlight { background: var(--brand-soft); }
+
+/* سوییچ */
+.switch { position: relative; width: 42px; height: 24px; flex: none; }
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider {
+  position: absolute; inset: 0; background: var(--track);
+  border-radius: 999px; transition: .2s; cursor: pointer;
+}
+.slider::before {
+  content: ""; position: absolute; height: 18px; width: 18px;
+  right: 3px; top: 3px; background: #fff; border-radius: 50%; transition: .2s;
+  box-shadow: 0 1px 3px rgba(0,0,0,.25);
+}
+.switch input:checked + .slider { background: var(--brand); }
+.switch input:checked + .slider::before { transform: translateX(-18px); }
+.switch input:disabled + .slider { opacity: .45; cursor: not-allowed; }
+
+/* اسلایدر مقیاس */
+.scale-row { padding: 12px 14px; }
+.scale-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.scale-head .val { font-weight: 700; color: var(--brand); font-size: 13px; }
+input[type=range] {
+  -webkit-appearance: none; width: 100%; height: 6px; border-radius: 999px;
+  background: var(--track); outline: none;
+}
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%;
+  background: var(--brand); cursor: pointer; border: 3px solid var(--card);
+  box-shadow: 0 1px 4px rgba(0,0,0,.25);
+}
+
+.actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.btn {
+  border: 1px solid var(--border); background: var(--card); color: var(--text);
+  border-radius: 10px; padding: 10px; font-family: inherit; font-size: 12px;
+  font-weight: 600; cursor: pointer; transition: .15s;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+}
+.btn:hover { border-color: var(--brand); color: var(--brand); }
+.btn.primary { background: var(--brand); color: #fff; border-color: var(--brand); }
+.btn.primary:hover { filter: brightness(1.05); color: #fff; }
+.btn.ghost { background: transparent; }
+.btn.full { grid-column: 1 / -1; }
+
+.reset-site {
+  width: 100%; text-align: center; background: transparent; border: none;
+  color: var(--muted); font-family: inherit; font-size: 11px; cursor: pointer;
+  padding: 6px; margin-bottom: 10px; text-decoration: underline;
+}
+.reset-site:hover { color: var(--brand); }
+
+.note {
+  background: rgba(220,38,38,.08); color: var(--red);
+  border: 1px solid rgba(220,38,38,.2); border-radius: 10px;
+  padding: 10px 12px; font-size: 12px; margin-bottom: 12px; display: none;
+}
+.note.show { display: block; }
+
+.footer { text-align: center; font-size: 10px; color: var(--muted); margin-top: 2px; }
+.disabled-fade { opacity: .5; pointer-events: none; }
+
+/* ───────── پوسته شیشه‌ای (glassmorphism) ───────── */
+:root { --glass: rgba(255,255,255,.55); --glass-border: rgba(255,255,255,.65); }
+@media (prefers-color-scheme: dark) { :root { --glass: rgba(20,26,44,.5); --glass-border: rgba(255,255,255,.09); } }
+html[data-theme="light"] { --glass: rgba(255,255,255,.55); --glass-border: rgba(255,255,255,.65); }
+html[data-theme="dark"]  { --glass: rgba(20,26,44,.5); --glass-border: rgba(255,255,255,.09); }
+
+body {
+  background:
+    radial-gradient(130% 120% at 100% 0%, rgba(22,163,74,.22), transparent 52%),
+    radial-gradient(130% 120% at 0% 100%, rgba(10,10,10,.14), transparent 46%),
+    var(--bg);
+  background-attachment: fixed;
+}
+.site-card, .card {
+  background: var(--glass) !important;
+  border-color: var(--glass-border) !important;
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+}
+.btn.ghost { background: var(--glass); border-color: var(--glass-border); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+
+/* ───────── دکمه‌های شبکه‌های اجتماعی ───────── */
+.social { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
+.social-btn {
+  display: flex; align-items: center; justify-content: center; gap: 7px;
+  padding: 10px; border-radius: 12px; font-family: inherit; font-size: 12.5px; font-weight: 600;
+  cursor: pointer; color: var(--text); transition: .18s;
+  border: 1px solid var(--glass-border); background: var(--glass);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+}
+.social-btn svg { width: 16px; height: 16px; flex: none; }
+.social-btn:hover { transform: translateY(-1px); }
+.social-btn.github:hover   { color: #fff; background: #0a0a0a; border-color: #0a0a0a; }
+.social-btn.telegram:hover { color: #fff; background: #229ED9; border-color: #229ED9; }
+
+/* ───────── دکمه حمایت ───────── */
+.support-btn {
+  width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 13px; border: none; border-radius: 14px; cursor: pointer;
+  font-family: inherit; font-size: 13.5px; font-weight: 700; color: #fff;
+  background: linear-gradient(135deg, #16a34a 0%, #0a0a0a 100%);
+  box-shadow: 0 6px 18px rgba(22,163,74,.35); transition: .18s; margin-bottom: 12px;
+}
+.support-btn svg { width: 17px; height: 17px; }
+.support-btn:hover { filter: brightness(1.08); transform: translateY(-1px); box-shadow: 0 9px 24px rgba(22,163,74,.5); }

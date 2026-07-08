@@ -1,0 +1,71 @@
+{
+  "manifest_version": 3,
+  "name": "فا | راست‌چین‌ساز و فونت فارسی",
+  "short_name": "افزونه فا",
+  "version": "1.1.0",
+  "description": "راست‌چین‌سازی و فونت فارسی حرفه‌ای برای متن سایت‌ها",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "contextMenus",
+    "scripting"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "فا | راست‌چین و فونت فارسی",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "options_page": "options.html",
+  "commands": {
+    "toggle-extension": {
+      "suggested_key": {
+        "default": "Alt+Shift+F"
+      },
+      "description": "فعال/غیرفعال کردن کلی افزونه فا"
+    },
+    "toggle-site": {
+      "suggested_key": {
+        "default": "Alt+Shift+S"
+      },
+      "description": "راست‌چین کردن / لغو راست‌چین در همین سایت"
+    }
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "fonts/*"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "exclusions.js",
+        "content.js"
+      ],
+      "run_at": "document_start",
+      "all_frames": true
+    }
+  ]
+}
