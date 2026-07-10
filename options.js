@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const spacingToggle    = el('spacingToggle');
   const typographyToggle = el('typographyToggle');
   const translateToggle  = el('translateToggle');
+  const hoverDictToggle  = el('hoverDictToggle');
   const siteInput        = el('siteInput');
   const addSiteBtn       = el('addSiteBtn');
   const siteList         = el('siteList');
@@ -68,6 +69,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   bindToggle(spacingToggle, 'faSpacingEnabled');
   bindToggle(typographyToggle, 'faTypography');
   bindToggle(translateToggle, 'faTranslateHotkey');
+  bindToggle(hoverDictToggle, 'faHoverDictEnabled');
 
   /* ── مقیاس ── */
   scaleRange.value = state.faFontScale;
@@ -180,6 +182,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     spacingToggle.checked = !!state.faSpacingEnabled;
     typographyToggle.checked = !!state.faTypography;
     translateToggle.checked = !!state.faTranslateHotkey;
+    hoverDictToggle.checked = !!state.faHoverDictEnabled;
     scaleRange.value = state.faFontScale;
     scaleValue.textContent = faDigits(state.faFontScale) + '٪';
     selectorsArea.value = (state.faExcludeSelectors || []).join('\n');

@@ -9,8 +9,17 @@ A Manifest V3 Chrome extension that applies the **Vazirmatn** Persian font, smar
 
 [![GitHub](https://img.shields.io/badge/GitHub-ArmanAZ44-0a0a0a?logo=github)](https://github.com/ArmanAZ44/FA_Persian_Extension)
 [![Telegram](https://img.shields.io/badge/Telegram-armanaz__44-229ED9?logo=telegram&logoColor=white)](https://t.me/armanaz_44)
+![Version](https://img.shields.io/badge/version-1.2.0-1DBF73)
 
 </div>
+
+### 🖼️ پیش‌نمایش / Preview
+
+<p align="center">
+  <img src="./assets/preview-popup.png" alt="پاپ‌آپ افزونه فا" width="320">
+  &nbsp;&nbsp;
+  <img src="./assets/preview-options.png" alt="صفحه‌ی تنظیمات افزونه فا" width="420">
+</p>
 
 ---
 
@@ -21,8 +30,15 @@ A Manifest V3 Chrome extension that applies the **Vazirmatn** Persian font, smar
 - **اندازه‌ی هوشمند:** اندازه‌ی فونت فارسی بر اساس نوع عنصر (تیتر، پاراگراف، دکمه و …) تنظیم می‌شود تا هماهنگ دیده شود.
 - **راست‌چین هر سایت:** راست‌چین به‌صورت پیش‌فرض خاموش است و برای هر سایت جداگانه از پاپ‌آپ روشن می‌شود.
 - **حین تایپ:** فونت و راست‌چین در فیلدهای فرم و ویرایشگرهای متنی (contenteditable) هم اعمال می‌شود (ویرایشگرهای کد استثنا هستند).
+- **دیکشنری هاور (جدید):** کلید `Alt` را نگه دارید و روی هر کلمه‌ی انگلیسی صفحه بروید تا معنی فارسی سریع آن نمایش داده شود؛ کاملاً آفلاین، بدون هیچ درخواست اینترنتی. از تنظیمات پیشرفته قابل خاموش‌کردن است.
 - **تنظیمات اختصاصی هر دامنه، ارقام فارسی، اصلاح فاصله‌ها، تایپوگرافی و ترجمه‌ی سریع.**
-- دامنه‌های `.ir` به‌طور خودکار مستثنا هستند.
+- دامنه‌های `.ir` و همچنین فهرستی از سایت‌های شناخته‌شده‌ی ایرانی با دامنه‌ی غیر `.ir` (مثل aparat.com، digikala.com و…) به‌طور خودکار مستثنا هستند، چون از قبل فونت/راست‌چین مناسب خودشان را دارند.
+
+### 🆕 تغییرات نسخه‌ی ۱٫۲٫۰
+- رفع باگ «متن ناقص می‌ماند»: پردازش هر گره‌ی متنی و هر mutation جدا ایزوله شد؛ حالا خطای یک مورد مانع اعمال فونت/راست‌چین روی بقیه‌ی متن صفحه (به‌خصوص در سایت‌های داینامیک/SPA) نمی‌شود.
+- رفع باگ «سایت لود نمی‌شود / ارور می‌خورد»: اسکریپت روی سندهای غیر HTML (XML، PDF viewer داخلی و…) دیگر اجرا نمی‌شود و در برابر خطای «Extension context invalidated» (بعد از ری‌لود افزونه) مقاوم شد.
+- افزودن فهرست سایت‌های ایرانی با هاست داخلی و دامنه‌ی غیر `.ir` به لیست مستثناها.
+- افزودن ویژگی جدید: دیکشنری هاور (Alt + هاور روی کلمه‌ی انگلیسی).
 
 ### 🧩 نصب دستی روی کروم (حالت توسعه‌دهنده)
 1. فایل ZIP افزونه را دانلود و **از حالت فشرده خارج کنید** (Extract) تا یک پوشه به‌دست آید (پوشه باید شامل `manifest.json` باشد).
@@ -55,7 +71,13 @@ A Manifest V3 Chrome extension that applies the **Vazirmatn** Persian font, smar
 - **Per‑site RTL:** RTL is off by default and enabled per website from the popup.
 - **While typing:** font and RTL also apply inside form fields and rich‑text (contenteditable) editors — code editors are excluded.
 - **Per‑domain overrides, Persian digits, spacing fixes, typography, and quick translate.**
-- `.ir` domains are auto‑excluded.
+- `.ir` domains — plus a curated list of well‑known Iranian sites hosted domestically under non‑`.ir` TLDs (e.g. aparat.com, digikala.com) — are auto‑excluded.
+
+### 🆕 What's new in 1.2.0
+- Fixed "text stays incomplete": per‑node and per‑mutation processing is now isolated in try/catch, so one failing node no longer stops font/RTL from being applied to the rest of the page (especially on dynamic/SPA sites).
+- Fixed "site won't load / throws an error": the script now bails out on non‑HTML documents (XML, the built‑in PDF viewer, etc.) and is resilient to "Extension context invalidated" errors after a reload/update.
+- Added a curated list of Iranian sites hosted domestically under non‑`.ir` domains to the exclusion list.
+- New feature: Hover Dictionary (hold Alt + hover an English word for an instant Persian meaning).
 
 ### 🧩 Manual install on Chrome (Developer mode)
 1. Download the extension ZIP and **extract it** into a folder (the folder must contain `manifest.json`).

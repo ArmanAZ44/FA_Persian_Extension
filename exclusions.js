@@ -24,6 +24,24 @@
   /* پسوندهای دامنه‌ای که باید کاملاً مستثنا شوند (سایت‌های ایرانی از قبل فارسی‌اند) */
   const EXCLUDED_TLDS = ['.ir'];
 
+  /* دامنه‌های ایرانیِ شناخته‌شده که پسوند .ir ندارند اما روی هاست داخلی ایران
+     میزبانی می‌شوند و از قبل فونت/راست‌چین فارسی مناسب خودشان را دارند؛
+     بنابراین نیازی به اعمال افزونه روی آن‌ها نیست (زیردامنه‌ها هم پوشش داده می‌شوند). */
+  const EXCLUDED_DOMAINS = [
+    // شبکه‌های اجتماعی، پیام‌رسان و ویدئو
+    'aparat.com', 'eitaa.com', 'gap.im', 'filimo.com', 'namasha.com', 'telewebion.com',
+    // فروشگاه و کسب‌وکار
+    'digikala.com', 'digistyle.com', 'basalam.com', 'torob.com',
+    'sheypoor.com', 'otaghak.com', 'jabama.com', 'flightio.com',
+    // ورزش
+    'varzesh3.com',
+    // خبرگزاری‌های ایرانی با دامنه غیر .ir
+    'mehrnews.com', 'tasnimnews.com', 'asriran.com', 'khabarfarsi.com', 'yjc.news',
+    // وبلاگ، سرگرمی و فروم
+    'namnak.com', 'ninisite.com', 'beytoote.com', 'mihanblog.com', 'blogfa.com',
+    'p30download.com'
+  ];
+
   /* تنظیمات پیش‌فرض سراسری — منبع واحد برای همه‌ی فایل‌ها */
   const DEFAULTS = {
     faEnabled:         true,   // کلید اصلی فعال‌بودن افزونه (سراسری)
@@ -34,6 +52,7 @@
     faTypography:      false,  // اصلاح نیم‌فاصله/نشانه‌گذاری فارسی
     faSpacingEnabled:  true,   // اصلاح محافظه‌کارانه‌ی فاصله‌ی خط و کلمه
     faTranslateHotkey: false,  // میانبر ترجمه‌ی سریع (Alt+Shift+T)
+    faHoverDictEnabled: true,  // دیکشنری هاور: نگه‌داشتن Alt + هاور روی کلمه انگلیسی
     faTheme:           'auto', // پوسته‌ی پنل: auto | light | dark
     faExcludeSelectors: [],    // سلکتورهای CSS که هرگز نباید لمس شوند
     /* override اختصاصی هر دامنه:
@@ -51,11 +70,17 @@
     return EXCLUDED_TLDS.some(tld => host === tld.slice(1) || host.endsWith(tld));
   }
 
-  /* آیا این هاست همیشه باید مستثنا باشد؟ فقط دامنه‌های .ir مستثنای سخت هستند. */
+  /* آیا هاست، خودِ یکی از EXCLUDED_DOMAINS یا زیردامنه‌ی آن است؟ */
+  function hostInExcludedDomains(host) {
+    return EXCLUDED_DOMAINS.some(domain => hostMatchesDomain(host, domain));
+  }
+
+  /* آیا این هاست همیشه باید مستثنا باشد؟
+     دامنه‌های .ir و دامنه‌های ایرانیِ شناخته‌شده‌ی داخل EXCLUDED_DOMAINS مستثنای سخت هستند. */
   function isHardExcluded(host) {
     if (!host) return false;
     host = String(host).toLowerCase();
-    return hostHasExcludedTld(host);
+    return hostHasExcludedTld(host) || hostInExcludedDomains(host);
   }
 
   /* یافتن override منطبق با هاست (تطبیق دقیق یا زیردامنه) */
@@ -100,6 +125,7 @@
 
   const FaExtExclusions = {
     EXCLUDED_TLDS,
+    EXCLUDED_DOMAINS,
     DEFAULTS,
     isHardExcluded,
     hostMatchesDomain,

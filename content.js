@@ -28,6 +28,15 @@
     return;
   }
 
+  /* رفع باگ «سایت لود نمی‌شود / ارور می‌خورد»:
+     این افزونه با all_frames روی هر فریمی (از جمله فریم‌های XML، JSON، PDF
+     viewer داخلی کروم و صفحات غیر HTML) اجرا می‌شود. دستکاری DOM روی
+     سندهای غیر HTML می‌تواند خطا پرتاب کند و صفحه را خراب نشان دهد.
+     بنابراین روی هر سندی که واقعاً HTML نیست، اسکریپت بی‌سروصدا متوقف می‌شود. */
+  if (document.contentType && document.contentType !== 'text/html') {
+    return;
+  }
+
   const STYLE_ID         = 'fa-ext-styles';
   const ALIGN_CLASS       = 'fa-ext-align';
   const FONT_SPAN_CLASS   = 'fa-ext-fa';
@@ -535,22 +544,28 @@
     return { textNodes, shadowHosts, formFields: collectFormFields(root) };
   }
 
-  /* پردازش synchronous و فوری */
+  /* پردازش synchronous و فوری
+     رفع باگ «متن ناقص می‌ماند»: قبلاً اگر پردازش یک node خطا می‌داد (مثلاً به
+     دلیل تغییر هم‌زمان DOM توسط خودِ سایت روی صفحات SPA)، کل حلقه متوقف
+     می‌شد و باقی نودهای فارسی هرگز پردازش نمی‌شدند. حالا هر node جدا
+     try/catch می‌شود تا خطای یک مورد مانع پردازش بقیه نشود. */
   function processNodes(nodes) {
     for (const node of nodes) {
-      if (!node.isConnected) continue;
-      processedNodes.add(node);
-      const val = node.nodeValue;
-      /* فونت روی هر متنی که «حتی یک بخش فارسی» دارد اعمال می‌شود،
-         فارغ از اینکه انگلیسی غالب باشد یا فارسی. */
-      if (!PERSIAN_RE.test(val)) continue;
-      const parentBefore = node.parentElement;
-      const changed = segmentTextNode(node, parentBefore);
-      /* راست‌چین اما فقط روی بلوک‌های «فارسی‌غالب» تا چیدمان انگلیسی به‌هم نریزد. */
-      if (changed && parentBefore && eff.rtl && isPersianDominant(val)) {
-        const leaf = findSafeBlockAncestor(parentBefore);
-        if (leaf) applyAlignToLeaf(leaf);
-      }
+      try {
+        if (!node.isConnected) continue;
+        processedNodes.add(node);
+        const val = node.nodeValue;
+        /* فونت روی هر متنی که «حتی یک بخش فارسی» دارد اعمال می‌شود،
+           فارغ از اینکه انگلیسی غالب باشد یا فارسی. */
+        if (!PERSIAN_RE.test(val)) continue;
+        const parentBefore = node.parentElement;
+        const changed = segmentTextNode(node, parentBefore);
+        /* راست‌چین اما فقط روی بلوک‌های «فارسی‌غالب» تا چیدمان انگلیسی به‌هم نریزد. */
+        if (changed && parentBefore && eff.rtl && isPersianDominant(val)) {
+          const leaf = findSafeBlockAncestor(parentBefore);
+          if (leaf) applyAlignToLeaf(leaf);
+        }
+      } catch (e) { /* یک node خراب نباید مانع پردازش بقیه شود */ }
     }
   }
 
@@ -564,15 +579,19 @@
       const root = queue.shift();
       if (seen.has(root)) continue;
       seen.add(root);
-      const { textNodes, shadowHosts, formFields } = collectFromRoot(root);
-      processNodes(textNodes);
-      processFormFields(formFields);
-      const editRoots = collectEditableRoots(root);
-      for (let i = 0; i < editRoots.length; i++) updateEditableRoot(editRoots[i]);
-      for (const sh of shadowHosts) {
-        injectStylesIntoShadow(sh);
-        queue.push(sh);
-      }
+      /* رفع باگ «متن ناقص می‌ماند»: خطا در یک زیردرخت (مثلاً یک shadow root
+         عجیب) نباید مانع اسکن بقیه‌ی صفحه شود. */
+      try {
+        const { textNodes, shadowHosts, formFields } = collectFromRoot(root);
+        processNodes(textNodes);
+        processFormFields(formFields);
+        const editRoots = collectEditableRoots(root);
+        for (let i = 0; i < editRoots.length; i++) updateEditableRoot(editRoots[i]);
+        for (const sh of shadowHosts) {
+          injectStylesIntoShadow(sh);
+          queue.push(sh);
+        }
+      } catch (e) { /* ادامه بده با بقیه‌ی صف */ }
     }
   }
 
@@ -628,33 +647,41 @@
       const editingRoot = getActiveEditableRoot();
 
       for (const m of mutations) {
-        if (isSelfCaused(m)) continue;
-        if (editingRoot && (editingRoot === m.target || editingRoot.contains(m.target))) continue;
+        /* رفع باگ «متن ناقص می‌ماند»: قبلاً اگر پردازش یک mutation خطا می‌داد
+           (مثلاً یک node که هم‌زمان توسط فریم‌ورک سایت حذف شده بود)، بقیه‌ی
+           mutation های همان batch اصلاً بررسی نمی‌شدند و محتوای تازه‌ی
+           تزریق‌شده در سایت‌های داینامیک/SPA بدون فونت/راست‌چین می‌ماند. */
+        try {
+          if (isSelfCaused(m)) continue;
+          if (editingRoot && (editingRoot === m.target || editingRoot.contains(m.target))) continue;
 
-        if (m.type === 'childList' && m.addedNodes.length) {
-          for (let i = 0; i < m.addedNodes.length; i++) {
-            const n = m.addedNodes[i];
-            if (editingRoot && (n === editingRoot || (n.nodeType === 1 && n.contains(editingRoot)))) continue;
-            if (n.nodeType === 1) {
-              if (n.shadowRoot) observeRoot(n.shadowRoot);
-              scanSubtreeNow(n);
-            } else if (n.nodeType === 3) {
-              if (PERSIAN_RE.test(n.nodeValue || '')) {
-                processNodes([n]);
-              }
+          if (m.type === 'childList' && m.addedNodes.length) {
+            for (let i = 0; i < m.addedNodes.length; i++) {
+              const n = m.addedNodes[i];
+              try {
+                if (editingRoot && (n === editingRoot || (n.nodeType === 1 && n.contains(editingRoot)))) continue;
+                if (n.nodeType === 1) {
+                  if (n.shadowRoot) observeRoot(n.shadowRoot);
+                  scanSubtreeNow(n);
+                } else if (n.nodeType === 3) {
+                  if (PERSIAN_RE.test(n.nodeValue || '')) {
+                    processNodes([n]);
+                  }
+                }
+              } catch (e) { /* ادامه بده با بقیه‌ی addedNodes */ }
             }
           }
-        }
 
-        if (m.type === 'characterData') {
-          if (PERSIAN_RE.test(m.target.nodeValue || '')) {
-            processNodes([m.target]);
+          if (m.type === 'characterData') {
+            if (PERSIAN_RE.test(m.target.nodeValue || '')) {
+              processNodes([m.target]);
+            }
           }
-        }
 
-        if (m.type === 'attributes' && m.attributeName === 'placeholder') {
-          updateFormFieldFont(m.target);
-        }
+          if (m.type === 'attributes' && m.attributeName === 'placeholder') {
+            updateFormFieldFont(m.target);
+          }
+        } catch (e) { /* ادامه بده با بقیه‌ی mutation های همین batch */ }
       }
     });
 
@@ -674,7 +701,13 @@
    *   ۳. اگر بعد از bootstrap هم تنظیمات تغییر کرد و masterActive شد، rescan می‌کنیم
    *   ۴. visibilitychange برای تب‌هایی که از background برمی‌گردند */
   function bootstrap() {
-    injectMainStyles();
+    /* رفع باگ «سایت لود نمی‌شود / ارور می‌خورد»: اگر افزونه در حین اجرا
+       ری‌لود/آپدیت شود، chrome.runtime.getURL خطای
+       "Extension context invalidated" می‌دهد. بدون این try/catch این خطا
+       اجرای بقیه‌ی bootstrap (و در نتیجه رندر صفحه) را مختل می‌کرد. */
+    try {
+      injectMainStyles();
+    } catch (e) { return; }
     applyHtmlClasses();
     customExcludeSelector = (settings.faExcludeSelectors || []).filter(Boolean).join(',');
     computeRejectSelector();
@@ -805,6 +838,98 @@
       }
     });
   }
+
+  /* ──────────────────────────────────────────────────────────────────────
+   * ویژگی جدید: دیکشنری هاور
+   * با نگه‌داشتن کلید Alt و بردن ماوس روی یک کلمه‌ی انگلیسی، معنی فارسی
+   * سریع آن (از یک دیکشنری کوچک و کاملاً آفلاین در dictionary.js) نمایش
+   * داده می‌شود. کاملاً محلی است — هیچ درخواست شبکه‌ای ارسال نمی‌شود.
+   * به‌عمد به‌جای wrap کردن تک‌تک کلمات صفحه در span (که می‌توانست باعث
+   * باگ‌های مشابه بهم‌ریختگی متن شود)، فقط با caretRangeFromPoint موقعیت
+   * زیر ماوس خوانده می‌شود؛ یعنی هیچ تغییری در DOM سایت ایجاد نمی‌شود. */
+  const WORD_AT_POINT_RE = /[A-Za-z][A-Za-z'-]*/;
+  let hoverDictEl = null;
+  let hoverDictWord = '';
+
+  function removeHoverDict() {
+    if (hoverDictEl) { hoverDictEl.remove(); hoverDictEl = null; hoverDictWord = ''; }
+  }
+
+  function showHoverDict(word, meaning, x, y) {
+    if (hoverDictWord === word && hoverDictEl) return;
+    removeHoverDict();
+    hoverDictWord = word;
+    const el = document.createElement('div');
+    el.textContent = word + ' → ' + meaning;
+    Object.assign(el.style, {
+      position: 'fixed',
+      left: Math.max(8, x + 12) + 'px',
+      top: Math.max(8, y + 18) + 'px',
+      maxWidth: '280px',
+      background: '#14231a',
+      color: '#eaf3ec',
+      padding: '6px 10px',
+      borderRadius: '8px',
+      fontSize: '13px',
+      lineHeight: '1.5',
+      zIndex: '2147483647',
+      direction: 'rtl',
+      fontFamily: 'Tahoma, Arial, sans-serif',
+      boxShadow: '0 6px 18px rgba(0,0,0,.3)',
+      pointerEvents: 'none'
+    });
+    document.body.appendChild(el);
+    hoverDictEl = el;
+  }
+
+  function getWordAtPoint(x, y) {
+    let range = null;
+    try {
+      if (document.caretRangeFromPoint) range = document.caretRangeFromPoint(x, y);
+      else if (document.caretPositionFromPoint) {
+        const pos = document.caretPositionFromPoint(x, y);
+        if (pos && pos.offsetNode) {
+          range = document.createRange();
+          range.setStart(pos.offsetNode, pos.offset);
+        }
+      }
+    } catch (e) { return null; }
+    if (!range || !range.startContainer || range.startContainer.nodeType !== 3) return null;
+    const node = range.startContainer;
+    const text = node.nodeValue || '';
+    const offset = Math.min(range.startOffset, text.length);
+    let start = offset, end = offset;
+    while (start > 0 && /[A-Za-z'-]/.test(text[start - 1])) start--;
+    while (end < text.length && /[A-Za-z'-]/.test(text[end])) end++;
+    const word = text.slice(start, end).replace(/^[-']+|[-']+$/g, '');
+    if (!word || !WORD_AT_POINT_RE.test(word)) return null;
+    return word;
+  }
+
+  let hoverDictRaf = null;
+  document.addEventListener('mousemove', (e) => {
+    if (!settings.faHoverDictEnabled || !e.altKey || typeof FaExtDictionary === 'undefined') {
+      if (hoverDictEl) removeHoverDict();
+      return;
+    }
+    if (!masterActive()) return;
+    if (hoverDictRaf) cancelAnimationFrame(hoverDictRaf);
+    const x = e.clientX, y = e.clientY;
+    hoverDictRaf = requestAnimationFrame(() => {
+      try {
+        const word = getWordAtPoint(x, y);
+        if (!word) { removeHoverDict(); return; }
+        const meaning = FaExtDictionary.DICT[word.toLowerCase()];
+        if (!meaning) { removeHoverDict(); return; }
+        showHoverDict(word, meaning, x, y);
+      } catch (e) { removeHoverDict(); }
+    });
+  }, { capture: true, passive: true });
+
+  document.addEventListener('keyup', (e) => {
+    if (e.key === 'Alt') removeHoverDict();
+  });
+  window.addEventListener('blur', removeHoverDict);
 
   /* هنگام تایپ: فیلدهای فرم و ویرایشگرهای contenteditable را زنده به‌روزرسانی کن */
   function handleTypingTarget(t) {
