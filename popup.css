@@ -30,14 +30,14 @@
 }
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #0b1020;
-    --card: #121829;
+    --bg: #0a0a0c;
+    --card: #16171b;
     --text: #e8ecf4;
-    --muted: #94a3b8;
-    --border: #26304a;
+    --muted: #94a0ac;
+    --border: #26282f;
     --brand: #22c55e;
     --brand-soft: #0f2a1b;
-    --track: #26304a;
+    --track: #26282f;
     --shadow: 0 6px 24px rgba(0,0,0,.35);
   }
 }
@@ -45,7 +45,7 @@ html[data-theme="light"] {
   --bg:#f6f7f9;--card:#fff;--text:#0f172a;--muted:#64748b;--border:#e6e8ec;--brand:#16a34a;--brand-soft:#e7f6ec;--track:#e2e8f0;--shadow:0 6px 24px rgba(15,23,42,.08);
 }
 html[data-theme="dark"] {
-  --bg:#0b1020;--card:#121829;--text:#e8ecf4;--muted:#94a3b8;--border:#26304a;--brand:#22c55e;--brand-soft:#0f2a1b;--track:#26304a;--shadow:0 6px 24px rgba(0,0,0,.35);
+  --bg:#0a0a0c;--card:#16171b;--text:#e8ecf4;--muted:#94a0ac;--border:#26282f;--brand:#22c55e;--brand-soft:#0f2a1b;--track:#26282f;--shadow:0 6px 24px rgba(0,0,0,.5);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -162,14 +162,19 @@ input[type=range]::-webkit-slider-thumb {
 }
 .note.show { display: block; }
 
+.note-info {
+  background: rgba(29,191,115,.08); color: var(--brand, #1DBF73);
+  border: 1px solid rgba(29,191,115,.25);
+}
+
 .footer { text-align: center; font-size: 10px; color: var(--muted); margin-top: 2px; }
 .disabled-fade { opacity: .5; pointer-events: none; }
 
 /* ───────── پوسته شیشه‌ای (glassmorphism) ───────── */
 :root { --glass: rgba(255,255,255,.55); --glass-border: rgba(255,255,255,.65); }
-@media (prefers-color-scheme: dark) { :root { --glass: rgba(20,26,44,.5); --glass-border: rgba(255,255,255,.09); } }
+@media (prefers-color-scheme: dark) { :root { --glass: rgba(16,17,20,.55); --glass-border: rgba(255,255,255,.09); } }
 html[data-theme="light"] { --glass: rgba(255,255,255,.55); --glass-border: rgba(255,255,255,.65); }
-html[data-theme="dark"]  { --glass: rgba(20,26,44,.5); --glass-border: rgba(255,255,255,.09); }
+html[data-theme="dark"]  { --glass: rgba(16,17,20,.55); --glass-border: rgba(255,255,255,.09); }
 
 body {
   background:

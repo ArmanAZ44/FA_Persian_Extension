@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const donateBtn   = el('donateBtn');
   const controls    = el('controls');
   const hardNote    = el('hardExcludedNote');
+  const recNote     = el('recommendedNote');
 
   const faDigits = (n) => String(n).replace(/[0-9]/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
 
@@ -49,12 +50,16 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     if (eff.hardExcluded) {
       hardNote.classList.add('show');
+      recNote.classList.remove('show');
       controls.classList.add('disabled-fade');
       [enabledT, fontT, rtlT, digitT, scaleRange].forEach(c => c.disabled = true);
       statusPill.textContent = 'مستثنا';
       statusPill.className = 'status-badge off';
       return;
     }
+
+    hardNote.classList.remove('show');
+    recNote.classList.toggle('show', !!eff.isRecommended);
 
     enabledT.checked = eff.enabled;
     fontT.checked    = eff.font;
@@ -100,5 +105,5 @@ document.addEventListener('DOMContentLoaded', async () => {
   optionsBtn.addEventListener('click', () => chrome.runtime.openOptionsPage());
   donateBtn.addEventListener('click', () => chrome.tabs.create({ url: 'https://reymit.ir/armanaz44' }));
   el('githubBtn').addEventListener('click', () => chrome.tabs.create({ url: 'https://github.com/ArmanAZ44/FA_Persian_Extension' }));
-  el('telegramBtn').addEventListener('click', () => chrome.tabs.create({ url: 'https://t.me/armanaz_44' }));
+  el('telegramBtn').addEventListener('click', () => chrome.tabs.create({ url: 'https://t.me/ArmanAZPC' }));
 });

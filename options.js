@@ -171,7 +171,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   donateBtn.addEventListener('click', () => chrome.tabs.create({ url: 'https://reymit.ir/armanaz44' }));
   el('githubBtn').addEventListener('click', () => chrome.tabs.create({ url: 'https://github.com/ArmanAZ44/FA_Persian_Extension' }));
-  el('telegramBtn').addEventListener('click', () => chrome.tabs.create({ url: 'https://t.me/armanaz_44' }));
+  el('telegramBtn').addEventListener('click', () => chrome.tabs.create({ url: 'https://t.me/ArmanAZPC' }));
 
   /* ── هم‌گام‌سازی کامل UI با state ── */
   function hydrate() {

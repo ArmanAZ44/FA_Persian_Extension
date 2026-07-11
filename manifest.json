@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "فا | راست‌چین‌ساز و فونت فارسی",
   "short_name": "افزونه فا",
-  "version": "1.2.0",
+  "version": "1.3.2",
   "description": "راست‌چین‌سازی و فونت فارسی حرفه‌ای برای متن سایت‌ها",
   "permissions": [
     "storage",
@@ -61,6 +61,7 @@
         "<all_urls>"
       ],
       "js": [
+        "excluded-domains-data.js",
         "exclusions.js",
         "dictionary.js",
         "content.js"

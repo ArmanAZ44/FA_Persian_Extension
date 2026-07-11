@@ -1,6 +1,36 @@
 /**
  * فا | راست‌چین‌ساز و فونت فارسی
- * نسخه ۱.۰.۰ — بازنویسی معماری
+ * نسخه ۱.۳.۲
+ *
+ * تغییرات نسخه ۱.۳.۲:
+ *   - راست‌چین/فونت فارسی روی Kick.com اکنون به‌صورت پیش‌فرض (بدون نیاز
+ *     به تنظیم دستی از پاپ‌آپ) فعال است؛ منبع این پیش‌فرض
+ *     RECOMMENDED_SITE_DEFAULTS در exclusions.js است.
+ *   - حالت سازگاری Kick بازطراحی شد تا تقریباً بدون تأخیر (live) کار کند:
+ *     به‌جای صبر برای رویداد سنگین window 'load'، فقط منتظر پایان parse
+ *     شدن HTML (DOMContentLoaded) + دو requestAnimationFrame می‌ماند؛
+ *     debounce آبزرور چت زنده هم از ۴۰۰ به ۶۰ میلی‌ثانیه کاهش یافت.
+ *
+ * تغییرات نسخه ۱.۳.۰:
+ *   - حالت سازگاری مخصوص و کاملاً غیرتهاجمی برای ChatGPT
+ *     (chatgpt.com / chat.openai.com): فقط CSS + attribute روی کانتینر
+ *     هر پیام، بدون segmentTextNode، بدون دستکاری innerHTML، با تشخیص
+ *     پایان استریم از طریق سکوت مکث‌دار (debounce).
+ *   - رندر تدریجی (Incremental) روی ChatGPT: فونت فارسی دیگر منتظر پایان
+ *     کامل پاسخ نمی‌ماند؛ به‌محض این‌که یک بخش (پاراگراف/آیتم لیست) از
+ *     استریم برای مدت کوتاهی بدون تغییر بماند، همان بخش (نه کل پیام)
+ *     فونت می‌گیرد. کد، فرمول، جدول و فیلدهای ورودی همچنان کاملاً
+ *     نادیده گرفته می‌شوند. هیچ بخشی دوباره پردازش یا rescan نمی‌شود.
+ *   - رفع باگ لود Kick.com (نیاز به چند بار رفرش): افزودن یک «حالت
+ *     سازگاری» مخصوص kick.com که هیچ DOM/CSS ای را قبل از لود کامل صفحه
+ *     دست‌کاری نمی‌کند، در طول hydration اولیه‌ی React هیچ
+ *     MutationObserver ای فعال نیست، فقط عناصر واقعاً مرئی/رندرشده
+ *     پردازش می‌شوند، اسکلتون/placeholder ها هرگز لمس نمی‌شوند، و بعد از
+ *     لود اولیه یک observer سبک و debounce‌شده (بدون characterData) جایگزین
+ *     می‌شود که به ناوبری داخلی (pushState/replaceState) هم بدون نیاز به
+ *     رفرش واکنش نشان می‌دهد.
+ *   - افزوده‌شدن هزاران دامنه‌ی فارسی‌زبان جدید به فهرست سایت‌های مستثنا
+ *     (exclusions.js + excluded-domains-data.js).
  *
  * اصل بنیادین این نسخه:
  *   فونت فارسی هرگز روی body / html / یک عنصر سراسری اعمال نمی‌شود.
@@ -84,6 +114,610 @@
 
   const FONT_FAMILY = 'FaExtVazirmatn';
   const FONT_FILES  = { 400:'Vazirmatn-Regular.woff2', 500:'Vazirmatn-Medium.woff2', 700:'Vazirmatn-Bold.woff2' };
+
+  /* ──────────────────────────────────────────────────────────────────────
+   * حالت سازگاری مخصوص ChatGPT (نسخه ۱.۳.۰)
+   *
+   * ChatGPT محتوا را به‌صورت استریم (تدریجی) با React رندر می‌کند. موتور
+   * عادی این افزونه متن‌ها را به text-node های جدا تجزیه می‌کند (segmentTextNode)
+   * که روی یک صفحه‌ی در حال استریم باعث از دست رفتن کلمات، تکرار متن یا
+   * قطع‌شدن پاسخ می‌شود. برای همین، روی chatgpt.com / chat.openai.com
+   * اسکریپت اصلاً از segmentTextNode/MutationObserver عمومی استفاده نمی‌کند؛
+   * در عوض فقط:
+   *   ۱. یک attribute (نه innerHTML/textContent) روی کانتینر هر پیام
+   *      می‌گذارد و تمام جهت/فونت از طریق CSS اعمال می‌شود.
+   *   ۲. هر پیام فقط یک‌بار پردازش می‌شود (data-fa-ext-gpt-done).
+   *   ۳. پردازش هر پیام تا وقتی که مدتی (GPT_QUIET_MS) هیچ تغییری در
+   *      متن آن رخ ندهد به تأخیر می‌افتد، تا وسط استریم‌شدن دست‌کاری نشود. */
+  const CHATGPT_HOSTS = ['chatgpt.com', 'chat.openai.com'];
+  function isChatGptHost(h) {
+    if (!h) return false;
+    h = String(h).toLowerCase();
+    return CHATGPT_HOSTS.some(d => h === d || h.endsWith('.' + d));
+  }
+
+  /* ──────────────────────────────────────────────────────────────────────
+   * حالت سازگاری مخصوص Kick.com (نسخه ۱.۳.۰)
+   *
+   * مشکل: Kick یک اپلیکیشن React با hydration سنگین است. مسیر عمومی
+   * افزونه (fullScan + MutationObserver با subtree:true روی کل body، از
+   * document_start) روی چنین صفحه‌ای می‌تواند صدها/هزاران mutation را در
+   * همان چند صد میلی‌ثانیه‌ی اول (که React درحال hydrate/render اولیه است)
+   * پردازش کند. این حجم پردازش هم‌زمان با hydration باعث می‌شد لود کیک
+   * گاهی گیر کند یا نیاز به چند بار رفرش داشته باشد.
+   *
+   * راه‌حل: یک مسیر کاملاً جدا برای kick.com که:
+   *   ۱. برخلاف مسیر ChatGPT (که منتظر «سکوت کامل» پیام می‌ماند)، اینجا
+   *      هدف تأخیر صفر تا حد امکان است: به‌محض پایان parse شدن HTML
+   *      (نه رویداد سنگین window 'load') و گذشت دو فریم رندر، همان
+   *      اسکن اول اجرا می‌شود؛ راست‌چین/فونت فارسی روی Kick تقریباً
+   *      بلافاصله و بدون هیچ تنظیم دستی از طرف کاربر ظاهر می‌شود.
+   *   ۲. در طول همان چند فریم اول (پیش از اولین اسکن)، هیچ MutationObserver
+   *      ای فعال نیست تا با hydration اولیه‌ی React رقابت نکند.
+   *   ۳. کل document در startup اسکن نمی‌شود؛ فقط عناصر «واقعاً قابل‌مشاهده»
+   *      (offsetParent/rect غیرصفر) و کاملاً رندرشده پردازش می‌شوند.
+   *   ۴. بعد از اسکن اول، MutationObserver با یک debounce بسیار کوتاه
+   *      (۶۰ میلی‌ثانیه؛ برخلاف نسخه‌ی قبل که ۴۰۰ میلی‌ثانیه بود) فعال
+   *      می‌شود تا هم چت زنده تقریباً هم‌زمان راست‌چین شود و هم CPU با
+   *      رندر React رقابت نکند.
+   *   ۵. اسکلتون/لودینگ (placeholder) و عناصر موقت هرگز لمس نمی‌شوند.
+   *   ۶. در ناوبری بین صفحات (client-side routing)، صفحه نیازی به رفرش
+   *      دستی ندارد چون observer با debounce به تغییرات مسیر هم واکنش
+   *      نشان می‌دهد، اما همچنان فقط عناصر مرئی و آماده را پردازش می‌کند. */
+  const KICK_HOSTS = ['kick.com'];
+  function isKickHost(h) {
+    if (!h) return false;
+    h = String(h).toLowerCase();
+    return KICK_HOSTS.some(d => h === d || h.endsWith('.' + d));
+  }
+
+  /* سلکتورهای اسکلتون/لودینگ رایج که هرگز نباید پردازش شوند (چه در Kick،
+     چه به‌طور کلی برای جلوگیری از فلیکر روی محتوای موقت). */
+  const SKELETON_SELECTOR =
+    '[class*="skeleton" i], [class*="placeholder" i], [class*="shimmer" i], ' +
+    '[aria-busy="true"], [data-loading="true"]';
+
+  function isSkeletonOrHidden(el) {
+    if (!el || el.nodeType !== 1) return true;
+    try {
+      if (el.matches && el.matches(SKELETON_SELECTOR)) return true;
+      if (el.closest && el.closest(SKELETON_SELECTOR)) return true;
+    } catch (e) {}
+    /* فقط عناصر واقعاً رندرشده و مرئی (نه display:none، نه ابعاد صفر). */
+    if (!el.isConnected) return true;
+    if (el.offsetParent === null && el.tagName !== 'BODY' && el.tagName !== 'HTML') {
+      /* offsetParent فقط برای عناصر position:fixed/sticky گمراه‌کننده است؛
+         برای احتیاط یک بررسی ابعاد هم انجام می‌شود. */
+      try {
+        const rect = el.getBoundingClientRect();
+        if (rect.width === 0 && rect.height === 0) return true;
+      } catch (e) { return true; }
+    }
+    return false;
+  }
+
+  const KICK_DEBOUNCE_MS = 60;
+  let kickObserver = null;
+  let kickDebounceTimer = null;
+  let kickPendingRoots = [];
+  let kickInitialLoadDone = false;
+
+  /* اسکن محافظه‌کارانه: فقط زیردرخت داده‌شده، فقط عناصر مرئی/آماده،
+     و با همان منطق مشترک fullScan (processNodes/processFormFields) که
+     هرگز innerHTML/textContent را جایگزین نمی‌کند. */
+  function kickScanRoot(root) {
+    if (!root || !root.isConnected) return;
+    if (isSkeletonOrHidden(root)) return;
+    try {
+      const { textNodes, shadowHosts, formFields } = collectFromRoot(root);
+      const visibleTextNodes = textNodes.filter(n => {
+        const p = n.parentElement;
+        return p && !isSkeletonOrHidden(p);
+      });
+      processNodes(visibleTextNodes);
+      processFormFields(formFields.filter(f => !isSkeletonOrHidden(f)));
+      for (const sh of shadowHosts) {
+        injectStylesIntoShadow(sh);
+        kickScanRoot(sh);
+      }
+    } catch (e) { /* یک خطا در یک زیردرخت نباید مانع بقیه شود */ }
+  }
+
+  function flushKickPendingRoots() {
+    kickDebounceTimer = null;
+    const roots = kickPendingRoots;
+    kickPendingRoots = [];
+    for (const root of roots) kickScanRoot(root);
+  }
+
+  /* debounce واقعی: به‌جای پردازش فوری هر mutation (که روی یک صفحه‌ی
+     پرتحرک مثل Kick با چت زنده و پلیر ویدیو می‌تواند صدها بار در ثانیه
+     رخ دهد)، ریشه‌های تغییریافته جمع‌آوری و فقط یک‌بار بعد از سکوت کوتاه
+     پردازش می‌شوند. این هم CPU را پایین نگه می‌دارد و هم از رقابت با
+     رندر/hydration فعال React جلوگیری می‌کند. */
+  function scheduleKickScan(root) {
+    kickPendingRoots.push(root);
+    if (kickDebounceTimer) clearTimeout(kickDebounceTimer);
+    kickDebounceTimer = setTimeout(flushKickPendingRoots, KICK_DEBOUNCE_MS);
+  }
+
+  function startKickObserver() {
+    if (kickObserver || !document.body) return;
+    kickObserver = new MutationObserver(mutations => {
+      if (!masterActive()) return;
+      /* در طول لود اولیه، حتی اگر observer به هر دلیلی زودتر متصل شده
+         باشد، هیچ پردازشی انجام نمی‌شود — همه‌چیز تا آماده‌شدن کامل صفحه
+         صبر می‌کند. */
+      if (!kickInitialLoadDone) return;
+      for (const m of mutations) {
+        try {
+          if (m.type === 'childList' && m.addedNodes.length) {
+            for (let i = 0; i < m.addedNodes.length; i++) {
+              const n = m.addedNodes[i];
+              /* اگر این نود توسط خودِ افزونه تولید شده (مثلاً همان
+                 span.fa-ext-fa که segmentTextNode ساخته)، نیازی به
+                 اسکن دوباره‌اش نیست — این دقیقاً همان مسیری بود که باعث
+                 حلقه‌ی بی‌نهایتِ باگ «زوم مداوم» می‌شد. */
+              if (faExtGenerated.has(n)) continue;
+              if (n.nodeType === 1 && !isSkeletonOrHidden(n)) scheduleKickScan(n);
+            }
+          }
+        } catch (e) {}
+      }
+    });
+    try {
+      /* کاهش فعالیت MutationObserver: بدون characterData، فقط childList —
+         تغییرات متنی جزئی (مثلاً شمارنده‌ی بیننده‌ها) اهمیتی برای فونت
+         فارسی ندارند و نیازی به رصد نیست. */
+      kickObserver.observe(document.body, { childList: true, subtree: true });
+    } catch (e) {}
+  }
+
+  /* شروع حالت سازگاری Kick: تا وقتی صفحه کاملاً لود نشده (readyState
+     'complete' + رویداد window 'load')، هیچ کاری انجام نمی‌شود. سپس یک
+     مکث امن اضافه (تا hydration اولیه‌ی React هم تمام شود) قبل از اولین
+     اسکن سبک اعمال می‌شود. */
+  /* شروع حالت سازگاری Kick: به‌جای صبرکردن برای رویداد سنگین window
+     'load' (که منتظر تمام تصاویر/منابع صفحه هم می‌ماند و باعث تأخیر
+     محسوس در راست‌چین‌شدن می‌شد)، از نسخه ۱.۳.۲ به بعد فقط منتظر
+     پایان parse شدن HTML (`DOMContentLoaded` / readyState غیر از
+     'loading') می‌مانیم؛ سپس با دو `requestAnimationFrame` متوالی (که
+     تضمین می‌کند حداقل یک چرخه‌ی رندر React سپری شده) اولین اسکن سبک
+     اجرا می‌شود. این یعنی راست‌چین/فونت فارسی روی Kick تقریباً بلافاصله
+     و بدون نیاز به تنظیم دستی ظاهر می‌شود، درحالی‌که همچنان قبل از
+     رندر واقعی هیچ DOM ای دست‌کاری نمی‌شود. */
+  const KICK_POST_LOAD_SAFETY_MS = 50;
+
+  function startKickCompatMode() {
+    function afterFullyLoaded() {
+      if (kickInitialLoadDone) return;
+      const run = () => {
+        if (!masterActive()) return;
+        kickInitialLoadDone = true;
+        try { injectMainStyles(); } catch (e) {}
+        applyHtmlClasses();
+        if (document.body) kickScanRoot(document.body);
+        startKickObserver();
+      };
+      /* دو requestAnimationFrame پشت‌سرهم ≈ یک یا دو فریم رندر (سریع‌تر و
+         دقیق‌تر از یک مکث ثابت طولانی)، به‌علاوه یک مکث بسیار کوتاه
+         احتیاطی برای پوشش موتورهایی که rAF را در تب‌های غیرفعال به تعویق
+         می‌اندازند. */
+      requestAnimationFrame(() => requestAnimationFrame(() => setTimeout(run, KICK_POST_LOAD_SAFETY_MS)));
+    }
+
+    if (document.readyState !== 'loading') {
+      afterFullyLoaded();
+    } else {
+      document.addEventListener('DOMContentLoaded', afterFullyLoaded, { once: true });
+    }
+
+    /* ناوبری داخلی (client-side routing) بدون رفرش: Kick از History API
+       برای تغییر صفحه استفاده می‌کند. با گوش‌دادن به این رویدادها، بدون
+       نیاز به رصد سنگین DOM، بعد از هر ناوبری یک اسکن سبکِ debounce‌شده
+       زمان‌بندی می‌شود — نه یک rescan کامل فوری. */
+    let lastKickUrl = location.href;
+    function onKickNavigate() {
+      if (location.href === lastKickUrl) return;
+      lastKickUrl = location.href;
+      if (!kickInitialLoadDone || !masterActive()) return;
+      /* مکث کوتاه تا محتوای مسیر جدید رندر شود، سپس فقط body (نه کل
+         document) با همان مسیر debounce شده اسکن می‌شود. */
+      scheduleKickScan(document.body);
+    }
+    window.addEventListener('popstate', onKickNavigate);
+    const origPushState = history.pushState;
+    const origReplaceState = history.replaceState;
+    try {
+      history.pushState = function (...args) {
+        const r = origPushState.apply(this, args);
+        onKickNavigate();
+        return r;
+      };
+      history.replaceState = function (...args) {
+        const r = origReplaceState.apply(this, args);
+        onKickNavigate();
+        return r;
+      };
+    } catch (e) {}
+
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden && kickInitialLoadDone && masterActive()) {
+        scheduleKickScan(document.body);
+      }
+    });
+  }
+
+  const CHATGPT_STYLE_ID  = 'fa-ext-chatgpt-styles';
+  const CHATGPT_RTL_ATTR  = 'data-fa-ext-gpt-rtl';
+  const CHATGPT_FONT_ATTR = 'data-fa-ext-gpt-font';
+  const CHATGPT_DONE_ATTR = 'data-fa-ext-gpt-done';
+
+  const CHATGPT_MESSAGE_SELECTOR = '[data-message-author-role]';
+
+  const CHATGPT_NEVER_RTL_SELECTOR =
+    'pre, pre *, code, code *, kbd, samp, var, ' +
+    '.katex, .katex *, .katex-display, .katex-display *, math, math *, ' +
+    'table, table *, ' +
+    'textarea, input, [contenteditable], [contenteditable] *, [role="textbox"], #prompt-textarea, #prompt-textarea *';
+
+  /* ──────────────────────────────────────────────────────────────────────
+   * رندر تدریجی (Incremental) روی ChatGPT — نسخه ۱.۳.۰
+   *
+   * قبلاً فونت فارسی فقط بعد از پایان کامل استریم (finalize پس از سکوت
+   * GPT_QUIET_MS) روی کل پیام اعمال می‌شد؛ یعنی کاربر یک متن انگلیسی‌فونت
+   * می‌دید که ناگهان در انتها به فونت فارسی می‌پرید. حالا به‌جای آن:
+   *
+   *   ۱. هر <p>/<li>/... داخل یک پیام (که هنوز در حال استریم است) به‌محض
+   *      اینکه یک «مکث کوتاه» (GPT_INCREMENTAL_QUIET_MS) در تغییرش رخ داد،
+   *      همان بخش (نه کل پیام) به‌صورت جداگانه بررسی و attribute می‌گیرد.
+   *   ۲. هر بخش فقط یک‌بار قطعی (finalize) می‌شود (data-fa-ext-gpt-seg-done) —
+   *      هرگز بخش‌های قبلاً قطعی‌شده دوباره لمس نمی‌شوند.
+   *   ۳. کل پیام هرگز یک‌جا rescan نمی‌شود؛ فقط زیرمجموعه‌ی تغییریافته.
+   *   ۴. در پایان استریم (finalize کلی پیام)، فقط بخش‌های باقی‌مانده‌ی
+   *      قطعی‌نشده (مثلاً چند کلمه‌ی آخر) پردازش می‌شوند، نه کل پیام.
+   *   ۵. تمام کار از طریق attribute (CSS class injection) است — هیچ
+   *      innerHTML/textContent جایگزین نمی‌شود و رندر React دست‌نخورده
+   *      می‌ماند. */
+  const CHATGPT_SEG_DONE_ATTR = 'data-fa-ext-gpt-seg-done';
+  const CHATGPT_SEG_SELECTOR =
+    'p, li, h1, h2, h3, h4, h5, h6, blockquote, td, th, dt, dd';
+
+  const GPT_INCREMENTAL_QUIET_MS = 250;
+
+  const gptSegTimers    = new WeakMap();
+  const gptSegSeenText  = new WeakMap();
+
+  function isChatGptSegDone(el) {
+    return el.getAttribute(CHATGPT_SEG_DONE_ATTR) === '1';
+  }
+
+  /* پردازش یک بخش کوچک از پیام با همان attribute-only strategy.
+     هرگز innerHTML/textContent را جایگزین نمی‌کند — فقط attribute می‌گذارد. */
+  function applyChatGptSegmentDirectives(el) {
+    if (!masterActive()) return;
+    let text = '';
+    try { text = el.textContent || ''; } catch (e) { return; }
+    if (!text.trim()) return;
+    const persian = isPersianDominant(text);
+    if (eff.rtl && persian) el.setAttribute(CHATGPT_RTL_ATTR, '1');
+    else el.removeAttribute(CHATGPT_RTL_ATTR);
+    if (eff.font && persian) el.setAttribute(CHATGPT_FONT_ATTR, '1');
+    else el.removeAttribute(CHATGPT_FONT_ATTR);
+  }
+
+  /* آیا این عنصر جزو مناطق ممنوعه (کد، فرمول، جدول، فرم) است که هرگز
+     نباید مستقلاً segment یا فونت‌دار شود؟ */
+  function isNeverSegmentTarget(el) {
+    try { return el.matches(CHATGPT_NEVER_RTL_SELECTOR); } catch (e) { return false; }
+  }
+
+  /* قطعی‌سازی یک segment فقط وقتی مکث کوتاهی (GPT_INCREMENTAL_QUIET_MS) در
+     تغییر متنش رخ داده باشد؛ یعنی دیگر در وسط استریم نیست. اگر متن هنوز
+     در حال تغییر است (React در همان لحظه کلمه‌ی جدید اضافه کرد)، فقط
+     همین segment دوباره زمان‌بندی می‌شود — نه کل پیام. */
+  function scheduleChatGptSegment(el) {
+    if (!el || el.nodeType !== 1 || isChatGptSegDone(el)) return;
+    if (isNeverSegmentTarget(el)) return;
+
+    const prevTimer = gptSegTimers.get(el);
+    if (prevTimer) clearTimeout(prevTimer);
+
+    const timer = setTimeout(() => {
+      gptSegTimers.delete(el);
+      if (!el.isConnected || isChatGptSegDone(el)) return;
+      let text = '';
+      try { text = el.textContent || ''; } catch (e) { return; }
+      const lastSeen = gptSegSeenText.get(el);
+      gptSegSeenText.set(el, text);
+      if (lastSeen === text) {
+        /* بدون تغییر در طول مکث → این بخش دیگر در حال استریم نیست.
+           فونت را اعمال کن اما بخش را «قطعی» علامت نزن، چون ممکن است
+           استریم بعداً به همین گره برگردد (مثلاً پاراگراف جدید داخل
+           همان <li> اضافه شود). قطعی‌شدن نهایی با finalizeChatGptMessage
+           پس از پایان کل پیام انجام می‌شود. */
+        applyChatGptSegmentDirectives(el);
+      } else {
+        scheduleChatGptSegment(el);
+      }
+    }, GPT_INCREMENTAL_QUIET_MS);
+
+    gptSegTimers.set(el, timer);
+  }
+
+  /* پیدا کردن کوچک‌ترین بخش‌های قابل‌segment مرتبط با یک mutation، بدون
+     رفتن به ریشه‌ی کل پیام (که باعث rescan کامل پیام می‌شد). */
+  function findSegmentTargets(node) {
+    const targets = [];
+    if (node.nodeType === 3) {
+      const p = node.parentElement;
+      if (p) {
+        let seg = p;
+        try {
+          const closest = p.closest(CHATGPT_SEG_SELECTOR);
+          if (closest) seg = closest;
+        } catch (e) {}
+        if (!isNeverSegmentTarget(seg)) targets.push(seg);
+      }
+      return targets;
+    }
+    if (node.nodeType !== 1) return targets;
+    let matches = false;
+    try { matches = node.matches(CHATGPT_SEG_SELECTOR); } catch (e) {}
+    if (matches && !isNeverSegmentTarget(node)) {
+      targets.push(node);
+      return targets;
+    }
+    /* اگر خودِ node یک wrapper است (نه خودِ segment)، فرزندان قابل‌segment
+       مستقیم آن را پیدا کن — بدون لمس بقیه‌ی پیام. */
+    if (node.querySelectorAll) {
+      let inner = [];
+      try { inner = node.querySelectorAll(CHATGPT_SEG_SELECTOR); } catch (e) {}
+      for (let i = 0; i < inner.length; i++) {
+        if (!isNeverSegmentTarget(inner[i])) targets.push(inner[i]);
+      }
+    }
+    if (targets.length === 0 && node.matches) {
+      /* هیچ زیرگره‌ی قابل‌segment‌ای نبود (مثلاً متن مستقیماً داخل یک span
+         بدون تگ بلوکی است) — خودِ node را در نظر بگیر تا متن جا نماند. */
+      if (!isNeverSegmentTarget(node)) targets.push(node);
+    }
+    return targets;
+  }
+
+  function buildChatGptCss() {
+    const faces = Object.entries(FONT_FILES).map(([w, file]) => {
+      const url = chrome.runtime.getURL('fonts/' + file);
+      return `@font-face {
+        font-family: '${FONT_FAMILY}';
+        src: url('${url}') format('woff2');
+        font-weight: ${w};
+        font-display: swap;
+        unicode-range: U+0600-06FF, U+0750-077F, U+FB50-FDFF, U+FE70-FEFF;
+      }`;
+    }).join('\n');
+
+    return `
+      ${faces}
+
+      [${CHATGPT_RTL_ATTR}="1"] {
+        direction: rtl !important;
+        text-align: right !important;
+        unicode-bidi: isolate;
+      }
+      [${CHATGPT_FONT_ATTR}="1"] {
+        font-family: '${FONT_FAMILY}', Tahoma, Arial, sans-serif !important;
+        /* رفع پرش/فلیکر بصری: چون رندر تدریجی است و فونت روی هر بخش به‌محض
+           آماده‌شدنش اعمال می‌شود (نه در پایان کل پیام)، یک fade ملایم
+           باعث می‌شود تغییر فونت به چشم نپرد. فقط opacity تغییر می‌کند،
+           بدون تأثیر روی اندازه یا موقعیت (بدون layout shift). */
+        animation: fa-ext-gpt-fade-in .12s ease-out;
+      }
+      @keyframes fa-ext-gpt-fade-in {
+        from { opacity: .55; }
+        to   { opacity: 1; }
+      }
+
+      [${CHATGPT_RTL_ATTR}="1"] :is(${CHATGPT_NEVER_RTL_SELECTOR}) {
+        direction: ltr !important;
+        text-align: left !important;
+        unicode-bidi: isolate;
+      }
+      [${CHATGPT_FONT_ATTR}="1"] :is(${CHATGPT_NEVER_RTL_SELECTOR}) {
+        font-family: unset !important;
+      }
+    `;
+  }
+
+  const chatGptStyleEl = document.createElement('style');
+  chatGptStyleEl.id = CHATGPT_STYLE_ID;
+  function injectChatGptStyles() {
+    chatGptStyleEl.textContent = buildChatGptCss();
+    if (!chatGptStyleEl.isConnected) {
+      (document.head || document.documentElement).appendChild(chatGptStyleEl);
+    }
+  }
+
+  function isChatGptMessageDone(el) {
+    return el.getAttribute(CHATGPT_DONE_ATTR) === '1';
+  }
+
+  function applyChatGptDirectives(el) {
+    if (!masterActive()) return;
+    let text = '';
+    try { text = el.textContent || ''; } catch (e) { return; }
+    if (!text.trim()) return;
+    const persian = isPersianDominant(text);
+    if (eff.rtl && persian) el.setAttribute(CHATGPT_RTL_ATTR, '1');
+    else el.removeAttribute(CHATGPT_RTL_ATTR);
+    if (eff.font && persian) el.setAttribute(CHATGPT_FONT_ATTR, '1');
+    else el.removeAttribute(CHATGPT_FONT_ATTR);
+  }
+
+  /* پایان استریم یک پیام: به‌جای پردازش کل پیام از صفر، فقط بخش‌هایی که
+     هنوز attribute نگرفته‌اند (مثلاً چند کلمه‌ی آخر که به segment قبلی
+     نچسبیده بودند) پردازش می‌شوند. بخش‌هایی که در حین استریم قبلاً
+     applyChatGptSegmentDirectives گرفته‌اند، دست‌نخورده باقی می‌مانند —
+     نه دوباره پردازش می‌شوند و نه محتوایشان لمس می‌شود. */
+  function finalizeChatGptMessage(el) {
+    if (!el || !el.isConnected) return;
+    if (isChatGptMessageDone(el)) return;
+    el.setAttribute(CHATGPT_DONE_ATTR, '1');
+
+    /* لغو تایمرهای segment معلق روی این پیام و پردازش فوری همان بخش‌ها،
+       تا کاربر منتظر GPT_INCREMENTAL_QUIET_MS دیگری نماند. */
+    let segs = [];
+    try { segs = el.querySelectorAll(CHATGPT_SEG_SELECTOR); } catch (e) {}
+    let touchedAny = false;
+    for (let i = 0; i < segs.length; i++) {
+      const seg = segs[i];
+      if (isNeverSegmentTarget(seg)) continue;
+      const t = gptSegTimers.get(seg);
+      if (t) { clearTimeout(t); gptSegTimers.delete(seg); }
+      applyChatGptSegmentDirectives(seg);
+      touchedAny = true;
+    }
+
+    /* اگر پیام هیچ بخش قابل‌segment‌ای نداشت (متن مستقیماً داخل کانتینر
+       پیام است، بدون <p>/<li>)، به‌صورت fallback خودِ پیام را پردازش کن —
+       این تنها موردی است که کل پیام لمس می‌شود و فقط attribute‌گذاری است،
+       نه دستکاری DOM. */
+    if (!touchedAny) applyChatGptDirectives(el);
+  }
+
+  const gptFinalizeTimers = new WeakMap();
+  const GPT_QUIET_MS = 900;
+
+  function scheduleChatGptFinalize(el) {
+    if (!el || isChatGptMessageDone(el)) return;
+    const prevTimer = gptFinalizeTimers.get(el);
+    if (prevTimer) clearTimeout(prevTimer);
+    const timer = setTimeout(() => {
+      gptFinalizeTimers.delete(el);
+      finalizeChatGptMessage(el);
+    }, GPT_QUIET_MS);
+    gptFinalizeTimers.set(el, timer);
+  }
+
+  function findChatGptMessageAncestor(node) {
+    let el = node.nodeType === 1 ? node : node.parentElement;
+    let depth = 0;
+    while (el && el !== document.body && depth < 40) {
+      if (el.matches && el.matches(CHATGPT_MESSAGE_SELECTOR)) return el;
+      el = el.parentElement;
+      depth++;
+    }
+    return null;
+  }
+
+  function scanExistingChatGptMessages() {
+    if (!document.body || !document.body.querySelectorAll) return;
+    let nodes;
+    try { nodes = document.body.querySelectorAll(CHATGPT_MESSAGE_SELECTOR); } catch (e) { return; }
+    for (let i = 0; i < nodes.length; i++) {
+      if (!isChatGptMessageDone(nodes[i])) scheduleChatGptFinalize(nodes[i]);
+    }
+  }
+
+  let chatGptObserver = null;
+
+  /* از یک mutation، فقط بخش‌های (segment) واقعاً تغییریافته را استخراج و
+     برای پردازش تدریجی زمان‌بندی می‌کند. هرگز کل پیام را rescan نمی‌کند؛
+     فقط همان node تازه‌اضافه‌شده/تغییریافته و نزدیک‌ترین اجداد قابل‌segment آن. */
+  function scheduleIncrementalSegmentsForMutation(m, msgAncestor) {
+    if (!msgAncestor || isChatGptMessageDone(msgAncestor)) return;
+
+    if (m.type === 'childList' && m.addedNodes.length) {
+      for (let i = 0; i < m.addedNodes.length; i++) {
+        const n = m.addedNodes[i];
+        const targets = findSegmentTargets(n);
+        for (let j = 0; j < targets.length; j++) scheduleChatGptSegment(targets[j]);
+      }
+      return;
+    }
+
+    if (m.type === 'characterData') {
+      const targets = findSegmentTargets(m.target);
+      for (let j = 0; j < targets.length; j++) scheduleChatGptSegment(targets[j]);
+    }
+  }
+
+  function startChatGptObserver() {
+    if (chatGptObserver || !document.body) return;
+    chatGptObserver = new MutationObserver(mutations => {
+      if (!masterActive()) return;
+      for (const m of mutations) {
+        try {
+          if (m.type === 'childList' && m.addedNodes.length) {
+            for (let i = 0; i < m.addedNodes.length; i++) {
+              const n = m.addedNodes[i];
+              if (n.nodeType !== 1) continue;
+              if (n.matches && n.matches(CHATGPT_MESSAGE_SELECTOR) && !isChatGptMessageDone(n)) {
+                scheduleChatGptFinalize(n);
+              }
+              if (n.querySelectorAll) {
+                const inner = n.querySelectorAll(CHATGPT_MESSAGE_SELECTOR);
+                for (let j = 0; j < inner.length; j++) {
+                  if (!isChatGptMessageDone(inner[j])) scheduleChatGptFinalize(inner[j]);
+                }
+              }
+            }
+          }
+          const ancestor = findChatGptMessageAncestor(m.target);
+          if (ancestor && !isChatGptMessageDone(ancestor)) {
+            /* زمان‌بندی نهایی‌سازی کل پیام (fallback پس از سکوت طولانی) — 
+               همچنان حفظ می‌شود تا اگر incremental به هر دلیلی بخشی را از
+               قلم انداخت، در پایان جبران شود. */
+            scheduleChatGptFinalize(ancestor);
+            /* رندر تدریجی واقعی: فقط همان بخش کوچکِ تغییریافته را
+               زمان‌بندی کن، نه کل پیام. */
+            scheduleIncrementalSegmentsForMutation(m, ancestor);
+          }
+        } catch (e) {}
+      }
+    });
+
+    try {
+      chatGptObserver.observe(document.body, {
+        childList: true,
+        subtree: true,
+        characterData: true
+      });
+    } catch (e) {}
+  }
+
+  function startChatGptCompatMode() {
+    try { injectChatGptStyles(); } catch (e) {}
+    scanExistingChatGptMessages();
+    startChatGptObserver();
+  }
+
+  function refreshChatGptDoneMessages() {
+    if (!document.body || !document.body.querySelectorAll) return;
+    /* پیام‌هایی که از مسیر fallback (بدون segment) پردازش شده‌اند */
+    let nodes;
+    try {
+      nodes = document.body.querySelectorAll(
+        CHATGPT_MESSAGE_SELECTOR + '[' + CHATGPT_DONE_ATTR + '="1"]'
+      );
+    } catch (e) { return; }
+    for (let i = 0; i < nodes.length; i++) applyChatGptDirectives(nodes[i]);
+
+    /* بخش‌هایی که قبلاً به‌صورت تدریجی attribute گرفته‌اند نیز باید با
+       تنظیمات جدید (مثلاً خاموش‌شدن راست‌چین) هماهنگ شوند. فقط
+       attribute‌شان به‌روزرسانی می‌شود، هیچ DOM ای rescan/rebuild نمی‌شود. */
+    let segs;
+    try {
+      segs = document.body.querySelectorAll(
+        `[${CHATGPT_RTL_ATTR}="1"], [${CHATGPT_FONT_ATTR}="1"]`
+      );
+    } catch (e) { return; }
+    for (let i = 0; i < segs.length; i++) {
+      const seg = segs[i];
+      if (seg.matches && seg.matches(CHATGPT_MESSAGE_SELECTOR)) continue; // already handled above
+      applyChatGptSegmentDirectives(seg);
+    }
+  }
 
   const DEF = FaExtExclusions.DEFAULTS;
 
@@ -408,6 +1042,12 @@
         span.dir = 'rtl';
         span.textContent = run.text;
         faExtGenerated.add(span);
+        /* دفاع لایه‌ی دوم در برابر باگ «زوم مداوم»: text node داخلی که
+           با textContent= ساخته شد هم باید صراحتاً ثبت شود، تا اگر روزی
+           جایی خارج از treeWalkerFilter اصلی این زیر‌درخت را پیمایش کرد،
+           باز هم به‌عنوان «قبلاً پردازش‌شده» شناخته شود و دوباره در یک
+           span.fa-ext-fa دیگر پیچیده نشود. */
+        if (span.firstChild) faExtGenerated.add(span.firstChild);
         frag.appendChild(span);
       } else {
         const tn = document.createTextNode(run.text);
@@ -523,6 +1163,12 @@
         const p = node.parentElement;
         if (!p || NEVER_TOUCH_TAGS.has(p.tagName) || EDITABLE_TAGS.has(p.tagName))
           return NodeFilter.FILTER_REJECT;
+        /* رفع باگ «زوم مداوم فونت روی Kick»: هر متنی که داخل یک
+           span.fa-ext-fa (یا هر فرزندی از آن) است از قبل توسط خودِ اسکریپت
+           تولید شده و هرگز نباید دوباره segment شود؛ وگرنه با هر
+           mutation ناشیِ از خودِ اسکریپت دوباره پردازش و در یک span تو در
+           تویِ دیگر پیچیده می‌شود و این چرخه هرگز متوقف نمی‌شود. */
+        if (p.closest && p.closest('.' + FONT_SPAN_CLASS)) return NodeFilter.FILTER_REJECT;
         return NodeFilter.FILTER_ACCEPT;
       }
       return NodeFilter.FILTER_SKIP;
@@ -714,6 +1360,46 @@
 
     if (!masterActive()) return;
 
+    /* ChatGPT از یک مسیر کاملاً جدا و غیرتهاجمی عبور می‌کند؛ هرگز به
+       fullScan/startMutationObserver عمومی (که DOM را تجزیه می‌کند) نمی‌رسد. */
+    if (isChatGptHost(host)) {
+      let gptBootRan = false;
+      function runGptOnce() {
+        if (gptBootRan) return;
+        gptBootRan = true;
+        startChatGptCompatMode();
+      }
+
+      if (document.body) {
+        runGptOnce();
+      } else {
+        document.addEventListener('DOMContentLoaded', runGptOnce, { once: true });
+        document.addEventListener('readystatechange', () => {
+          if (document.readyState === 'interactive' || document.readyState === 'complete') {
+            if (masterActive()) runGptOnce();
+          }
+        }, { once: true });
+      }
+
+      window.addEventListener('load', () => {
+        if (masterActive()) scanExistingChatGptMessages();
+      }, { once: true });
+
+      document.addEventListener('visibilitychange', () => {
+        if (!document.hidden && masterActive()) scanExistingChatGptMessages();
+      });
+
+      return;
+    }
+
+    /* Kick.com از یک مسیر کاملاً جدا عبور می‌کند که اولویت را به پایداری
+       و سرعت لود صفحه می‌دهد، نه پردازش تهاجمی. هیچ اسکن/observer ای
+       قبل از لود کامل صفحه شروع نمی‌شود. */
+    if (isKickHost(host)) {
+      startKickCompatMode();
+      return;
+    }
+
     function run() {
       fullScan();
       startMutationObserver();
@@ -786,6 +1472,19 @@
       computeRejectSelector();
       injectMainStyles();
       applyHtmlClasses();
+
+      if (isChatGptHost(host)) {
+        try { injectChatGptStyles(); } catch (e) {}
+        if (masterActive() && document.body) {
+          if (!chatGptObserver) startChatGptObserver();
+          /* فقط attribute پیام‌های قبلاً پردازش‌شده به‌روزرسانی می‌شود؛
+             هیچ ساختار DOM ای دوباره لمس نمی‌شود. */
+          refreshChatGptDoneMessages();
+          scanExistingChatGptMessages();
+        }
+        return;
+      }
+
       if (masterActive() && document.body) {
         if (!mutationObserver) startMutationObserver();
         scanSubtreeNow(document.body);

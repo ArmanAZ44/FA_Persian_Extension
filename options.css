@@ -8,11 +8,11 @@
   --track:#e2e8f0; --shadow:0 8px 30px rgba(15,23,42,.06); --radius:16px;
 }
 @media (prefers-color-scheme: dark) {
-  :root { --bg:#090d1a; --card:#111827; --text:#e8ecf4; --muted:#94a3b8; --border:#232d45;
-    --brand:#22c55e; --brand-soft:#0f2a1b; --track:#232d45; --shadow:0 8px 30px rgba(0,0,0,.4); }
+  :root { --bg:#0a0a0c; --card:#151619; --text:#e8ecf4; --muted:#94a0ac; --border:#26282f;
+    --brand:#22c55e; --brand-soft:#0f2a1b; --track:#26282f; --shadow:0 8px 30px rgba(0,0,0,.55); }
 }
 html[data-theme="light"] { --bg:#f4f6f9; --card:#fff; --text:#0f172a; --muted:#64748b; --border:#e6e8ec; --brand:#16a34a; --brand-soft:#e7f6ec; --track:#e2e8f0; --shadow:0 8px 30px rgba(15,23,42,.06); }
-html[data-theme="dark"] { --bg:#090d1a; --card:#111827; --text:#e8ecf4; --muted:#94a3b8; --border:#232d45; --brand:#22c55e; --brand-soft:#0f2a1b; --track:#232d45; --shadow:0 8px 30px rgba(0,0,0,.4); }
+html[data-theme="dark"] { --bg:#0a0a0c; --card:#151619; --text:#e8ecf4; --muted:#94a0ac; --border:#26282f; --brand:#22c55e; --brand-soft:#0f2a1b; --track:#26282f; --shadow:0 8px 30px rgba(0,0,0,.55); }
 
 * { box-sizing:border-box; margin:0; padding:0; }
 body { font-family:'Vazirmatn',Tahoma,sans-serif; direction:rtl; background:var(--bg); color:var(--text);
@@ -108,9 +108,9 @@ textarea { min-height:120px; resize:vertical; direction:ltr; text-align:left; }
 
 /* ───────── پوسته شیشه‌ای (glassmorphism) ───────── */
 :root { --glass: rgba(255,255,255,.55); --glass-border: rgba(255,255,255,.6); }
-@media (prefers-color-scheme: dark) { :root { --glass: rgba(17,24,39,.5); --glass-border: rgba(255,255,255,.08); } }
+@media (prefers-color-scheme: dark) { :root { --glass: rgba(14,15,17,.55); --glass-border: rgba(255,255,255,.08); } }
 html[data-theme="light"] { --glass: rgba(255,255,255,.55); --glass-border: rgba(255,255,255,.6); }
-html[data-theme="dark"]  { --glass: rgba(17,24,39,.5); --glass-border: rgba(255,255,255,.08); }
+html[data-theme="dark"]  { --glass: rgba(14,15,17,.55); --glass-border: rgba(255,255,255,.08); }
 
 body {
   background:

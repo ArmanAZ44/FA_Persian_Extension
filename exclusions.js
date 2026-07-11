@@ -27,7 +27,7 @@
   /* دامنه‌های ایرانیِ شناخته‌شده که پسوند .ir ندارند اما روی هاست داخلی ایران
      میزبانی می‌شوند و از قبل فونت/راست‌چین فارسی مناسب خودشان را دارند؛
      بنابراین نیازی به اعمال افزونه روی آن‌ها نیست (زیردامنه‌ها هم پوشش داده می‌شوند). */
-  const EXCLUDED_DOMAINS = [
+  const EXCLUDED_DOMAINS_CORE = [
     // شبکه‌های اجتماعی، پیام‌رسان و ویدئو
     'aparat.com', 'eitaa.com', 'gap.im', 'filimo.com', 'namasha.com', 'telewebion.com',
     // فروشگاه و کسب‌وکار
@@ -41,6 +41,45 @@
     'namnak.com', 'ninisite.com', 'beytoote.com', 'mihanblog.com', 'blogfa.com',
     'p30download.com'
   ];
+
+  /* نسخه ۱.۳.۰: هزاران دامنه‌ی فارسی‌زبان غیر .ir از excluded-domains-data.js
+     (فایل جداگانه، فقط داده) به فهرست اصلی افزوده می‌شود. اگر آن فایل به هر
+     دلیلی لود نشده باشد (مثلاً ترتیب اسکریپت در یک محیط دیگر)، افزونه با
+     فهرست پایه‌ی EXCLUDED_DOMAINS_CORE به کار خودش ادامه می‌دهد. */
+  const EXTRA = (typeof self !== 'undefined' && self.FaExtExtraExcludedDomains)
+    ? self.FaExtExtraExcludedDomains
+    : (typeof globalThis !== 'undefined' && globalThis.FaExtExtraExcludedDomains) || [];
+
+  const EXCLUDED_DOMAINS = EXCLUDED_DOMAINS_CORE.concat(EXTRA);
+
+  /* نسخه ۱.۳.۲: پیش‌فرض‌های هوشمند مخصوص هر دامنه (Recommended Site Defaults).
+     برخلاف override کاربر (faSiteOverrides) که دستی و در storage.sync ذخیره
+     می‌شود، این فهرست ثابت و داخل خودِ افزونه است: برای سایت‌هایی که مخاطب
+     فارسی‌زبان زیادی دارند اما فونت/زبان انگلیسی دارند (مثل چت زنده‌ی Kick)،
+     به‌جای اینکه کاربر مجبور شود دستی از پاپ‌آپ راست‌چین را روشن کند، همان
+     اولین بار به‌صورت پیش‌فرض «ترجمه‌شده/راست‌چین» نمایش داده می‌شود.
+     اولویت نهایی در resolveSite: override دستی کاربر > این پیش‌فرض‌ها > تنظیم سراسری. */
+  const RECOMMENDED_SITE_DEFAULTS = {
+    'kick.com': { rtl: true }
+  };
+
+  function findRecommended(host) {
+    if (!host) return null;
+    let cur = host;
+    while (cur) {
+      if (RECOMMENDED_SITE_DEFAULTS[cur]) return RECOMMENDED_SITE_DEFAULTS[cur];
+      const dot = cur.indexOf('.');
+      if (dot === -1) break;
+      cur = cur.slice(dot + 1);
+    }
+    return null;
+  }
+
+  /* برای تشخیص سریع (O(1)) دامنه‌ی دقیق، و برای زیردامنه‌ها با کندن
+     لیبل‌های سمت چپ هاست به‌ترتیب (O(depth) به‌جای O(n) روی کل فهرست —
+     این با وجود ده‌ها هزار دامنه در فهرست حیاتی است تا هر بارگذاری صفحه
+     را کند نکند). */
+  const EXCLUDED_DOMAINS_SET = new Set(EXCLUDED_DOMAINS);
 
   /* تنظیمات پیش‌فرض سراسری — منبع واحد برای همه‌ی فایل‌ها */
   const DEFAULTS = {
@@ -70,9 +109,21 @@
     return EXCLUDED_TLDS.some(tld => host === tld.slice(1) || host.endsWith(tld));
   }
 
-  /* آیا هاست، خودِ یکی از EXCLUDED_DOMAINS یا زیردامنه‌ی آن است؟ */
+  /* آیا هاست، خودِ یکی از EXCLUDED_DOMAINS یا زیردامنه‌ی آن است؟
+     به‌جای پیمایش کل فهرست (که با ده‌ها هزار دامنه کند می‌شد)، هاست را از
+     چپ به‌راست لیبل‌به‌لیبل می‌کَنیم و هر سطح را در Set جست‌وجو می‌کنیم:
+     مثلاً برای "a.b.example.com" چهار جست‌وجوی O(1) انجام می‌شود:
+     a.b.example.com → b.example.com → example.com → com */
   function hostInExcludedDomains(host) {
-    return EXCLUDED_DOMAINS.some(domain => hostMatchesDomain(host, domain));
+    if (!host) return false;
+    let cur = host;
+    while (cur) {
+      if (EXCLUDED_DOMAINS_SET.has(cur)) return true;
+      const dot = cur.indexOf('.');
+      if (dot === -1) break;
+      cur = cur.slice(dot + 1);
+    }
+    return false;
   }
 
   /* آیا این هاست همیشه باید مستثنا باشد؟
@@ -109,27 +160,31 @@
     const hostLc = host ? String(host).toLowerCase() : '';
     const hardExcluded = isHardExcluded(hostLc);
     const ov = findOverride(s.faSiteOverrides, hostLc) || {};
+    const rec = findRecommended(hostLc) || {};
 
     return {
       hardExcluded,
-      enabled:    !hardExcluded && pick(ov.enabled, s.faEnabled),
-      font:       pick(ov.font,       s.faFontEnabled),
-      rtl:        pick(ov.rtl,        s.faRtlDefault),
-      scale:      pick(ov.scale,      s.faFontScale),
-      digit:      pick(ov.digit,      s.faDigitConvert),
-      typography: pick(ov.typography, s.faTypography),
-      spacing:    pick(ov.spacing,    s.faSpacingEnabled),
-      hasOverride: !!Object.keys(ov).length
+      enabled:    !hardExcluded && pick(ov.enabled, pick(rec.enabled, s.faEnabled)),
+      font:       pick(ov.font,       pick(rec.font,       s.faFontEnabled)),
+      rtl:        pick(ov.rtl,        pick(rec.rtl,        s.faRtlDefault)),
+      scale:      pick(ov.scale,      pick(rec.scale,      s.faFontScale)),
+      digit:      pick(ov.digit,      pick(rec.digit,      s.faDigitConvert)),
+      typography: pick(ov.typography, pick(rec.typography, s.faTypography)),
+      spacing:    pick(ov.spacing,    pick(rec.spacing,    s.faSpacingEnabled)),
+      hasOverride: !!Object.keys(ov).length,
+      isRecommended: !Object.keys(ov).length && !!Object.keys(rec).length
     };
   }
 
   const FaExtExclusions = {
     EXCLUDED_TLDS,
     EXCLUDED_DOMAINS,
+    RECOMMENDED_SITE_DEFAULTS,
     DEFAULTS,
     isHardExcluded,
     hostMatchesDomain,
     findOverride,
+    findRecommended,
     resolveSite
   };
 
