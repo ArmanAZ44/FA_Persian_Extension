@@ -109,9 +109,57 @@ function rebuildContextMenus() {
   });
 }
 
-chrome.runtime.onInstalled.addListener(async () => {
+/* ─────────────────────────────────────────────────────────────────────────
+ * مهاجرت مقیاس فونت (نسخه ۲.۰.۰)
+ *
+ * تا نسخه ۱.x عدد faFontScale مستقیماً «درصد اندازه‌ی عنصر اصلی» بود و
+ * پیش‌فرض ۱۱۵. از ۲.۰.۰ نقطه‌ی مرجع به ۱۰۰ منتقل شد و ۱۰۰ = همان ۱۱۵٪ قبلی.
+ * برای اینکه کاربرِ ارتقا‌یافته فونتش ناخواسته بزرگ‌تر نشود، مقدار ذخیره‌شده
+ * یک‌بار هم‌مقیاس می‌شود (۱۱۵ → ۱۰۰). نشان faScaleBase تضمین می‌کند این
+ * مهاجرت فقط یک‌بار اجرا شود. */
+const FA_SCALE_OLD_BASE = 115;
+const FA_SCALE_NEW_BASE = 100;
+
+function remapScaleValue(v) {
+  const n = Number(v);
+  if (!isFinite(n) || n <= 0) return FA_SCALE_NEW_BASE;
+  return Math.round((n * FA_SCALE_NEW_BASE) / FA_SCALE_OLD_BASE);
+}
+
+function rawGetAll() {
+  return new Promise((resolve) => {
+    try {
+      chrome.storage.sync.get(null, (res) => resolve(res || {}));
+    } catch (e) { resolve({}); }
+  });
+}
+
+chrome.runtime.onInstalled.addListener(async (details) => {
+  const raw = await rawGetAll();
+  const patch = {};
+
+  if (raw.faScaleBase !== FA_SCALE_NEW_BASE) {
+    /* فقط روی ارتقا (نه نصب تازه) مقادیر قبلی بازنویسی می‌شوند. */
+    if (details && details.reason === 'update') {
+      if (typeof raw.faFontScale === 'number') {
+        patch.faFontScale = remapScaleValue(raw.faFontScale);
+      }
+      if (raw.faSiteOverrides && typeof raw.faSiteOverrides === 'object') {
+        const next = {};
+        for (const host of Object.keys(raw.faSiteOverrides)) {
+          const cfg = raw.faSiteOverrides[host];
+          next[host] = (cfg && typeof cfg === 'object' && typeof cfg.scale === 'number')
+            ? Object.assign({}, cfg, { scale: remapScaleValue(cfg.scale) })
+            : cfg;
+        }
+        patch.faSiteOverrides = next;
+      }
+    }
+    patch.faScaleBase = FA_SCALE_NEW_BASE;
+  }
+
   const existing = await getSettings();
-  await saveSettings(existing);
+  await saveSettings(Object.assign({}, existing, patch));
   rebuildContextMenus();
 });
 

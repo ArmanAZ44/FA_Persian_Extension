@@ -18,9 +18,12 @@ A cross‑browser Manifest V3 extension that applies the **Vazirmatn** Persian f
 ### 🖼️ پیش‌نمایش / Preview
 
 <p align="center">
-  <img src="./assets/preview-popup.png" alt="پاپ‌آپ افزونه فا" width="320">
+  <img src="./assets/preview-popup.png" alt="پاپ‌آپ افزونه فا" width="330">
   &nbsp;&nbsp;
-  <img src="./assets/preview-options.png" alt="صفحه‌ی تنظیمات افزونه فا" width="420">
+  <img src="./assets/preview-options.png" alt="صفحه‌ی تنظیمات پیشرفته افزونه فا" width="520">
+</p>
+<p align="center">
+  <img src="./assets/preview-options-advanced.png" alt="تب پیشرفته‌ی تنظیمات افزونه فا" width="520">
 </p>
 
 ---
@@ -49,7 +52,9 @@ A cross‑browser Manifest V3 extension that applies the **Vazirmatn** Persian f
   - کروم / اج / اپرا → `manifest.json` (با `background.service_worker`)
   - فایرفاکس → `manifest.firefox.json` (با `background.scripts`)
   - اسکریپت `build.js` هر دو بسته‌ی آماده‌ی نصب را می‌سازد.
-- **رفع باگ ناهماهنگی نشان (badge) و منوی راست‌کلیک:** پیش‌تر اسکریپت پس‌زمینه فهرست کامل دامنه‌های مستثنا (`excluded-domains-data.js`) را بارگذاری نمی‌کرد و برای هزاران سایت فارسی‌زبانِ غیر `.ir` وضعیت اشتباه («فعال») نشان می‌داد؛ حالا این فهرست در پس‌زمینه هم بارگذاری می‌شود.
+- **رفع باگ ناهماهنگی نشان (badge) و منوی راست‌کلیک:** پیش‌تر اسکریپت پس‌زمینه فهرست کامل دامنه‌های مستثنا (`excluded-domains-data.js`) را بارگذاری نمی‌کرد و برای هزاران سایت فارسی‌زبانِ غیر `.ir` وضعیت اشتباه («فعال») نشان می‌داد؛ حالا این فهرست در پس‌زمینه **و در پاپ‌آپ/تنظیمات** هم بارگذاری می‌شود.
+- **استانداردسازی مقیاس فونت (مبنا ۱۰۰):** عدد «اندازه‌ی پایه‌ی فونت فارسی» از مبنای ۱۱۵ به مبنای استاندارد ۱۰۰ منتقل شد؛ **اندازه‌ی رندرشده هیچ تغییری نکرده** و پیش‌فرض ۱۰۰ دقیقاً همان ۱۱۵٪ قبلی است. بازه‌ی اسلایدر هم به ۷۵–۱۱۵ تغییر کرد تا محدوده‌ی مؤثر (≈۸۵٪ تا ۱۳۲٪) مثل قبل بماند. کاربرانِ ارتقا‌یافته به‌صورت خودکار و یک‌باره مهاجرت داده می‌شوند (نشان `faScaleBase`) تا فونتشان ناخواسته بزرگ‌تر نشود.
+- **پیش‌نمایش‌های تازه:** تصاویر `assets/` با اسکرین‌شات‌های واقعی و باکیفیت از پاپ‌آپ و پنل تنظیمات (تب عمومی و تب پیشرفته) جایگزین شدند.
 
 ### 🆕 تغییرات نسخه‌ی ۱٫۳٫۳
 - **پشتیبانی رسمی از موزیلا فایرفاکس:** سازگاری کامل با معماری Manifest V3 فایرفاکس، اصلاح اسکریپت‌های پس‌زمینه (Event Pages)، رعایت الزامات جدید AMO برای شفافیت داده‌ها (`data_collection_permissions`) و بهینه‌سازی ظاهر اسلایدرها برای موتور Gecko.
@@ -140,7 +145,9 @@ dist/
 ### 🆕 What's new in 2.0.0
 - **Fixed the YouTube video‑title accumulation bug:** the general engine used to split Persian text nodes into `<span>`s. YouTube renders with Polymer/ytd custom components (e.g. `yt-formatted-string`), and mutating their DOM conflicted with re‑rendering, so **titles were not cleared between videos and stacked on top of each other** until a refresh. A dedicated YouTube compatibility mode now: never splits text nodes or creates elements (zero accumulation); prepends the Persian font to each element's own `font-family` (with `unicode-range`, English keeps the site's original font); applies RTL only to the nearest Persian‑dominant text block (never to grid/flex layout containers); and covers in‑app navigation via `yt-navigate-finish` + `pushState`/`replaceState`.
 - **Cross‑browser support:** one shared source with two manifests — `manifest.json` (Chrome/Edge/Opera, `background.service_worker`) and `manifest.firefox.json` (Firefox, `background.scripts`) — plus a `build.js` that produces ready‑to‑install packages for each.
-- **Fixed badge / context‑menu mismatch:** the background script previously did not load the full exclusion list, so thousands of Persian‑language non‑`.ir` sites showed the wrong state.
+- **Fixed badge / context‑menu mismatch:** the background script previously did not load the full exclusion list, so thousands of Persian‑language non‑`.ir` sites showed the wrong state. The full list is now loaded in the background **and in the popup/options pages** too.
+- **Standardized font scale (base 100):** the "Persian base font size" setting moved from a 115 basis to a standard 100 basis — **the rendered size is unchanged**, and the new default of 100 is exactly the previous 115%. The slider range became 75–115 so the effective range (≈85%–132%) stays the same. Existing users are migrated automatically and once (via a `faScaleBase` marker) so their font never grows unexpectedly.
+- **New previews:** the `assets/` images were replaced with real, high‑resolution screenshots of the popup and the settings panel (general + advanced tabs).
 
 ### 🆕 What's new in 1.3.3
 - **Official Firefox release:** full Manifest V3 compatibility, event‑page background migration, AMO‑compliant `data_collection_permissions`, and Gecko‑specific slider polish.

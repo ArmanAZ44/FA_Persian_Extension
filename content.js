@@ -1042,6 +1042,18 @@
 
   const DEFAULT_SMART_SCALE = 0.88;
 
+  /* ── مبناهای مقیاس فونت (نسخه ۲.۰.۰) ──────────────────────────────────
+   * تا نسخه ۱.x، عدد تنظیمات مستقیماً «درصد اندازه‌ی عنصر اصلی سایت» بود و
+   * پیش‌فرض ۱۱۵ بود. از ۲.۰.۰ نقطه‌ی مرجع استاندارد شد و پیش‌فرض ۱۰۰ است:
+   *   ۱۰۰ در رابط کاربری  =  ۱۱۵٪ اندازه‌ی عنصر اصلی  (همان اندازه‌ی قبلی)
+   * بنابراین اندازه‌ی رندرشده هیچ تغییری نمی‌کند؛ فقط عدد نمایش‌داده‌شده
+   * استاندارد و گرد شده است. بازه‌ی مؤثر هم تقریباً همان ۸۵٪ تا ۱۳۰٪ قبل
+   * می‌ماند (۷۵ تا ۱۱۵ در رابط کاربری جدید). */
+  const FA_SCALE_DEFAULT      = 100;
+  const FA_SCALE_LEGACY_BASE  = 115;   /* مقدار پیش‌فرض نسخه‌های ۱.x */
+  const FA_SCALE_MIN_NORM     = 0.85;
+  const FA_SCALE_MAX_NORM     = 1.32;
+
   /* تشخیص scale هوشمند برای یک عنصر والد */
   function getSmartScale(parentTag) {
     return SMART_SCALE_MAP[parentTag] || DEFAULT_SMART_SCALE;
@@ -1061,10 +1073,14 @@
       }`;
     }).join('\n');
 
-    /* مقیاس پایه از تنظیمات کاربر (85 تا 130 درصد).
-       مقدار 100 یعنی بدون تغییر کاربر. scale نهایی = normalized × smartScale.
-       چون Vazirmatn کمی درشت‌تر است، smartScale ها همه زیر 1 هستند. */
-    const normalized = Math.min(1.3, Math.max(0.85, (eff.scale || 90) / 100));
+    /* مقیاس پایه از تنظیمات کاربر. scale نهایی = normalized × smartScale.
+       چون Vazirmatn کمی درشت‌تر است، smartScale ها همه زیر ۱ هستند.
+       (نسخه ۲.۰.۰: مبنا ۱۰۰ شد؛ جزئیات در FA_SCALE_* بالا.) */
+    const rawScale = (typeof eff.scale === 'number' && eff.scale > 0)
+      ? eff.scale
+      : FA_SCALE_DEFAULT;
+    const effective = (rawScale * FA_SCALE_LEGACY_BASE) / 10000;
+    const normalized = Math.min(FA_SCALE_MAX_NORM, Math.max(FA_SCALE_MIN_NORM, effective));
 
     /* اصلاح محافظه‌کارانه‌ی فاصله‌ها — فقط وقتی faSpacingEnabled روشن باشد.
        line-height ملایم (۱٫۳۵) و word-spacing نرمال تا UI سایت خراب نشود. */
