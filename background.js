@@ -236,8 +236,12 @@ function scheduleAutoBackup() {
     } catch (e) {}
   }, 1500);
 }
-
-chrome.storage.onChanged.addListener(async () => {
+chrome.storage.onChanged.addListener(async (changes, area) => {
+  /* ⚠️ مهم: فقط تغییرات storage.sync باید واکنش بدهند.
+     پیش‌تر این شنونده ناحیه را بررسی نمی‌کرد و چون پشتیبان‌گیری خودکار در
+     storage.local می‌نویسد، هر نوشتن یک رویداد تازه تولید می‌کرد و یک
+     حلقه‌ی بی‌پایانِ نوشتنِ هر ۱٫۵ ثانیه ایجاد می‌شد. */
+  if (area !== 'sync') return;
   scheduleAutoBackup();
   try {
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });

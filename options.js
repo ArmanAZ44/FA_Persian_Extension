@@ -129,7 +129,13 @@ document.addEventListener('DOMContentLoaded', async () => {
   bindToggle(autoBackupToggle, 'faAutoBackup');
 
   /* ── مقیاس ── */
-  scaleRange.addEventListener('input', () => { scaleValue.textContent = faDigits(scaleRange.value) + '٪'; paintRange(scaleRange); renderPreview(); });
+  scaleRange.addEventListener('input', () => {
+    scaleValue.textContent = faDigits(scaleRange.value) + '٪';
+    paintRange(scaleRange);
+    /* مقدار موقت فقط برای پیش‌نمایش؛ ذخیره در رویداد change انجام می‌شود. */
+    state.faFontScale = parseInt(scaleRange.value, 10);
+    renderPreview();
+  });
   scaleRange.addEventListener('change', async () => {
     state.faFontScale = parseInt(scaleRange.value, 10);
     await saveSettings({ faFontScale: state.faFontScale });
@@ -154,7 +160,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   lineHeightRange.addEventListener('input', () => {
     lineHeightValue.textContent = fmtLineHeight(Number(lineHeightRange.value));
-    paintRange(lineHeightRange); renderPreview();
+    paintRange(lineHeightRange);
+    state.faLineHeight = parseInt(lineHeightRange.value, 10);
+    renderPreview();
   });
   lineHeightRange.addEventListener('change', async () => {
     state.faLineHeight = parseInt(lineHeightRange.value, 10);
@@ -164,7 +172,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   letterSpacingRange.addEventListener('input', () => {
     letterSpacingValue.textContent = fmtLetterSpacing(Number(letterSpacingRange.value));
-    paintRange(letterSpacingRange); renderPreview();
+    paintRange(letterSpacingRange);
+    state.faLetterSpacing = parseInt(letterSpacingRange.value, 10);
+    renderPreview();
   });
   letterSpacingRange.addEventListener('change', async () => {
     state.faLetterSpacing = parseInt(letterSpacingRange.value, 10);

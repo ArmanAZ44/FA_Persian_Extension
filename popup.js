@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     presetsRow.appendChild(b);
   });
 
-  let host = '', tabId = null, tabUrl = '', settings = null;
+  let host = '', tabId = null, tabUrl = '', settings = null, lastEff = null;
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
   if (tab && tab.url) {
     try { host = new URL(tab.url).hostname; tabId = tab.id; tabUrl = tab.url; } catch (e) { host = ''; }
@@ -144,6 +144,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     const eff = FaExtExclusions.resolveSite(settings, host);
+    lastEff = eff;
 
     if (eff.hardExcluded) {
       hardNote.classList.add('show');
@@ -218,7 +219,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     refreshUI();
   }));
 
-  scaleRange.addEventListener('input', () => { scaleValue.textContent = faDigits(scaleRange.value) + '٪'; paintRange(); });
+  scaleRange.addEventListener('input', () => {
+    scaleValue.textContent = faDigits(scaleRange.value) + '٪';
+    paintRange();
+    /* پیش‌نمایش با مقدار در حال کشیدن به‌روز می‌شود (ذخیره در رویداد change). */
+    if (lastEff) paintPreview({ ...lastEff, scale: Number(scaleRange.value) });
+  });
   scaleRange.addEventListener('change', async () => { await setSiteKey('scale', parseInt(scaleRange.value, 10)); refreshUI(); });
 
   resetSiteBtn.addEventListener('click', async () => {

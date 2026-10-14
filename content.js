@@ -1279,11 +1279,43 @@
     return p > 0 && p >= l;
   }
 
+  /* عناصری که هرگز نباید هدفِ راست‌چین‌سازی شوند.
+     اگر نزدیک‌ترین والدِ متنی «inline» باشد (مثل <yt-formatted-string> در
+     یوتیوب یا <a> در فهرست‌ها)، جست‌وجوی والد بلوکی تا body بالا می‌رفت و
+     direction:rtl روی کل صفحه اعمال می‌شد و چیدمان سایت به‌هم می‌ریخت.
+     این فهرست جلوی آن را می‌گیرد. */
+  const NEVER_ALIGN_TAGS = new Set([
+    'BODY', 'HTML', 'MAIN', 'FORM', 'TABLE', 'THEAD', 'TBODY', 'TFOOT',
+    'TR', 'UL', 'OL', 'DL'
+  ]);
+
+  /* آیا این عنصر یک «کانتینر ساختاری» است (نه یک بلوکِ متنی)؟
+     اگر فرزندانش بلوکی/فلکس/گرید باشند، راست‌چین‌کردنش چیدمان را خراب می‌کند. */
+  function looksLikeStructuralContainer(el) {
+    const kids = el.children;
+    const n = kids.length;
+    if (n === 0) return false;
+    if (n > 6) return true;
+    for (let i = 0; i < n; i++) {
+      const d = getDisplayCached(kids[i]);
+      if (d === 'block' || d === 'flex' || d === 'grid' ||
+          d === 'list-item' || d === 'table' || d === 'table-row') {
+        return true;
+      }
+    }
+    return false;
+  }
+
   function findSafeBlockAncestor(el) {
     let cur = el, depth = 0;
     const boundary = el.getRootNode ? el.getRootNode() : document;
     while (cur && cur !== boundary && depth < 12) {
-      if (cur.nodeType === 1 && SAFE_BLOCK_DISPLAYS.has(getDisplayCached(cur))) return cur;
+      if (cur.nodeType === 1 &&
+          !NEVER_ALIGN_TAGS.has(cur.tagName) &&
+          SAFE_BLOCK_DISPLAYS.has(getDisplayCached(cur)) &&
+          !looksLikeStructuralContainer(cur)) {
+        return cur;
+      }
       cur = cur.parentElement || (cur.parentNode && cur.parentNode.host) || null;
       depth++;
     }
