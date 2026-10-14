@@ -1,20 +1,34 @@
 /**
  * فا | پس‌زمینه‌ی افزونه
- * نسخه ۱.۱.۰
+ * نسخه ۲.۰.۰
  * مدیریت منوی راست‌کلیک، میانبرهای صفحه‌کلید، نشان (badge) آیکون و ترجمه.
  *
  * مدل جدید:
  *   • کلید اصلی (faEnabled) سراسری است.
  *   • راست‌چین (RTL) به‌ازای هر دامنه در faSiteOverrides[host].rtl ذخیره می‌شود.
+ *
+ * نکته نسخه ۲.۰.۰:
+ *   فهرست کامل دامنه‌های مستثنا (excluded-domains-data.js) هم در پس‌زمینه
+ *   بارگذاری می‌شود تا نشان (badge) و منوی راست‌کلیک برای هزاران سایت
+ *   فارسی‌زبانِ غیر .ir هم وضعیت درست نشان دهند.
  */
 
-importScripts('exclusions.js');
+if (typeof importScripts === 'function') {
+  /* Chrome/Edge (service worker) */
+  importScripts('excluded-domains-data.js', 'exclusions.js');
+}
 
 const DEF = FaExtExclusions.DEFAULTS;
 
 function getSettings() {
   return new Promise((resolve) => {
-    chrome.storage.sync.get(Object.keys(DEF), (res) => resolve({ ...DEF, ...res }));
+    chrome.storage.sync.get(Object.keys(DEF), (res) => {
+      if (chrome.runtime.lastError || !res) {
+        resolve({ ...DEF });
+      } else {
+        resolve({ ...DEF, ...res });
+      }
+    });
   });
 }
 
@@ -56,8 +70,17 @@ async function updateBadgeForTab(tabId, url) {
     } else {
       text = '';        // فقط‌فونت (پیش‌فرض)
     }
-    await chrome.action.setBadgeText({ tabId, text });
-    if (text) await chrome.action.setBadgeBackgroundColor({ tabId, color });
+    const actionApi = (typeof chrome !== 'undefined' && chrome.action)
+      ? chrome.action
+      : (typeof browser !== 'undefined' && browser.action)
+      ? browser.action
+      : (typeof chrome !== 'undefined' && chrome.browserAction)
+      ? chrome.browserAction
+      : null;
+    if (actionApi) {
+      await actionApi.setBadgeText({ tabId, text });
+      if (text) await actionApi.setBadgeBackgroundColor({ tabId, color });
+    }
   } catch (e) {}
 }
 
@@ -92,6 +115,12 @@ chrome.runtime.onInstalled.addListener(async () => {
   rebuildContextMenus();
 });
 
+if (chrome.runtime.onStartup) {
+  chrome.runtime.onStartup.addListener(() => {
+    rebuildContextMenus();
+  });
+}
+
 chrome.contextMenus.onClicked.addListener(async (info, tab) => {
   if (!tab || !tab.url) return;
   const host = hostOf(tab.url);
@@ -111,7 +140,7 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
     return;
   }
   await updateBadgeForTab(tab.id, tab.url);
-  chrome.tabs.reload(tab.id);
+  try { await chrome.tabs.reload(tab.id); } catch (e) {}
 });
 
 chrome.commands.onCommand.addListener(async (command, tab) => {
@@ -124,7 +153,7 @@ chrome.commands.onCommand.addListener(async (command, tab) => {
   }
   if (tab && tab.id) {
     await updateBadgeForTab(tab.id, tab.url);
-    chrome.tabs.reload(tab.id);
+    try { await chrome.tabs.reload(tab.id); } catch (e) {}
   }
 });
 
@@ -148,14 +177,6 @@ chrome.storage.onChanged.addListener(async () => {
   } catch (e) {}
 });
 
-chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
-  if (msg && msg.type === 'faExtGetAllSettings') {
-    getSettings().then((s) => sendResponse(s));
-    return true;
-  }
-  return false;
-});
-
 /* ───── ترجمه ───── */
 async function translateWithGoogle(text, targetLang) {
   const url = 'https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=' +
@@ -166,8 +187,16 @@ async function translateWithGoogle(text, targetLang) {
   return (data[0] || []).map((seg) => seg[0]).join('');
 }
 
+/* مدیریت پیام‌ها به‌صورت یکپارچه جهت جلوگیری از بسته‌شدن پیش‌ازموعد پورت پیام در فایرفاکس */
 chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
-  if (msg && msg.type === 'faExtTranslate') {
+  if (!msg) return false;
+  if (msg.type === 'faExtGetAllSettings') {
+    getSettings()
+      .then((s) => sendResponse(s))
+      .catch(() => sendResponse({ ...DEF }));
+    return true;
+  }
+  if (msg.type === 'faExtTranslate') {
     translateWithGoogle(msg.text, 'fa')
       .then((translated) => sendResponse({ translated }))
       .catch(() => sendResponse({ translated: null }));

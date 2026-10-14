@@ -37,6 +37,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   /* نوشتن یک کلید override برای دامنه‌ی جاری */
   async function setSiteKey(key, value) {
+    if (!host) return;
     const overrides = { ...(settings.faSiteOverrides || {}) };
     const site = { ...(overrides[host] || {}) };
     site[key] = value;
@@ -46,13 +47,23 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   function refreshUI() {
+    if (!host) {
+      hardNote.classList.remove('show');
+      recNote.classList.remove('show');
+      controls.classList.add('disabled-fade');
+      [enabledT, fontT, rtlT, digitT, scaleRange, resetSiteBtn].forEach(c => c.disabled = true);
+      statusPill.textContent = 'غیرفعال';
+      statusPill.className = 'status-badge off';
+      return;
+    }
+
     const eff = FaExtExclusions.resolveSite(settings, host);
 
     if (eff.hardExcluded) {
       hardNote.classList.add('show');
       recNote.classList.remove('show');
       controls.classList.add('disabled-fade');
-      [enabledT, fontT, rtlT, digitT, scaleRange].forEach(c => c.disabled = true);
+      [enabledT, fontT, rtlT, digitT, scaleRange, resetSiteBtn].forEach(c => c.disabled = true);
       statusPill.textContent = 'مستثنا';
       statusPill.className = 'status-badge off';
       return;
@@ -96,12 +107,18 @@ document.addEventListener('DOMContentLoaded', async () => {
   scaleRange.addEventListener('change', async () => { await setSiteKey('scale', parseInt(scaleRange.value, 10)); refreshUI(); });
 
   resetSiteBtn.addEventListener('click', async () => {
+    if (!host) return;
     const overrides = { ...(settings.faSiteOverrides || {}) };
     if (overrides[host]) { delete overrides[host]; settings.faSiteOverrides = overrides; await saveSettings({ faSiteOverrides: overrides }); }
     refreshUI();
   });
 
-  reloadBtn.addEventListener('click', () => { if (tabId !== null) chrome.tabs.reload(tabId); window.close(); });
+  reloadBtn.addEventListener('click', async () => {
+    try {
+      if (tabId !== null) await chrome.tabs.reload(tabId);
+    } catch (e) {}
+    window.close();
+  });
   optionsBtn.addEventListener('click', () => chrome.runtime.openOptionsPage());
   donateBtn.addEventListener('click', () => chrome.tabs.create({ url: 'https://reymit.ir/armanaz44' }));
   el('githubBtn').addEventListener('click', () => chrome.tabs.create({ url: 'https://github.com/ArmanAZ44/FA_Persian_Extension' }));

@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const statSelectors    = el('statSelectors');
 
   function showToast(msg) { toast.textContent = msg; toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 1700); }
-  function getSettings() { return new Promise((r) => chrome.storage.sync.get(Object.keys(DEF), (res) => r({ ...DEF, ...res }))); }
+  function getSettings() { return new Promise((r) => chrome.storage.sync.get(Object.keys(DEF), (res) => r({ ...DEF, ...(res || {}) }))); }
   function saveSettings(partial) { return new Promise((r) => chrome.storage.sync.set(partial, r)); }
   function normalizeHost(raw) { let v = (raw || '').trim(); if (!v) return ''; return v.replace(/^https?:\/\//i, '').replace(/\/.*$/, '').toLowerCase(); }
 
@@ -120,6 +120,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   addSiteBtn.addEventListener('click', async () => {
     const h = normalizeHost(siteInput.value); if (!h) return;
+    if (FaExtExclusions.isHardExcluded(h)) {
+      showToast('این دامنه همیشه مستثنا (ایرانی) است و تغییری نمی‌پذیرد.');
+      return;
+    }
     const o = { ...(state.faSiteOverrides || {}) };
     o[h] = { ...(o[h] || {}), rtl: true };
     state.faSiteOverrides = o; await saveSettings({ faSiteOverrides: o });

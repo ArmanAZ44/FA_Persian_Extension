@@ -1,0 +1,9 @@
+# بسته‌های ساخته‌شده‌ی unpacked (با node build.js بازتولید می‌شوند)
+dist/FA-v*/
+
+# آرشیوهای نصبی در dist/ عمداً commit می‌شوند تا کاربر بدون Node هم به بسته‌ی
+# آماده‌ی نصب دسترسی داشته باشد.
+
+node_modules/
+.DS_Store
+Thumbs.db

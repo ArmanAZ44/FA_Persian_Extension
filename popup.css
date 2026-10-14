@@ -126,6 +126,7 @@ body {
 .scale-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
 .scale-head .val { font-weight: 700; color: var(--brand); font-size: 13px; }
 input[type=range] {
+  appearance: none;
   -webkit-appearance: none; width: 100%; height: 6px; border-radius: 999px;
   background: var(--track); outline: none;
 }
@@ -133,6 +134,15 @@ input[type=range]::-webkit-slider-thumb {
   -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%;
   background: var(--brand); cursor: pointer; border: 3px solid var(--card);
   box-shadow: 0 1px 4px rgba(0,0,0,.25);
+}
+input[type=range]::-moz-range-thumb {
+  width: 18px; height: 18px; border-radius: 50%;
+  background: var(--brand); cursor: pointer; border: 3px solid var(--card);
+  box-shadow: 0 1px 4px rgba(0,0,0,.25);
+}
+input[type=range]::-moz-range-track {
+  width: 100%; height: 6px; border-radius: 999px;
+  background: var(--track);
 }
 
 .actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }

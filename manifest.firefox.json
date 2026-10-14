@@ -1,0 +1,94 @@
+{
+  "manifest_version": 3,
+  "name": "فا | راست‌چین‌ساز و فونت فارسی",
+  "short_name": "افزونه فا",
+  "version": "2.0.0",
+  "description": "راست‌چین‌سازی و فونت فارسی حرفه‌ای برای متن سایت‌ها — فایرفاکس",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "fa-persian-extension@armanaz44",
+      "strict_min_version": "140.0",
+      "data_collection_permissions": {
+        "required": [
+          "none"
+        ]
+      }
+    },
+    "gecko_android": {
+      "strict_min_version": "142.0"
+    }
+  },
+  "permissions": [
+    "storage",
+    "activeTab",
+    "contextMenus",
+    "tabs"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "scripts": [
+      "excluded-domains-data.js",
+      "exclusions.js",
+      "background.js"
+    ]
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "فا | راست‌چین و فونت فارسی",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  },
+  "commands": {
+    "toggle-extension": {
+      "suggested_key": {
+        "default": "Alt+Shift+F"
+      },
+      "description": "فعال/غیرفعال کردن کلی افزونه فا"
+    },
+    "toggle-site": {
+      "suggested_key": {
+        "default": "Alt+Shift+S"
+      },
+      "description": "راست‌چین کردن / لغو راست‌چین در همین سایت"
+    }
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "fonts/*"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "excluded-domains-data.js",
+        "exclusions.js",
+        "dictionary.js",
+        "content.js"
+      ],
+      "run_at": "document_start",
+      "all_frames": true
+    }
+  ]
+}

@@ -1,6 +1,27 @@
 /**
  * فا | راست‌چین‌ساز و فونت فارسی
- * نسخه ۱.۳.۲
+ * نسخه ۲.۰.۰
+ *
+ * تغییرات نسخه ۲.۰.۰:
+ *   - رفع باگ انباشتگی عنوان ویدیوهای YouTube: موتور عمومی افزونه متن‌ها را
+ *     با segmentTextNode به span های جدا تجزیه می‌کرد که با رندر مجدد
+ *     کامپوننت‌های Polymer/ytd یوتیوب تداخل داشت و باعث می‌شد عنوان ویدیوها
+ *     بعد از چند ناوبری پاک نشوند و روی هم انباشته شوند (تا وقتی صفحه رفرش
+ *     شود). حالا یک «حالت سازگاری مخصوص YouTube» اضافه شده که هیچ ساختار
+ *     DOM ای را تغییر نمی‌دهد: فونت فارسی به‌صورت پیشوند به font-family خودِ
+ *     عنصر اضافه می‌شود (چون @font-face وزیرمتن unicode-range دارد، متن
+ *     انگلیسی دقیقاً با فونت اصلی سایت می‌ماند) و راست‌چین هم فقط روی عنصر
+ *     متن اعمال می‌شود. نتیجه: امکان انباشتگی صفر است.
+ *   - پشتیبانی چندمرورگری (Chrome / Edge / Firefox / Opera): مانیفست
+ *     جداگانه برای فایرفاکس (background.scripts به‌جای service_worker) و
+ *     اسکریپت ساخت (build.js) برای تولید بسته‌های آماده‌ی نصب هر مرورگر.
+ *   - رفع باگ ناهماهنگی نشان (badge) و منوی راست‌کلیک: پیش‌تر اسکریپت
+ *     پس‌زمینه فهرست کامل دامنه‌های مستثنا (excluded-domains-data.js) را
+ *     بارگذاری نمی‌کرد و برای هزاران سایت مستثنا وضعیت اشتباه نشان می‌داد.
+ *
+ * تغییرات نسخه ۱.۳.۳:
+ *   - پشتیبانی رسمی از موزیلا فایرفاکس: سازگاری با معماری MV3 فایرفاکس،
+ *     اصلاح اسکریپت پس‌زمینه (Event Page) و رعایت الزامات AMO.
  *
  * تغییرات نسخه ۱.۳.۲:
  *   - راست‌چین/فونت فارسی روی Kick.com اکنون به‌صورت پیش‌فرض (بدون نیاز
@@ -344,6 +365,236 @@
     document.addEventListener('visibilitychange', () => {
       if (!document.hidden && kickInitialLoadDone && masterActive()) {
         scheduleKickScan(document.body);
+      }
+    });
+  }
+
+  /* ──────────────────────────────────────────────────────────────────────
+   * حالت سازگاری مخصوص YouTube (نسخه ۲.۰.۰)
+   *
+   * مشکل (باگ انباشتگی عنوان ویدیو):
+   *   YouTube یک اپلیکیشن Polymer/ytd است و متن‌ها را با کامپوننت‌های سفارشی
+   *   مثل <yt-formatted-string> رندر می‌کند. موتور عمومی افزونه هر گره‌ی متنی
+   *   فارسی را با segmentTextNode به <span class="fa-ext-fa"> جدا تجزیه
+   *   می‌کند؛ یعنی ساختار DOM کامپوننت‌های یوتیوب را عوض می‌کند. یوتیوب هنگام
+   *   ناوبری بین ویدیوها (SPA) همان گره‌ها را دوباره رندر می‌کند و چون مرجع
+   *   گره‌های متنی‌اش دیگر معتبر نیست، به‌جای جایگزینی، متن را روی قبلی
+   *   اضافه می‌کند → عنوان‌ها بعد از چند ویدیو روی هم انباشته می‌شوند تا
+   *   صفحه رفرش شود.
+   *
+   * راه‌حل (کاملاً غیرتهاجمی، بدون هیچ تغییر ساختاری):
+   *   ۱. هیچ گره‌ی متنی شکسته/جایگزین نمی‌شود (segmentTextNode هرگز صدا زده
+   *      نمی‌شود) و هیچ عنصر جدیدی ساخته نمی‌شود.
+   *   ۲. فونت فارسی به‌صورت «پیشوند» به font-family موجودِ خودِ عنصر متن
+   *      اضافه می‌شود (inline style). چون @font-face وزیرمتن unicode-range
+   *      محدود به بازه‌ی فارسی دارد، گلیف‌های انگلیسی دقیقاً با همان فونت
+   *      اصلی سایت رندر می‌شوند و هیچ متن انگلیسی تغییر نمی‌کند.
+   *   ۳. راست‌چین فقط روی نزدیک‌ترین بلوکِ متنیِ فارسی‌غالب (نه کانتینرهای
+   *      ساختاری grid/flex یوتیوب) به‌صورت inline اعمال می‌شود.
+   *   ۴. پردازش idempotent است (تنظیم دوباره‌ی همان مقدار) و با یک نشان
+   *      data-attribute قابل شناسایی/پاک‌سازی است؛ بنابراین نه انباشتگی رخ
+   *      می‌دهد و نه با رندر React/Polymer یوتیوب رقابت می‌کند.
+   *   ۵. ناوبری داخلی (yt-navigate-finish + pushState/replaceState) پوشش داده
+   *      می‌شود و اسکن با debounce کوتاه و سبک انجام می‌شود. */
+  const YOUTUBE_HOSTS = ['youtube.com', 'youtube-nocookie.com', 'youtu.be'];
+  function isYouTubeHost(h) {
+    if (!h) return false;
+    h = String(h).toLowerCase();
+    return YOUTUBE_HOSTS.some(d => h === d || h.endsWith('.' + d));
+  }
+
+  const YT_FONT_ATTR = 'data-fa-ext-yt-font';
+  const YT_RTL_ATTR  = 'data-fa-ext-yt-rtl';
+  const YT_DEBOUNCE_MS = 120;
+
+  let ytObserver = null;
+  let ytDebounceTimer = null;
+  let ytPendingRoots = [];
+  let ytBootDone = false;
+
+  function ytApplyFont(el) {
+    if (!el || el.nodeType !== 1) return;
+    if (el.getAttribute(YT_FONT_ATTR) === '1') return;
+    let existing = '';
+    try { existing = getComputedStyle(el).fontFamily || ''; } catch (e) { existing = ''; }
+    if (existing.indexOf(FONT_FAMILY) !== -1) return;
+    const stack = existing
+      ? `'${FONT_FAMILY}', ${existing}`
+      : `'${FONT_FAMILY}', Tahoma, Arial, sans-serif`;
+    try {
+      el.style.setProperty('font-family', stack, 'important');
+      el.setAttribute(YT_FONT_ATTR, '1');
+    } catch (e) {}
+  }
+
+  function ytApplyRtl(el) {
+    if (!el || el.nodeType !== 1) return;
+    if (el.getAttribute(YT_RTL_ATTR) === '1') return;
+    try {
+      el.style.setProperty('direction', 'rtl', 'important');
+      el.style.setProperty('text-align', 'right', 'important');
+      el.setAttribute(YT_RTL_ATTR, '1');
+    } catch (e) {}
+  }
+
+  /* پاک‌سازی کامل استایل‌های inline یوتیوب (هنگام خاموش‌شدن راست‌چین/فونت از
+     تنظیمات). چون نشانه‌گذاری با data-attribute انجام شده، قابل شمارش است. */
+  function ytResetAll() {
+    if (!document.body || !document.body.querySelectorAll) return;
+    let fonts = [], rtls = [];
+    try { fonts = document.body.querySelectorAll('[' + YT_FONT_ATTR + ']'); } catch (e) {}
+    for (let i = 0; i < fonts.length; i++) {
+      try {
+        fonts[i].style.removeProperty('font-family');
+        fonts[i].removeAttribute(YT_FONT_ATTR);
+      } catch (e) {}
+    }
+    try { rtls = document.body.querySelectorAll('[' + YT_RTL_ATTR + ']'); } catch (e) {}
+    for (let i = 0; i < rtls.length; i++) {
+      try {
+        rtls[i].style.removeProperty('direction');
+        rtls[i].style.removeProperty('text-align');
+        rtls[i].removeAttribute(YT_RTL_ATTR);
+      } catch (e) {}
+    }
+  }
+
+  /* اعمال روی یک گره‌ی متنی — بدون هیچ تغییری در ساختار DOM. */
+  function ytApplyToTextNode(node) {
+    if (!masterActive() || !node || node.nodeType !== 3) return;
+    const val = node.nodeValue;
+    if (!val || !PERSIAN_RE.test(val)) return;
+    const parent = node.parentElement;
+    if (!parent) return;
+    if (NEVER_TOUCH_TAGS.has(parent.tagName)) return;
+    if (EDITABLE_TAGS.has(parent.tagName)) return;
+    if (isRejectedElement(parent)) return;
+    if (parent.closest && parent.closest('.' + FONT_SPAN_CLASS)) return;
+
+    if (eff.font) ytApplyFont(parent);
+    if (eff.rtl && isPersianDominant(val)) {
+      /* فقط نزدیک‌ترین بلوک متنی (نه کانتینر ساختاری) — با همان منطق امن
+         findSafeBlockAncestor که grid/flex را نادیده می‌گیرد. */
+      const leaf = findSafeBlockAncestor(parent) || parent;
+      ytApplyRtl(leaf);
+    }
+  }
+
+  function ytProcessTextNodes(nodes) {
+    for (const node of nodes) {
+      try {
+        if (!node.isConnected) continue;
+        ytApplyToTextNode(node);
+      } catch (e) { /* یک گره‌ی خراب نباید مانع بقیه شود */ }
+    }
+  }
+
+  function ytScanRoot(root) {
+    if (!root || !root.isConnected) return;
+    if (root.nodeType !== 1 && !(root instanceof ShadowRoot)) return;
+    try {
+      const { textNodes, shadowHosts, formFields } = collectFromRoot(root);
+      ytProcessTextNodes(textNodes);
+      processFormFields(formFields);
+      for (const sh of shadowHosts) {
+        injectStylesIntoShadow(sh);
+        ytScanRoot(sh);
+      }
+    } catch (e) { /* ادامه بده */ }
+  }
+
+  function flushYtPendingRoots() {
+    ytDebounceTimer = null;
+    const roots = ytPendingRoots;
+    ytPendingRoots = [];
+    for (const root of roots) ytScanRoot(root);
+  }
+
+  function scheduleYtScan(root) {
+    ytPendingRoots.push(root);
+    if (ytDebounceTimer) clearTimeout(ytDebounceTimer);
+    ytDebounceTimer = setTimeout(flushYtPendingRoots, YT_DEBOUNCE_MS);
+  }
+
+  function startYtObserver() {
+    if (ytObserver || !document.body) return;
+    ytObserver = new MutationObserver(mutations => {
+      if (!masterActive() || !ytBootDone) return;
+      for (const m of mutations) {
+        try {
+          if (m.type === 'childList' && m.addedNodes.length) {
+            for (let i = 0; i < m.addedNodes.length; i++) {
+              const n = m.addedNodes[i];
+              if (faExtGenerated.has(n)) continue;
+              if (n.nodeType === 1) scheduleYtScan(n);
+              else if (n.nodeType === 3 && PERSIAN_RE.test(n.nodeValue || '')) {
+                ytApplyToTextNode(n);
+              }
+            }
+          } else if (m.type === 'characterData') {
+            const n = m.target;
+            if (n && PERSIAN_RE.test(n.nodeValue || '')) ytApplyToTextNode(n);
+          }
+        } catch (e) {}
+      }
+    });
+    try {
+      /* بدون attributes و بدون characterData سنگین روی کل صفحه؛ فقط تغییرات
+         ساختاری + تغییر متن (که برای عنوان‌های در حال به‌روزرسانی لازم است). */
+      ytObserver.observe(document.body, { childList: true, subtree: true, characterData: true });
+    } catch (e) {}
+  }
+
+  function startYouTubeCompatMode() {
+    function run() {
+      if (ytBootDone || !masterActive()) return;
+      ytBootDone = true;
+      try { injectMainStyles(); } catch (e) {}
+      applyHtmlClasses();
+      if (document.body) ytScanRoot(document.body);
+      startYtObserver();
+      /* اسکن‌های تأخیری برای محتوای دیررس (فید پیشنهادها، کامنت‌ها، miniplayer) */
+      setTimeout(() => { if (masterActive() && document.body) ytScanRoot(document.body); }, 800);
+      setTimeout(() => { if (masterActive() && document.body) ytScanRoot(document.body); }, 2500);
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', run, { once: true });
+    } else {
+      run();
+    }
+
+    /* ناوبری داخلی بدون رفرش: یوتیوب از رویداد yt-navigate-finish و
+       History API استفاده می‌کند. */
+    let lastYtUrl = location.href;
+    function onYtNavigate() {
+      if (location.href === lastYtUrl) return;
+      lastYtUrl = location.href;
+      if (!ytBootDone || !masterActive()) return;
+      scheduleYtScan(document.body);
+      setTimeout(() => { if (masterActive() && document.body) ytScanRoot(document.body); }, 700);
+    }
+    window.addEventListener('popstate', onYtNavigate);
+    window.addEventListener('yt-navigate-finish', onYtNavigate);
+    window.addEventListener('yt-page-data-updated', onYtNavigate);
+    const ytOrigPush = history.pushState;
+    const ytOrigReplace = history.replaceState;
+    try {
+      history.pushState = function (...args) {
+        const r = ytOrigPush.apply(this, args);
+        onYtNavigate();
+        return r;
+      };
+      history.replaceState = function (...args) {
+        const r = ytOrigReplace.apply(this, args);
+        onYtNavigate();
+        return r;
+      };
+    } catch (e) {}
+
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden && ytBootDone && masterActive() && document.body) {
+        scheduleYtScan(document.body);
       }
     });
   }
@@ -1392,6 +1643,13 @@
       return;
     }
 
+    /* YouTube از یک مسیر کاملاً غیرتهاجمی عبور می‌کند: هیچ گره‌ی متنی تجزیه
+       یا جایگزین نمی‌شود (رفع باگ انباشتگی عنوان ویدیوها). */
+    if (isYouTubeHost(host)) {
+      startYouTubeCompatMode();
+      return;
+    }
+
     /* Kick.com از یک مسیر کاملاً جدا عبور می‌کند که اولویت را به پایداری
        و سرعت لود صفحه می‌دهد، نه پردازش تهاجمی. هیچ اسکن/observer ای
        قبل از لود کامل صفحه شروع نمی‌شود. */
@@ -1450,13 +1708,23 @@
     });
   }
 
-  const settingsPromise = new Promise(resolve =>
-    chrome.storage.sync.get(Object.keys(DEF), res => {
-      settings = { ...DEF, ...res };
+  const settingsPromise = new Promise(resolve => {
+    try {
+      chrome.storage.sync.get(Object.keys(DEF), res => {
+        if (chrome.runtime.lastError || !res) {
+          settings = { ...DEF };
+        } else {
+          settings = { ...DEF, ...res };
+        }
+        recomputeEff();
+        resolve();
+      });
+    } catch (e) {
+      settings = { ...DEF };
       recomputeEff();
       resolve();
-    })
-  );
+    }
+  });
 
   const fontPromise = preloadFonts();
 
@@ -1481,6 +1749,18 @@
              هیچ ساختار DOM ای دوباره لمس نمی‌شود. */
           refreshChatGptDoneMessages();
           scanExistingChatGptMessages();
+        }
+        return;
+      }
+
+      if (isYouTubeHost(host)) {
+        /* اول همه‌ی استایل‌های inline قبلی پاک می‌شوند (تا خاموش‌کردن فونت یا
+           راست‌چین واقعاً اثر کند)، سپس با تنظیمات جدید دوباره اعمال می‌شود. */
+        ytResetAll();
+        if (masterActive() && document.body) {
+          if (!ytObserver) startYtObserver();
+          ytBootDone = true;
+          ytScanRoot(document.body);
         }
         return;
       }
@@ -1520,11 +1800,16 @@
     });
     document.body.appendChild(el);
     translatePopup = el;
+    faExtGenerated.add(el);
 
     try {
       chrome.runtime.sendMessage({ type: 'faExtTranslate', text }, res => {
+        if (chrome.runtime.lastError || !res) {
+          if (translatePopup) translatePopup.textContent = 'خطا در ارتباط با افزونه.';
+          return;
+        }
         if (!translatePopup) return;
-        translatePopup.textContent = (res && res.translated) ? res.translated : 'ترجمه ناموفق بود.';
+        translatePopup.textContent = res.translated ? res.translated : 'ترجمه ناموفق بود.';
       });
     } catch (e) {
       if (translatePopup) translatePopup.textContent = 'خطا در ارتباط با افزونه.';
@@ -1579,6 +1864,7 @@
     });
     document.body.appendChild(el);
     hoverDictEl = el;
+    faExtGenerated.add(el);
   }
 
   function getWordAtPoint(x, y) {
