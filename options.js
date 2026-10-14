@@ -321,6 +321,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   });
 
   donateBtn.addEventListener('click', () => chrome.tabs.create({ url: 'https://reymit.ir/armanaz44' }));
+  el('amoBtn').addEventListener('click', () => chrome.tabs.create({ url: 'https://addons.mozilla.org/en-US/firefox/addon/fa_persian_extension/' }));
   el('githubBtn').addEventListener('click', () => chrome.tabs.create({ url: 'https://github.com/ArmanAZ44/FA_Persian_Extension' }));
   el('telegramBtn').addEventListener('click', () => chrome.tabs.create({ url: 'https://t.me/ArmanAZPC' }));
 

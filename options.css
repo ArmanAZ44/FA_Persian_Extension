@@ -230,6 +230,20 @@ input[type=text], textarea { background: var(--glass); border-color: var(--glass
 .about-sub { font-size: 12px; color: var(--muted); margin-top: 3px; }
 
 .social { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+
+/* ─────────── دکمه‌های فروشگاه ─────────── */
+.store-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+.store-btn {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 12px; border-radius: 12px; font-family: inherit; font-size: 12.5px; font-weight: 600;
+  border: 1px solid var(--glass-border); background: var(--glass); color: var(--text);
+  cursor: pointer; transition: .18s; text-align: center; line-height: 1.4;
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+}
+.store-btn svg { width: 16px; height: 16px; flex: none; }
+.store-btn.firefox:hover { background: #FF7139; border-color: #FF7139; color: #fff; transform: translateY(-1px); }
+.store-btn.soon { cursor: default; color: var(--muted); border-style: dashed; }
+.store-btn.soon:hover { transform: none; }
 .social-btn {
   display: flex; align-items: center; justify-content: center; gap: 8px;
   padding: 12px; border-radius: 12px; font-family: inherit; font-size: 13px; font-weight: 600;
