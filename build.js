@@ -37,6 +37,7 @@ const SHARED = [
   'popup.html',
   'popup.css',
   'popup.js',
+  'panel-fonts.css',
   'options.html',
   'options.css',
   'options.js',

@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>تنظیمات افزونه فا</title>
+  <link rel="stylesheet" href="panel-fonts.css">
   <link rel="stylesheet" href="options.css">
 </head>
 <body>
@@ -38,7 +39,7 @@
       </button>
     </div>
 
-    <!-- عمومی -->
+    <!-- ─────────── عمومی ─────────── -->
     <div class="tab-panel active" id="tab-general">
       <div class="card">
         <div class="card-head">
@@ -65,6 +66,47 @@
       </div>
 
       <div class="card">
+        <div class="card-head">
+          <h2>فونت فارسی</h2>
+          <p>۸ فونت فارسیِ همراه افزونه — همه آفلاین، بدون هیچ درخواست اینترنتی و تحت مجوز OFL. از پاپ‌آپ می‌توانید برای هر سایت فونت جداگانه انتخاب کنید.</p>
+        </div>
+        <div class="font-grid">
+          <div class="field">
+            <span class="label">فونت پیش‌فرض</span>
+            <select class="font-select" id="fontFamilySelect"></select>
+            <div class="hint">فونت انتخابی روی متن فارسیِ همه‌ی سایت‌ها اعمال می‌شود.</div>
+          </div>
+          <div class="field">
+            <span class="label">ضخامت فونت</span>
+            <div class="seg-sm" id="weightSeg">
+              <div class="opt" data-weight="auto">خودکار</div>
+              <div class="opt" data-weight="light">نازک</div>
+              <div class="opt" data-weight="normal">معمولی</div>
+              <div class="opt" data-weight="bold">ضخیم</div>
+            </div>
+            <div class="hint">«خودکار» یعنی ضخامت از خود سایت ارث برده شود (بولدها بولد بمانند).</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <h2>پروفایل آماده</h2>
+          <p>با یک کلیک چند تنظیم مرتبط را با هم تغییر دهید.</p>
+        </div>
+        <div class="presets" id="presetsRow"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-head"><h2>پیش‌نمایش زنده</h2><p>نتیجه‌ی تنظیمات فعلی، بدون نیاز به بازکردن هیچ سایتی.</p></div>
+        <div class="preview-box">
+          <div class="pv-title">نمونه‌ی متن</div>
+          <div class="preview-fa" id="previewFa">سلام! این یک نمونه‌ی متن فارسی است تا فونت، اندازه، ضخامت و فاصله‌ی خط را همین حالا ببینید. عدد ۱۲۳۴۵۶۷۸۹۰ هم برای بررسی ارقام فارسی است.</div>
+          <div class="preview-en">English text stays exactly the same — The quick brown fox jumps over the lazy dog. 1234567890</div>
+        </div>
+      </div>
+
+      <div class="card">
         <div class="card-head"><h2>پوسته پنل</h2></div>
         <div class="row">
           <div><div class="label">حالت نمایش تنظیمات و پاپ‌آپ</div></div>
@@ -77,12 +119,24 @@
       </div>
     </div>
 
-    <!-- سایت‌ها -->
+    <!-- ─────────── سایت‌ها ─────────── -->
     <div class="tab-panel" id="tab-sites">
       <div class="stats">
         <div class="stat"><div class="num" id="statOverrides">۰</div><div class="lbl">سایت با تنظیم اختصاصی</div></div>
         <div class="stat"><div class="num" id="statSelectors">۰</div><div class="lbl">سلکتور مستثنا</div></div>
       </div>
+
+      <div class="card">
+        <div class="card-head">
+          <h2>حالت فعال‌سازی</h2>
+          <p>به‌صورت پیش‌فرض افزونه روی همه‌ی سایت‌ها فعال است. با روشن‌کردن این گزینه، افزونه فقط روی سایت‌هایی کار می‌کند که خودتان در فهرست پایین (یا از پاپ‌آپ) فعال کرده باشید.</p>
+        </div>
+        <div class="row">
+          <div><div class="label">فقط روی سایت‌های انتخاب‌شده فعال باشد (لیست سفید)</div><div class="hint">سایت‌های دامنه‌ی .ir همچنان کاملاً مستثنا می‌مانند</div></div>
+          <label class="switch"><input type="checkbox" id="whitelistToggle"><span class="slider"></span></label>
+        </div>
+      </div>
+
       <div class="card">
         <div class="card-head">
           <h2>سایت‌های دارای تنظیم اختصاصی</h2>
@@ -97,13 +151,17 @@
       </div>
     </div>
 
-    <!-- پیشرفته -->
+    <!-- ─────────── پیشرفته ─────────── -->
     <div class="tab-panel" id="tab-advanced">
       <div class="card">
         <div class="card-head"><h2>گزینه‌های متن</h2></div>
         <div class="row">
           <div><div class="label">ارقام فارسی</div><div class="hint">تبدیل ۰۱۲۳ لاتین به ۰۱۲۳ داخل متن فارسی</div></div>
           <label class="switch"><input type="checkbox" id="digitToggle"><span class="slider"></span></label>
+        </div>
+        <div class="row">
+          <div><div class="label">نرمال‌سازی «ي / ك» عربی به «ی / ک» فارسی</div><div class="hint">خیلی از سایت‌ها هنوز با صفحه‌کلید عربی تایپ می‌کنند؛ این گزینه متن را یکدست می‌کند</div></div>
+          <label class="switch"><input type="checkbox" id="normalizeYKToggle"><span class="slider"></span></label>
         </div>
         <div class="row">
           <div><div class="label">اصلاح فاصله‌ها (line-height / word-spacing)</div><div class="hint">اصلاح محافظه‌کارانه تا UI سایت خراب نشود</div></div>
@@ -118,8 +176,25 @@
           <label class="switch"><input type="checkbox" id="translateToggle"><span class="slider"></span></label>
         </div>
         <div class="row highlight">
-          <div><div class="label">دیکشنری هاور (ویژگی جدید)</div><div class="hint">کلید Alt را نگه دارید و روی هر کلمه‌ی انگلیسی صفحه بروید تا معنی فارسی سریع آن نمایش داده شود — کاملاً آفلاین و بدون اتصال به اینترنت</div></div>
+          <div><div class="label">دیکشنری هاور</div><div class="hint">کلید Alt را نگه دارید و روی هر کلمه‌ی انگلیسی صفحه بروید تا معنی فارسی سریع آن نمایش داده شود — کاملاً آفلاین و بدون اتصال به اینترنت</div></div>
           <label class="switch"><input type="checkbox" id="hoverDictToggle"><span class="slider"></span></label>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <h2>فاصله‌ی خط و حروف</h2>
+          <p>مقدار صفر یعنی «خودکار» (بدون تغییر).</p>
+        </div>
+        <div class="scale-row">
+          <div class="scale-head"><span class="label">فاصله‌ی خط (line-height)</span><span class="val" id="lineHeightValue">خودکار</span></div>
+          <input type="range" id="lineHeightRange" min="0" max="200" step="5" value="0">
+          <div class="scale-foot"><span>خودکار</span><span>بازتر</span></div>
+        </div>
+        <div class="scale-row">
+          <div class="scale-head"><span class="label">فاصله‌ی حروف (letter-spacing)</span><span class="val" id="letterSpacingValue">خودکار</span></div>
+          <input type="range" id="letterSpacingRange" min="0" max="10" step="1" value="0">
+          <div class="scale-foot"><span>خودکار</span><span>بازتر</span></div>
         </div>
       </div>
 
@@ -133,10 +208,18 @@
       </div>
     </div>
 
-    <!-- پشتیبان‌گیری -->
+    <!-- ─────────── پشتیبان‌گیری ─────────── -->
     <div class="tab-panel" id="tab-backup">
       <div class="card">
-        <div class="card-head"><h2>پشتیبان‌گیری و بازگردانی</h2><p>تمام تنظیمات را به‌صورت فایل JSON خروجی بگیرید یا وارد کنید.</p></div>
+        <div class="card-head"><h2>پشتیبان‌گیری و بازگردانی</h2><p>تمام تنظیمات را به‌صورت فایل JSON خروجی بگیرید یا وارد کنید. تنظیمات به‌صورت خودکار با حساب مرورگر شما هم‌گام می‌شوند.</p></div>
+        <div class="row">
+          <div><div class="label">پشتیبان‌گیری خودکار</div><div class="hint">هر بار تغییر تنظیمات، یک نسخه‌ی پشتیبان در حافظه‌ی محلی ذخیره می‌شود تا در صورت نیاز برگردانید</div></div>
+          <label class="switch"><input type="checkbox" id="autoBackupToggle"><span class="slider"></span></label>
+        </div>
+        <div class="row">
+          <div><div class="label">آخرین نسخه‌ی پشتیبان</div><div class="hint" id="backupInfo">هنوز نسخه‌ای ثبت نشده است.</div></div>
+          <button class="btn" id="restoreBackupBtn">بازگردانی</button>
+        </div>
         <div class="footer-actions">
           <button class="btn primary" id="exportBtn">⬇ خروجی گرفتن</button>
           <button class="btn" id="importBtn">⬆ وارد کردن</button>
@@ -151,7 +234,7 @@
         <img class="logo sm" src="icons/icon48.png" alt="فا">
         <div>
           <div class="about-title">افزونه فا — راست‌چین و فونت فارسی</div>
-          <div class="about-sub">متن‌باز و رایگان · نسخه ۲٫۰٫۰</div>
+          <div class="about-sub">متن‌باز و رایگان · نسخه ۲٫۰٫۰ · ۸ فونت فارسی همراه</div>
         </div>
       </div>
       <div class="social">

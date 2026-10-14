@@ -1,18 +1,4 @@
-@font-face {
-  font-family: 'Vazirmatn';
-  src: url('fonts/Vazirmatn-Regular.woff2') format('woff2');
-  font-weight: 400; font-display: swap;
-}
-@font-face {
-  font-family: 'Vazirmatn';
-  src: url('fonts/Vazirmatn-Medium.woff2') format('woff2');
-  font-weight: 500; font-display: swap;
-}
-@font-face {
-  font-family: 'Vazirmatn';
-  src: url('fonts/Vazirmatn-Bold.woff2') format('woff2');
-  font-weight: 700; font-display: swap;
-}
+/* فونت‌ها در panel-fonts.css تعریف شده‌اند (مشترک با صفحه‌ی تنظیمات) */
 
 /* ─────────── توکن‌های طراحی ─────────── */
 :root {
@@ -57,7 +43,7 @@ html[data-theme="dark"] {
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-  font-family: 'Vazirmatn', Tahoma, sans-serif;
+  font-family: 'FaExtPanel', Tahoma, sans-serif;
   direction: rtl;
   width: 340px;
   background: var(--bg);
@@ -257,6 +243,57 @@ body {
   -webkit-backdrop-filter: blur(16px) saturate(160%);
 }
 .btn.ghost { background: var(--glass); border-color: var(--glass-border); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+
+/* ─────────── انتخاب فونت، پیش‌نمایش و پروفایل‌ها (نسخه ۲.۰.۰) ─────────── */
+.field-row { padding: 11px 13px; }
+.field-row + .field-row { border-top: 1px solid var(--border); }
+.field-row .label { font-size: 12.5px; font-weight: 600; display: block; margin-bottom: 7px; }
+.field-row .hint { font-size: 10.5px; color: var(--muted); margin-top: 6px; line-height: 1.45; }
+
+select.font-select {
+  width: 100%; font-family: inherit; font-size: 12.5px; color: var(--text);
+  background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: 9px 11px; outline: none; cursor: pointer; transition: .15s;
+}
+select.font-select:focus { border-color: var(--brand); box-shadow: 0 0 0 3px var(--brand-soft); }
+
+.seg-sm { display: flex; gap: 4px; background: var(--track); padding: 3px; border-radius: 9px; }
+.seg-sm .opt { flex: 1; text-align: center; padding: 7px 4px; border-radius: 7px; font-size: 11px;
+  font-weight: 600; color: var(--muted); cursor: pointer; transition: .15s; }
+.seg-sm .opt:hover { color: var(--text); }
+.seg-sm .opt.active { background: var(--card); color: var(--brand); box-shadow: 0 1px 4px rgba(0,0,0,.12); }
+
+.presets { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 13px 12px; }
+.preset {
+  flex: 1 1 auto; min-width: 62px; border: 1px solid var(--border); background: var(--card);
+  color: var(--muted); font-family: inherit; font-size: 11px; font-weight: 600;
+  padding: 7px 8px; border-radius: 9px; cursor: pointer; transition: .15s;
+}
+.preset:hover { border-color: var(--brand); color: var(--brand); background: var(--brand-soft); }
+.preset.active { border-color: var(--brand); color: #fff; background: var(--brand); }
+
+.preview-box {
+  background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 12px 13px; box-shadow: var(--shadow-sm); margin-bottom: 12px;
+}
+.preview-box .pv-title {
+  font-size: 10.5px; color: var(--muted); font-weight: 600; margin-bottom: 8px;
+  display: flex; align-items: center; gap: 6px;
+}
+.preview-box .pv-title::after { content: ""; flex: 1; height: 1px; background: var(--border); }
+.preview-fa { font-size: 1em; line-height: 1.6; }
+.preview-en {
+  font-size: 11px; color: var(--muted); margin-top: 7px;
+  direction: ltr; text-align: left; font-family: inherit;
+}
+
+.site-card .host-wrap { display: flex; align-items: center; gap: 7px; min-width: 0; flex: 1; }
+.site-card .fav { width: 18px; height: 18px; border-radius: 5px; flex: none; }
+.copy-btn {
+  border: none; background: transparent; color: var(--muted); cursor: pointer;
+  font-size: 13px; line-height: 1; padding: 3px 5px; border-radius: 7px; transition: .15s; flex: none;
+}
+.copy-btn:hover { color: var(--brand); background: var(--brand-soft); }
 
 /* ─────────── شبکه‌های اجتماعی ─────────── */
 .social { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }

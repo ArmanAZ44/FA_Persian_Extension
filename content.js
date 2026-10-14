@@ -133,8 +133,42 @@
 
   const SAFE_BLOCK_DISPLAYS = new Set(['block','inline-block','list-item','table-cell','table-caption']);
 
-  const FONT_FAMILY = 'FaExtVazirmatn';
-  const FONT_FILES  = { 400:'Vazirmatn-Regular.woff2', 500:'Vazirmatn-Medium.woff2', 700:'Vazirmatn-Bold.woff2' };
+  /* فونت فعال از رجیستری مشترک (exclusions.js) خوانده می‌شود تا کاربر بتواند
+     از پاپ‌آپ و تنظیمات پیشرفته، فونت فارسی را عوض کند. نام CSS هر فونت با
+     پیشوند «FaExtFont» است تا هرگز با فونت خود سایت تداخل نکند. */
+  const FONT_FALLBACK = {
+    css: 'FaExtFontVazirmatn',
+    files: [['400', 'Vazirmatn-Regular.woff2'], ['500', 'Vazirmatn-Medium.woff2'], ['700', 'Vazirmatn-Bold.woff2']]
+  };
+
+  function currentFont() {
+    try {
+      if (typeof FaExtExclusions !== 'undefined' && FaExtExclusions.getFont) {
+        return FaExtExclusions.getFont(eff.fontFamily) || FONT_FALLBACK;
+      }
+    } catch (e) { /* از فونت پیش‌فرض استفاده کن */ }
+    return FONT_FALLBACK;
+  }
+
+  function buildFontFaces(font) {
+    return font.files.map(([weight, file]) => {
+      const url = chrome.runtime.getURL('fonts/' + file);
+      return `@font-face {
+        font-family: '${font.css}';
+        src: url('${url}') format('woff2');
+        font-weight: ${weight};
+        font-display: swap;
+        unicode-range: U+0600-06FF, U+0750-077F, U+FB50-FDFF, U+FE70-FEFF;
+      }`;
+    }).join('\n');
+  }
+
+  /* وزن فونت انتخابی کاربر — auto یعنی از خود سایت ارث ببرد. */
+  const FONT_WEIGHT_MAP = { light: '300', normal: '400', bold: '700' };
+  function fontWeightDecl() {
+    const w = FONT_WEIGHT_MAP[eff.fontWeight];
+    return w ? `font-weight: ${w} !important;` : '';
+  }
 
   /* ──────────────────────────────────────────────────────────────────────
    * حالت سازگاری مخصوص ChatGPT (نسخه ۱.۳.۰)
@@ -415,14 +449,17 @@
   function ytApplyFont(el) {
     if (!el || el.nodeType !== 1) return;
     if (el.getAttribute(YT_FONT_ATTR) === '1') return;
+    const font = currentFont();
     let existing = '';
     try { existing = getComputedStyle(el).fontFamily || ''; } catch (e) { existing = ''; }
-    if (existing.indexOf(FONT_FAMILY) !== -1) return;
+    if (existing.indexOf(font.css) !== -1) return;
     const stack = existing
-      ? `'${FONT_FAMILY}', ${existing}`
-      : `'${FONT_FAMILY}', Tahoma, Arial, sans-serif`;
+      ? `'${font.css}', ${existing}`
+      : `'${font.css}', Tahoma, Arial, sans-serif`;
     try {
       el.style.setProperty('font-family', stack, 'important');
+      const w = FONT_WEIGHT_MAP[eff.fontWeight];
+      if (w) el.style.setProperty('font-weight', w, 'important');
       el.setAttribute(YT_FONT_ATTR, '1');
     } catch (e) {}
   }
@@ -446,6 +483,7 @@
     for (let i = 0; i < fonts.length; i++) {
       try {
         fonts[i].style.removeProperty('font-family');
+        fonts[i].style.removeProperty('font-weight');
         fonts[i].removeAttribute(YT_FONT_ATTR);
       } catch (e) {}
     }
@@ -737,16 +775,8 @@
   }
 
   function buildChatGptCss() {
-    const faces = Object.entries(FONT_FILES).map(([w, file]) => {
-      const url = chrome.runtime.getURL('fonts/' + file);
-      return `@font-face {
-        font-family: '${FONT_FAMILY}';
-        src: url('${url}') format('woff2');
-        font-weight: ${w};
-        font-display: swap;
-        unicode-range: U+0600-06FF, U+0750-077F, U+FB50-FDFF, U+FE70-FEFF;
-      }`;
-    }).join('\n');
+    const font = currentFont();
+    const faces = buildFontFaces(font);
 
     return `
       ${faces}
@@ -757,7 +787,8 @@
         unicode-bidi: isolate;
       }
       [${CHATGPT_FONT_ATTR}="1"] {
-        font-family: '${FONT_FAMILY}', Tahoma, Arial, sans-serif !important;
+        font-family: '${font.css}', Tahoma, Arial, sans-serif !important;
+        ${fontWeightDecl()}
         /* رفع پرش/فلیکر بصری: چون رندر تدریجی است و فونت روی هر بخش به‌محض
            آماده‌شدنش اعمال می‌شود (نه در پایان کل پیام)، یک fade ملایم
            باعث می‌شود تغییر فونت به چشم نپرد. فقط opacity تغییر می‌کند،
@@ -1013,6 +1044,18 @@
     return o;
   }
 
+  /* نرمال‌سازی حروف عربی به فارسی: ي / ى → ی و ك → ک.
+     خیلی از سایت‌ها هنوز با صفحه‌کلید عربی تایپ می‌کنند و متن، ناخوشایند
+     دیده می‌شود. این تبدیل فقط روی متن فارسی و هرگز داخل کد/فیلدهای غیرمتنی
+     انجام نمی‌شود (همان فیلترهای همیشگی). */
+  const YK_MAP = [[/\u064A/g, '\u06CC'], [/\u0649/g, '\u06CC'], [/\u0643/g, '\u06A9']];
+  function normalizeYK(text) {
+    if (!eff.normalizeYK || !PERSIAN_RE.test(text)) return text;
+    let o = text;
+    for (const [pat, rep] of YK_MAP) o = o.replace(pat, rep);
+    return o;
+  }
+
   /* ──────────────────────────────────────────────────────────────────────
    * اندازه هوشمند فونت فارسی
    *
@@ -1062,19 +1105,11 @@
   /* قانون طلایی: هیچ selector ای بزرگ‌تر از «.fa-ext-fa» فونت فارسی
    * نمی‌گیرد. هیچ قانونی روی body/html/* وجود ندارد. */
   function buildCss() {
-    const faces = Object.entries(FONT_FILES).map(([w, file]) => {
-      const url = chrome.runtime.getURL('fonts/' + file);
-      return `@font-face {
-        font-family: '${FONT_FAMILY}';
-        src: url('${url}') format('woff2');
-        font-weight: ${w};
-        font-display: swap;
-        unicode-range: U+0600-06FF, U+0750-077F, U+FB50-FDFF, U+FE70-FEFF;
-      }`;
-    }).join('\n');
+    const font = currentFont();
+    const faces = buildFontFaces(font);
 
     /* مقیاس پایه از تنظیمات کاربر. scale نهایی = normalized × smartScale.
-       چون Vazirmatn کمی درشت‌تر است، smartScale ها همه زیر ۱ هستند.
+       چون فونت‌های فارسی کمی درشت‌ترند، smartScale ها همه زیر ۱ هستند.
        (نسخه ۲.۰.۰: مبنا ۱۰۰ شد؛ جزئیات در FA_SCALE_* بالا.) */
     const rawScale = (typeof eff.scale === 'number' && eff.scale > 0)
       ? eff.scale
@@ -1082,11 +1117,19 @@
     const effective = (rawScale * FA_SCALE_LEGACY_BASE) / 10000;
     const normalized = Math.min(FA_SCALE_MAX_NORM, Math.max(FA_SCALE_MIN_NORM, effective));
 
-    /* اصلاح محافظه‌کارانه‌ی فاصله‌ها — فقط وقتی faSpacingEnabled روشن باشد.
-       line-height ملایم (۱٫۳۵) و word-spacing نرمال تا UI سایت خراب نشود. */
-    const spacingCss = eff.spacing
-      ? `line-height: 1.35 !important; word-spacing: normal !important;`
-      : ``;
+    /* فاصله‌ی خط و فاصله‌ی حروف:
+       • اگر کاربر اسلایدر «فاصله خط» را تنظیم کرده باشد همان اعمال می‌شود؛
+       • وگرنه اگر «اصلاح فاصله‌ها» روشن باشد، مقدار محافظه‌کارانه‌ی ۱٫۳۵.
+       • فاصله‌ی حروف پیش‌فرض صفر است (فونت‌های فارسی معمولاً به آن نیاز ندارند). */
+    let spacingCss = '';
+    if (typeof eff.lineHeight === 'number' && eff.lineHeight > 0) {
+      spacingCss += `line-height: ${(eff.lineHeight / 100).toFixed(2)} !important;`;
+    } else if (eff.spacing) {
+      spacingCss += `line-height: 1.35 !important; word-spacing: normal !important;`;
+    }
+    const letterSpacing = (typeof eff.letterSpacing === 'number' && eff.letterSpacing > 0)
+      ? `${(eff.letterSpacing / 100).toFixed(2)}em`
+      : '0';
 
     /* ساخت قوانین CSS برای هر تگ والد با scale هوشمند */
     const tagRules = Object.entries(SMART_SCALE_MAP).map(([tag, smartScale]) => {
@@ -1111,8 +1154,9 @@
          font-size به‌صورت هوشمند بر اساس تگ والد تعیین می‌شود.
          font-weight از والد به ارث برده می‌شود (بولد/نرمال حفظ می‌شود). */
       html.${HTML_FONT_CLASS} .${FONT_SPAN_CLASS} {
-        font-family: '${FONT_FAMILY}', Tahoma, Arial, sans-serif !important;
-        letter-spacing: 0 !important;
+        font-family: '${font.css}', Tahoma, Arial, sans-serif !important;
+        letter-spacing: ${letterSpacing} !important;
+        ${fontWeightDecl()}
         ${spacingCss}
       }
 
@@ -1122,9 +1166,10 @@
 
       /* ── فیلدهای فرم: font-family مستقیم روی عنصر ── */
       html.${HTML_FONT_CLASS} .${FORM_FONT_CLASS} {
-        font-family: '${FONT_FAMILY}', Tahoma, Arial, sans-serif !important;
-        letter-spacing: 0 !important;
+        font-family: '${font.css}', Tahoma, Arial, sans-serif !important;
+        letter-spacing: ${letterSpacing} !important;
         font-size: ${defaultScale}em !important;
+        ${fontWeightDecl()}
         ${spacingCss}
       }
       html.${HTML_RTL_CLASS} .${FORM_FONT_CLASS} {
@@ -1138,7 +1183,9 @@
       /* ── راست‌چین: فقط روی برگه‌های متنی فارسی‌غالب ── */
       /* ── ویرایشگرهای contenteditable هنگام تایپ (فونت + راست‌چین) ── */
       html.${HTML_FONT_CLASS} .${EDIT_FONT_CLASS} {
-        font-family: '${FONT_FAMILY}', Tahoma, Arial, sans-serif !important;
+        font-family: '${font.css}', Tahoma, Arial, sans-serif !important;
+        letter-spacing: ${letterSpacing} !important;
+        ${fontWeightDecl()}
         ${spacingCss}
       }
       html.${HTML_RTL_CLASS} .${EDIT_FONT_CLASS} {
@@ -1186,9 +1233,10 @@
   function preloadFonts() {
     try {
       if (!document.fonts || !document.fonts.add) return Promise.resolve();
-      const promises = Object.entries(FONT_FILES).map(([weight, file]) => {
+      const font = currentFont();
+      const promises = font.files.map(([weight, file]) => {
         const url = `url('${chrome.runtime.getURL('fonts/' + file)}')`;
-        const face = new FontFace(FONT_FAMILY, url, {
+        const face = new FontFace(font.css, url, {
           weight: String(weight),
           unicodeRange: 'U+0600-06FF, U+0750-077F, U+FB50-FDFF, U+FE70-FEFF',
           display: 'swap'
@@ -1292,7 +1340,8 @@
     const original = node.nodeValue;
     if (!original || !PERSIAN_RE.test(original)) return false;
 
-    let text = convertDigitsSmart(original);
+    let text = normalizeYK(original);
+    text = convertDigitsSmart(text);
     text = applyTypography(text);
 
     const runs = buildRuns(text);

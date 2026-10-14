@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>فا</title>
+  <link rel="stylesheet" href="panel-fonts.css">
   <link rel="stylesheet" href="popup.css">
 </head>
 <body>
@@ -19,7 +20,11 @@
   </div>
 
   <div class="site-card">
-    <span class="host" id="host">…</span>
+    <span class="host-wrap">
+      <img class="fav" id="favicon" alt="" style="display:none">
+      <span class="host" id="host">…</span>
+      <button class="copy-btn" id="copyHostBtn" title="کپی دامنه">⧉</button>
+    </span>
     <span class="status-badge off" id="statusPill">—</span>
   </div>
 
@@ -32,6 +37,17 @@
   </div>
 
   <div id="controls">
+    <div class="section-label">پیش‌نمایش زنده</div>
+
+    <div class="preview-box">
+      <div class="pv-title">با تنظیمات فعلی این سایت</div>
+      <div class="preview-fa" id="previewFa">سلام! این یک نمونه‌ی متن فارسی است تا فونت، اندازه و فاصله‌ی خط را همین حالا ببینید.</div>
+      <div class="preview-en">English text stays exactly the same — 1234567890.</div>
+    </div>
+
+    <div class="section-label">پروفایل آماده</div>
+    <div class="presets" id="presetsRow"></div>
+
     <div class="section-label">تنظیمات این سایت</div>
 
     <div class="card">
@@ -79,6 +95,21 @@
         <label class="switch"><input type="checkbox" id="digitToggle"><span class="slider"></span></label>
       </div>
 
+      <div class="field-row">
+        <span class="label">فونت فارسی این سایت</span>
+        <select class="font-select" id="fontSelect"></select>
+      </div>
+
+      <div class="field-row">
+        <span class="label">ضخامت فونت</span>
+        <div class="seg-sm" id="weightSeg">
+          <div class="opt" data-weight="auto">خودکار</div>
+          <div class="opt" data-weight="light">نازک</div>
+          <div class="opt" data-weight="normal">معمولی</div>
+          <div class="opt" data-weight="bold">ضخیم</div>
+        </div>
+      </div>
+
       <div class="scale-row">
         <div class="scale-head">
           <span class="label">اندازه فونت فارسی</span>
@@ -94,6 +125,7 @@
 
   <div class="actions">
     <button class="btn primary full" id="reloadBtn">↻ بازخوانی صفحه برای اعمال کامل</button>
+    <button class="btn full" id="applyAllBtn">⇅ اعمال روی همه‌ی تب‌های باز</button>
     <button class="btn ghost full" id="optionsBtn">⚙ تنظیمات پیشرفته</button>
   </div>
 

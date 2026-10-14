@@ -81,12 +81,81 @@
      را کند نکند). */
   const EXCLUDED_DOMAINS_SET = new Set(EXCLUDED_DOMAINS);
 
+  /* ── فهرست فونت‌های فارسیِ همراه افزونه (نسخه ۲.۰.۰) ─────────────────────
+     همه‌ی فونت‌ها به‌صورت آفلاین همراه بسته عرضه می‌شوند (بدون هیچ درخواست
+     اینترنتی) و همه تحت مجوز OFL هستند. هر فونت یک نام CSS یکتا با پیشوند
+     «FaExtFont» دارد تا هرگز با فونت‌های خود سایت تداخل نکند.
+     files: آرایه‌ی [وزن, نام فایل] — فونت‌های متغیر یک ردیف با بازه‌ی وزن. */
+  const FONTS = [
+    { id: 'vazirmatn', name: 'وزیرمتن', css: 'FaExtFontVazirmatn',
+      note: 'پیش‌فرض — خوانا و مدرن',
+      files: [['400', 'Vazirmatn-Regular.woff2'], ['500', 'Vazirmatn-Medium.woff2'], ['700', 'Vazirmatn-Bold.woff2']] },
+
+    { id: 'sahel', name: 'ساحل', css: 'FaExtFontSahel',
+      note: 'نرم و دلنشین برای متن‌های طولانی',
+      files: [['400', 'Sahel-Regular.woff2'], ['500', 'Sahel-Medium.woff2'], ['700', 'Sahel-Bold.woff2']] },
+
+    { id: 'samim', name: 'صمیم', css: 'FaExtFontSamim',
+      note: 'تمیز و متعادل برای رابط کاربری',
+      files: [['400', 'Samim-Regular.woff2'], ['500', 'Samim-Medium.woff2'], ['700', 'Samim-Bold.woff2']] },
+
+    { id: 'shabnam', name: 'شبنم', css: 'FaExtFontShabnam',
+      note: 'کلاسیک و بسیار خوانا',
+      files: [['400', 'Shabnam-Regular.woff2'], ['500', 'Shabnam-Medium.woff2'], ['700', 'Shabnam-Bold.woff2']] },
+
+    { id: 'estedad', name: 'استعداد', css: 'FaExtFontEstedad',
+      note: 'مدرن با وزن‌های متنوع',
+      files: [['400', 'Estedad-Regular.woff2'], ['500', 'Estedad-Medium.woff2'], ['700', 'Estedad-Bold.woff2']] },
+
+    { id: 'noto', name: 'نوتو سنس عربی', css: 'FaExtFontNoto',
+      note: 'خنثی، رسمی و همه‌منظوره',
+      files: [['100 900', 'NotoSansArabic-Regular.woff2']] },
+
+    { id: 'plex', name: 'آی‌بی‌ام پلکس', css: 'FaExtFontPlex',
+      note: 'دقیق و شرکتی',
+      files: [['400', 'IBMPlexSansArabic-Regular.woff2'], ['500', 'IBMPlexSansArabic-Medium.woff2'], ['700', 'IBMPlexSansArabic-Bold.woff2']] },
+
+    { id: 'cairo', name: 'قاهره', css: 'FaExtFontCairo',
+      note: 'هندسی و امروزی',
+      files: [['100 900', 'Cairo-Regular.woff2']] }
+  ];
+
+  const FONT_IDS = FONTS.map(f => f.id);
+  const DEFAULT_FONT_ID = 'vazirmatn';
+
+  /* ── پروفایل‌های آماده (نسخه ۲.۰.۰) ──────────────────────────────────────
+     هر پروفایل چند تنظیم مرتبط را با هم عوض می‌کند تا کاربر با یک کلیک به
+     ظاهر دلخواهش برسد. */
+  const PRESETS = [
+    { id: 'readable', name: 'خوانا', desc: 'خط بازتر برای مطالعه‌ی طولانی',
+      values: { scale: 100, lineHeight: 170, letterSpacing: 0, spacing: true,  fontWeight: 'auto' } },
+    { id: 'compact',  name: 'فشرده', desc: 'جای بیشتر روی صفحه',
+      values: { scale: 90,  lineHeight: 120, letterSpacing: 0, spacing: false, fontWeight: 'auto' } },
+    { id: 'large',    name: 'درشت',  desc: 'فونت بزرگ‌تر و ضخیم‌تر',
+      values: { scale: 115, lineHeight: 0,   letterSpacing: 0, spacing: true,  fontWeight: 'bold' } },
+    { id: 'elegant',  name: 'شیک',   desc: 'فاصله‌ی خط و حروف متعادل',
+      values: { scale: 100, lineHeight: 155, letterSpacing: 1, spacing: true,  fontWeight: 'normal' } }
+  ];
+
+  function getFont(id) {
+    for (let i = 0; i < FONTS.length; i++) if (FONTS[i].id === id) return FONTS[i];
+    for (let i = 0; i < FONTS.length; i++) if (FONTS[i].id === DEFAULT_FONT_ID) return FONTS[i];
+    return FONTS[0];
+  }
+
   /* تنظیمات پیش‌فرض سراسری — منبع واحد برای همه‌ی فایل‌ها */
   const DEFAULTS = {
     faEnabled:         true,   // کلید اصلی فعال‌بودن افزونه (سراسری)
     faFontEnabled:     true,   // اعمال فونت فارسی به‌صورت پیش‌فرض روی همه سایت‌ها
     faRtlDefault:      false,  // راست‌چین به‌صورت پیش‌فرض روی همه سایت‌ها خاموش
     faFontScale:       100,    // مقیاس پایه‌ی فونت فارسی (۷۵ تا ۱۱۵) — مبنا از نسخه ۲.۰.۰ به ۱۰۰ منتقل شد؛ ۱۰۰ = همان اندازه‌ی قبلی (۱۱۵٪ نسخه ۱.x)
+    faFontFamily:      DEFAULT_FONT_ID, // شناسه‌ی فونت انتخاب‌شده (نگاه کنید به FONTS)
+    faFontWeight:      'auto', // auto | light | normal | bold — ضخامت فونت فارسی
+    faLineHeight:      0,      // ۰ = خاموش؛ در غیر این صورت ×۱۰۰ (مثلاً ۱۶۰ = ۱٫۶)
+    faLetterSpacing:   0,      // ۰ = خاموش؛ در غیر این صورت ×۰٫۰۱em (مثلاً ۳ = ۰٫۰۳em)
+    faNormalizeYK:     false,  // تبدیل «ي/ك» عربی به «ی/ک» فارسی
+    faWhitelistMode:   false,  // حالت لیست سفید: فقط سایت‌هایی که دستی فعال شده‌اند
+    faAutoBackup:      true,   // پشتیبان‌گیری خودکار از تنظیمات در حافظه‌ی محلی
     faDigitConvert:    true,   // تبدیل ارقام لاتین به فارسی داخل متن فارسی
     faTypography:      false,  // اصلاح نیم‌فاصله/نشانه‌گذاری فارسی
     faSpacingEnabled:  true,   // اصلاح محافظه‌کارانه‌ی فاصله‌ی خط و کلمه
@@ -95,7 +164,9 @@
     faTheme:           'auto', // پوسته‌ی پنل: auto | light | dark
     faExcludeSelectors: [],    // سلکتورهای CSS که هرگز نباید لمس شوند
     /* override اختصاصی هر دامنه:
-       { "example.com": { enabled?, font?, rtl?, scale?, digit?, typography?, spacing? } }
+       { "example.com": { enabled?, font?, rtl?, scale?, digit?, typography?,
+                          spacing?, fontFamily?, fontWeight?, lineHeight?,
+                          letterSpacing?, normalizeYK? } }
        هر کلیدی که undefined باشد از تنظیمات سراسری ارث می‌برد. */
     faSiteOverrides:   {}
   };
@@ -162,15 +233,26 @@
     const ov = findOverride(s.faSiteOverrides, hostLc) || {};
     const rec = findRecommended(hostLc) || {};
 
+    let enabled = !hardExcluded && pick(ov.enabled, pick(rec.enabled, s.faEnabled));
+    /* حالت لیست سفید: افزونه فقط روی سایت‌هایی کار می‌کند که کاربر دستی
+       برایشان enabled:true ثبت کرده باشد. */
+    if (!hardExcluded && s.faWhitelistMode && ov.enabled !== true) enabled = false;
+
     return {
       hardExcluded,
-      enabled:    !hardExcluded && pick(ov.enabled, pick(rec.enabled, s.faEnabled)),
-      font:       pick(ov.font,       pick(rec.font,       s.faFontEnabled)),
-      rtl:        pick(ov.rtl,        pick(rec.rtl,        s.faRtlDefault)),
-      scale:      pick(ov.scale,      pick(rec.scale,      s.faFontScale)),
-      digit:      pick(ov.digit,      pick(rec.digit,      s.faDigitConvert)),
-      typography: pick(ov.typography, pick(rec.typography, s.faTypography)),
-      spacing:    pick(ov.spacing,    pick(rec.spacing,    s.faSpacingEnabled)),
+      enabled,
+      font:          pick(ov.font,          pick(rec.font,          s.faFontEnabled)),
+      rtl:           pick(ov.rtl,           pick(rec.rtl,           s.faRtlDefault)),
+      scale:         pick(ov.scale,         pick(rec.scale,         s.faFontScale)),
+      fontFamily:    pick(ov.fontFamily,    pick(rec.fontFamily,    s.faFontFamily)),
+      fontWeight:    pick(ov.fontWeight,    pick(rec.fontWeight,    s.faFontWeight)),
+      lineHeight:    pick(ov.lineHeight,    pick(rec.lineHeight,    s.faLineHeight)),
+      letterSpacing: pick(ov.letterSpacing, pick(rec.letterSpacing, s.faLetterSpacing)),
+      normalizeYK:   pick(ov.normalizeYK,   pick(rec.normalizeYK,   s.faNormalizeYK)),
+      digit:         pick(ov.digit,         pick(rec.digit,         s.faDigitConvert)),
+      typography:    pick(ov.typography,    pick(rec.typography,    s.faTypography)),
+      spacing:       pick(ov.spacing,       pick(rec.spacing,       s.faSpacingEnabled)),
+      whitelistMode: !!s.faWhitelistMode,
       hasOverride: !!Object.keys(ov).length,
       isRecommended: !Object.keys(ov).length && !!Object.keys(rec).length
     };
@@ -180,6 +262,11 @@
     EXCLUDED_TLDS,
     EXCLUDED_DOMAINS,
     RECOMMENDED_SITE_DEFAULTS,
+    FONTS,
+    FONT_IDS,
+    DEFAULT_FONT_ID,
+    PRESETS,
+    getFont,
     DEFAULTS,
     isHardExcluded,
     hostMatchesDomain,

@@ -1,0 +1,57 @@
+/* ─────────────────────────────────────────────────────────────────────────
+ * فا | فونت‌های همراه افزونه (نسخه ۲.۰.۰)
+ *
+ * این فایل هم توسط پاپ‌آپ و هم صفحه‌ی تنظیمات بارگذاری می‌شود تا:
+ *   ۱. خودِ رابط کاربری پنل‌ها با وزیرمتن رندر شود؛
+ *   ۲. باکس «پیش‌نمایش زنده» بتواند هر کدام از فونت‌های زیر را نشان دهد.
+ *
+ * همه‌ی فونت‌ها آفلاین و همراه بسته عرضه می‌شوند و تحت مجوز OFL هستند:
+ *   وزیرمتن، ساحل، صمیم، شبنم، استعداد (صابر راستی‌کردار / امین عابدی)
+ *   نوتو سنس عربی، آی‌بی‌ام پلکس سنس عربی، قاهره (Google Fonts)
+ *
+ * نکته: unicode-range محدود به بازه‌های فارسی/عربی است؛ بنابراین حتی اگر
+ * این فونت روی عنصری اعمال شود، کاراکترهای لاتین با فونت خود سایت رندر می‌شوند.
+ * ───────────────────────────────────────────────────────────────────────── */
+
+/* ── وزیرمتن / Vazirmatn ── */
+@font-face { font-family:'FaExtFontVazirmatn'; src:url('fonts/Vazirmatn-Regular.woff2') format('woff2'); font-weight:400; font-display:swap; unicode-range:U+0600-06FF,U+0750-077F,U+FB50-FDFF,U+FE70-FEFF; }
+@font-face { font-family:'FaExtFontVazirmatn'; src:url('fonts/Vazirmatn-Medium.woff2')  format('woff2'); font-weight:500; font-display:swap; unicode-range:U+0600-06FF,U+0750-077F,U+FB50-FDFF,U+FE70-FEFF; }
+@font-face { font-family:'FaExtFontVazirmatn'; src:url('fonts/Vazirmatn-Bold.woff2')    format('woff2'); font-weight:700; font-display:swap; unicode-range:U+0600-06FF,U+0750-077F,U+FB50-FDFF,U+FE70-FEFF; }
+
+/* ── ساحل / Sahel ── */
+@font-face { font-family:'FaExtFontSahel'; src:url('fonts/Sahel-Regular.woff2')  format('woff2'); font-weight:400; font-display:swap; unicode-range:U+0600-06FF,U+0750-077F,U+FB50-FDFF,U+FE70-FEFF; }
+@font-face { font-family:'FaExtFontSahel'; src:url('fonts/Sahel-Medium.woff2')   format('woff2'); font-weight:500; font-display:swap; unicode-range:U+0600-06FF,U+0750-077F,U+FB50-FDFF,U+FE70-FEFF; }
+@font-face { font-family:'FaExtFontSahel'; src:url('fonts/Sahel-Bold.woff2')     format('woff2'); font-weight:700; font-display:swap; unicode-range:U+0600-06FF,U+0750-077F,U+FB50-FDFF,U+FE70-FEFF; }
+
+/* ── صمیم / Samim ── */
+@font-face { font-family:'FaExtFontSamim'; src:url('fonts/Samim-Regular.woff2')  format('woff2'); font-weight:400; font-display:swap; unicode-range:U+0600-06FF,U+0750-077F,U+FB50-FDFF,U+FE70-FEFF; }
+@font-face { font-family:'FaExtFontSamim'; src:url('fonts/Samim-Medium.woff2')   format('woff2'); font-weight:500; font-display:swap; unicode-range:U+0600-06FF,U+0750-077F,U+FB50-FDFF,U+FE70-FEFF; }
+@font-face { font-family:'FaExtFontSamim'; src:url('fonts/Samim-Bold.woff2')     format('woff2'); font-weight:700; font-display:swap; unicode-range:U+0600-06FF,U+0750-077F,U+FB50-FDFF,U+FE70-FEFF; }
+
+/* ── شبنم / Shabnam ── */
+@font-face { font-family:'FaExtFontShabnam'; src:url('fonts/Shabnam-Regular.woff2') format('woff2'); font-weight:400; font-display:swap; unicode-range:U+0600-06FF,U+0750-077F,U+FB50-FDFF,U+FE70-FEFF; }
+@font-face { font-family:'FaExtFontShabnam'; src:url('fonts/Shabnam-Medium.woff2')  format('woff2'); font-weight:500; font-display:swap; unicode-range:U+0600-06FF,U+0750-077F,U+FB50-FDFF,U+FE70-FEFF; }
+@font-face { font-family:'FaExtFontShabnam'; src:url('fonts/Shabnam-Bold.woff2')    format('woff2'); font-weight:700; font-display:swap; unicode-range:U+0600-06FF,U+0750-077F,U+FB50-FDFF,U+FE70-FEFF; }
+
+/* ── استعداد / Estedad ── */
+@font-face { font-family:'FaExtFontEstedad'; src:url('fonts/Estedad-Regular.woff2') format('woff2'); font-weight:400; font-display:swap; unicode-range:U+0600-06FF,U+0750-077F,U+FB50-FDFF,U+FE70-FEFF; }
+@font-face { font-family:'FaExtFontEstedad'; src:url('fonts/Estedad-Medium.woff2')  format('woff2'); font-weight:500; font-display:swap; unicode-range:U+0600-06FF,U+0750-077F,U+FB50-FDFF,U+FE70-FEFF; }
+@font-face { font-family:'FaExtFontEstedad'; src:url('fonts/Estedad-Bold.woff2')    format('woff2'); font-weight:700; font-display:swap; unicode-range:U+0600-06FF,U+0750-077F,U+FB50-FDFF,U+FE70-FEFF; }
+
+/* ── نوتو سنس عربی / Noto Sans Arabic (فونت متغیر) ── */
+@font-face { font-family:'FaExtFontNoto'; src:url('fonts/NotoSansArabic-Regular.woff2') format('woff2'); font-weight:100 900; font-display:swap; unicode-range:U+0600-06FF,U+0750-077F,U+FB50-FDFF,U+FE70-FEFF; }
+
+/* ── آی‌بی‌ام پلکس سنس عربی / IBM Plex Sans Arabic ── */
+@font-face { font-family:'FaExtFontPlex'; src:url('fonts/IBMPlexSansArabic-Regular.woff2') format('woff2'); font-weight:400; font-display:swap; unicode-range:U+0600-06FF,U+0750-077F,U+FB50-FDFF,U+FE70-FEFF; }
+@font-face { font-family:'FaExtFontPlex'; src:url('fonts/IBMPlexSansArabic-Medium.woff2')  format('woff2'); font-weight:500; font-display:swap; unicode-range:U+0600-06FF,U+0750-077F,U+FB50-FDFF,U+FE70-FEFF; }
+@font-face { font-family:'FaExtFontPlex'; src:url('fonts/IBMPlexSansArabic-Bold.woff2')    format('woff2'); font-weight:700; font-display:swap; unicode-range:U+0600-06FF,U+0750-077F,U+FB50-FDFF,U+FE70-FEFF; }
+
+/* ── قاهره / Cairo (فونت متغیر) ── */
+@font-face { font-family:'FaExtFontCairo'; src:url('fonts/Cairo-Regular.woff2') format('woff2'); font-weight:100 900; font-display:swap; unicode-range:U+0600-06FF,U+0750-077F,U+FB50-FDFF,U+FE70-FEFF; }
+
+/* فونت پایه‌ی خودِ رابط کاربری پنل‌ها — پوشش کامل (لاتین + فارسی)،
+   چون متن رابط کاربری فقط فارسی نیست (دامنه‌ها، نسخه، نمونه‌ی انگلیسی). */
+@font-face { font-family:'FaExtPanel'; src:url('fonts/Vazirmatn-Regular.woff2') format('woff2'); font-weight:400; font-display:swap; }
+@font-face { font-family:'FaExtPanel'; src:url('fonts/Vazirmatn-Medium.woff2')  format('woff2'); font-weight:500; font-display:swap; }
+@font-face { font-family:'FaExtPanel'; src:url('fonts/Vazirmatn-Bold.woff2')    format('woff2'); font-weight:700; font-display:swap; }
+body { font-family:'FaExtPanel', Tahoma, sans-serif; }

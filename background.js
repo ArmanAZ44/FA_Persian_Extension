@@ -218,7 +218,27 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
   }
 });
 
+/* ── پشتیبان‌گیری خودکار (نسخه ۲.۰.۰) ────────────────────────────────────
+   تنظیمات در storage.sync نگه‌داری می‌شوند و خودِ مرورگر آن‌ها را بین
+   دستگاه‌های کاربر هم‌گام می‌کند. علاوه بر آن، هر بار تنظیمات تغییر کند یک
+   عکس فوری در storage.local ذخیره می‌شود تا کاربر بتواند در صورت خراب‌شدن
+   تنظیمات، به آخرین نسخه‌ی سالم برگردد. با debounce نوشته می‌شود تا در
+   تغییرات پشت‌سرهم، نوشتن مکرر رخ ندهد. */
+let autoBackupTimer = null;
+function scheduleAutoBackup() {
+  if (autoBackupTimer) clearTimeout(autoBackupTimer);
+  autoBackupTimer = setTimeout(async () => {
+    autoBackupTimer = null;
+    try {
+      const s = await getSettings();
+      if (s.faAutoBackup === false) return;
+      chrome.storage.local.set({ faAutoBackup: { savedAt: Date.now(), settings: s } });
+    } catch (e) {}
+  }, 1500);
+}
+
 chrome.storage.onChanged.addListener(async () => {
+  scheduleAutoBackup();
   try {
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
     if (tab && tab.url) await updateBadgeForTab(tab.id, tab.url);
