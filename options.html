@@ -11,16 +11,31 @@
     <div class="topbar">
       <img class="logo" src="icons/icon48.png" alt="فا">
       <div>
-        <h1>تنظیمات افزونه فا</h1>
-        <p>راست‌چین‌ساز و فونت فارسی حرفه‌ای — نسخه ۲٫۰٫۰</p>
+        <div class="title-row">
+          <h1>تنظیمات افزونه فا</h1>
+          <span class="ver">v2.0.0</span>
+        </div>
+        <p>راست‌چین‌ساز و فونت فارسی حرفه‌ای</p>
       </div>
     </div>
 
     <div class="tabs">
-      <button class="tab-btn active" data-tab="general">عمومی</button>
-      <button class="tab-btn" data-tab="sites">سایت‌ها</button>
-      <button class="tab-btn" data-tab="advanced">پیشرفته</button>
-      <button class="tab-btn" data-tab="backup">پشتیبان‌گیری</button>
+      <button class="tab-btn active" data-tab="general">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 21v-7M5 10V3M12 21v-9M12 8V3M19 21v-5M19 12V3"/><path d="M3 14h4M10 12h4M17 16h4"/></svg>
+        عمومی
+      </button>
+      <button class="tab-btn" data-tab="sites">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.5 2.4 3.8 5.4 3.8 9S14.5 18.6 12 21c-2.5-2.4-3.8-5.4-3.8-9S9.5 5.4 12 3z"/></svg>
+        سایت‌ها
+      </button>
+      <button class="tab-btn" data-tab="advanced">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.5v2.4M12 19.1v2.4M4.2 7.1l2 1.2M17.8 15.7l2 1.2M4.2 16.9l2-1.2M17.8 8.3l2-1.2"/></svg>
+        پیشرفته
+      </button>
+      <button class="tab-btn" data-tab="backup">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3v12"/><path d="M7 11l5 5 5-5"/><path d="M4 20h16"/></svg>
+        پشتیبان‌گیری
+      </button>
     </div>
 
     <!-- عمومی -->
@@ -45,6 +60,7 @@
         <div class="scale-row">
           <div class="scale-head"><span class="label">اندازه پایه فونت فارسی</span><span class="val" id="scaleValue">۱۰۰٪</span></div>
           <input type="range" id="scaleRange" min="75" max="115" step="1" value="100">
+          <div class="scale-foot"><span>کوچک‌تر</span><span>بزرگ‌تر</span></div>
         </div>
       </div>
 

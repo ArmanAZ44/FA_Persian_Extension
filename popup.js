@@ -20,6 +20,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   const faDigits = (n) => String(n).replace(/[0-9]/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
 
+  /* رنگ‌آمیزی مسیر اسلایدر تا محل دستگیره (فقط ظاهری) */
+  function paintRange() {
+    const min = Number(scaleRange.min), max = Number(scaleRange.max);
+    const v = Number(scaleRange.value);
+    const pct = max > min ? ((v - min) / (max - min)) * 100 : 50;
+    scaleRange.style.setProperty('--fill', pct + '%');
+  }
+
   function getSettings() {
     return new Promise((resolve) =>
       chrome.storage.sync.get(Object.keys(DEF), (res) => resolve({ ...DEF, ...res })));
@@ -78,6 +86,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     digitT.checked   = eff.digit;
     scaleRange.value = eff.scale;
     scaleValue.textContent = faDigits(eff.scale) + '٪';
+    paintRange();
 
     // وقتی افزونه در این سایت خاموش است، بقیه‌ی کنترل‌ها معنا ندارند
     const off = !eff.enabled;
@@ -103,7 +112,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   rtlT.addEventListener('change',     async () => { await setSiteKey('rtl',     rtlT.checked);     refreshUI(); });
   digitT.addEventListener('change',   async () => { await setSiteKey('digit',   digitT.checked);   refreshUI(); });
 
-  scaleRange.addEventListener('input', () => { scaleValue.textContent = faDigits(scaleRange.value) + '٪'; });
+  scaleRange.addEventListener('input', () => { scaleValue.textContent = faDigits(scaleRange.value) + '٪'; paintRange(); });
   scaleRange.addEventListener('change', async () => { await setSiteKey('scale', parseInt(scaleRange.value, 10)); refreshUI(); });
 
   resetSiteBtn.addEventListener('click', async () => {

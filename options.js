@@ -72,9 +72,17 @@ document.addEventListener('DOMContentLoaded', async () => {
   bindToggle(hoverDictToggle, 'faHoverDictEnabled');
 
   /* ── مقیاس ── */
+  /* رنگ‌آمیزی مسیر اسلایدر تا محل دستگیره (فقط ظاهری) */
+  function paintRange() {
+    const min = Number(scaleRange.min), max = Number(scaleRange.max);
+    const v = Number(scaleRange.value);
+    const pct = max > min ? ((v - min) / (max - min)) * 100 : 50;
+    scaleRange.style.setProperty('--fill', pct + '%');
+  }
   scaleRange.value = state.faFontScale;
   scaleValue.textContent = faDigits(state.faFontScale) + '٪';
-  scaleRange.addEventListener('input', () => { scaleValue.textContent = faDigits(scaleRange.value) + '٪'; });
+  paintRange();
+  scaleRange.addEventListener('input', () => { scaleValue.textContent = faDigits(scaleRange.value) + '٪'; paintRange(); });
   scaleRange.addEventListener('change', async () => { state.faFontScale = parseInt(scaleRange.value, 10); await saveSettings({ faFontScale: state.faFontScale }); showToast('مقیاس فونت ذخیره شد'); });
 
   /* ── فهرست override سایت‌ها ── */
@@ -189,6 +197,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     hoverDictToggle.checked = !!state.faHoverDictEnabled;
     scaleRange.value = state.faFontScale;
     scaleValue.textContent = faDigits(state.faFontScale) + '٪';
+    paintRange();
     selectorsArea.value = (state.faExcludeSelectors || []).join('\n');
     renderTheme(); renderSites(); renderStats();
   }

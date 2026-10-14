@@ -9,8 +9,11 @@
 <body>
   <div class="header">
     <img class="logo" src="icons/icon48.png" alt="فا">
-    <div>
-      <div class="title">افزونه فا</div>
+    <div class="header-text">
+      <div class="title-row">
+        <span class="title">افزونه فا</span>
+        <span class="ver">v2.0.0</span>
+      </div>
       <div class="subtitle">راست‌چین و فونت فارسی</div>
     </div>
   </div>
@@ -33,33 +36,45 @@
 
     <div class="card">
       <div class="row">
-        <div>
-          <div class="label">فعال بودن افزونه در این سایت</div>
-          <div class="hint">خاموش کنید تا این سایت کاملاً دست‌نخورده بماند</div>
+        <div class="row-main">
+          <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3v9"/><path d="M6.6 6.6a8 8 0 1 0 10.8 0"/></svg></span>
+          <div>
+            <div class="label">فعال بودن افزونه در این سایت</div>
+            <div class="hint">خاموش کنید تا این سایت کاملاً دست‌نخورده بماند</div>
+          </div>
         </div>
         <label class="switch"><input type="checkbox" id="enabledToggle"><span class="slider"></span></label>
       </div>
 
       <div class="row">
-        <div>
-          <div class="label">فونت فارسی + اندازه هوشمند</div>
-          <div class="hint">فقط روی متن فارسی؛ متن انگلیسی تغییری نمی‌کند</div>
+        <div class="row-main">
+          <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7V5h16v2"/><path d="M12 5v14"/><path d="M9 19h6"/></svg></span>
+          <div>
+            <div class="label">فونت فارسی + اندازه هوشمند</div>
+            <div class="hint">فقط روی متن فارسی؛ متن انگلیسی تغییری نمی‌کند</div>
+          </div>
         </div>
         <label class="switch"><input type="checkbox" id="fontToggle"><span class="slider"></span></label>
       </div>
 
       <div class="row highlight">
-        <div>
-          <div class="label">راست‌چین کردن این سایت</div>
-          <div class="hint">به‌صورت پیش‌فرض خاموش — برای هر سایت جداگانه روشن کنید</div>
+        <div class="row-main">
+          <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 6H4"/><path d="M20 12h-9"/><path d="M20 18H4"/></svg></span>
+          <div>
+            <div class="label">راست‌چین کردن این سایت</div>
+            <div class="hint">به‌صورت پیش‌فرض خاموش — برای هر سایت جداگانه روشن کنید</div>
+          </div>
         </div>
         <label class="switch"><input type="checkbox" id="rtlToggle"><span class="slider"></span></label>
       </div>
 
       <div class="row">
-        <div>
-          <div class="label">ارقام فارسی</div>
-          <div class="hint">تبدیل ۰۱۲۳ به ۰۱۲۳ داخل متن فارسی</div>
+        <div class="row-main">
+          <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 9h16"/><path d="M4 15h16"/><path d="M10 3 8 21"/><path d="M16 3l-2 18"/></svg></span>
+          <div>
+            <div class="label">ارقام فارسی</div>
+            <div class="hint">تبدیل ۰۱۲۳ به ۰۱۲۳ داخل متن فارسی</div>
+          </div>
         </div>
         <label class="switch"><input type="checkbox" id="digitToggle"><span class="slider"></span></label>
       </div>
@@ -70,6 +85,7 @@
           <span class="val" id="scaleValue">۱۰۰٪</span>
         </div>
         <input type="range" id="scaleRange" min="75" max="115" step="1" value="100">
+        <div class="scale-foot"><span>کوچک‌تر</span><span>بزرگ‌تر</span></div>
       </div>
     </div>
 

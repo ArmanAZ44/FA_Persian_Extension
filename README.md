@@ -1,107 +1,213 @@
 <div align="center">
 
+<img src="./icons/icon128.png" alt="افزونه فا" width="96">
+
 # فا | راست‌چین‌ساز و فونت فارسی
 ### FA | Persian Font & RTL Extension
 
-افزونه‌ی چندمرورگری (Manifest V3) برای اعمال فونت فارسی **وزیرمتن**، اندازه‌ی هوشمند، و راست‌چینِ اختیاریِ هر سایت روی متن صفحات وب.
+افزونه‌ی چندمرورگری برای اعمال **فونت فارسی وزیرمتن**، **اندازه‌ی هوشمند** و **راست‌چینِ اختیاریِ هر سایت** روی متن صفحات وب — بدون این‌که متن انگلیسی سایت تغییر کند.
 
-A cross‑browser Manifest V3 extension that applies the **Vazirmatn** Persian font, smart per‑element sizing, and optional per‑site RTL to web page text.
-
-**کروم / Chrome · اج / Edge · اپرا / Opera · فایرفاکس / Firefox**
-
-[![GitHub](https://img.shields.io/badge/GitHub-ArmanAZ44-0a0a0a?logo=github)](https://github.com/ArmanAZ44/FA_Persian_Extension)
-[![Telegram](https://img.shields.io/badge/Telegram-ArmanAZPC-229ED9?logo=telegram&logoColor=white)](https://t.me/ArmanAZPC)
-![Version](https://img.shields.io/badge/version-2.0.0-1DBF73)
+[![Version](https://img.shields.io/badge/version-2.0.0-1DBF73?style=flat-square)](https://github.com/ArmanAZ44/FA_Persian_Extension/releases)
+[![Manifest](https://img.shields.io/badge/manifest-v3-blue?style=flat-square)](#)
+[![Browsers](https://img.shields.io/badge/browsers-Chrome%20%C2%B7%20Edge%20%C2%B7%20Opera%20%C2%B7%20Firefox-555?style=flat-square)](#-نصب--install)
+[![GitHub](https://img.shields.io/badge/GitHub-ArmanAZ44-0a0a0a?style=flat-square&logo=github)](https://github.com/ArmanAZ44/FA_Persian_Extension)
+[![Telegram](https://img.shields.io/badge/Telegram-ArmanAZPC-229ED9?style=flat-square&logo=telegram&logoColor=white)](https://t.me/ArmanAZPC)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square)](#-مشارکت--contributing)
 
 </div>
 
+---
+
+<div align="center">
+
 ### 🖼️ پیش‌نمایش / Preview
 
-<p align="center">
-  <img src="./assets/preview-popup.png" alt="پاپ‌آپ افزونه فا" width="330">
-  &nbsp;&nbsp;
-  <img src="./assets/preview-options.png" alt="صفحه‌ی تنظیمات پیشرفته افزونه فا" width="520">
-</p>
-<p align="center">
-  <img src="./assets/preview-options-advanced.png" alt="تب پیشرفته‌ی تنظیمات افزونه فا" width="520">
-</p>
+<img src="./assets/preview-popup.png" alt="پاپ‌آپ افزونه فا" width="300">
+&nbsp;&nbsp;
+<img src="./assets/preview-options.png" alt="تنظیمات پیشرفته — تب عمومی" width="470">
+
+<br><br>
+
+<img src="./assets/preview-options-advanced.png" alt="تنظیمات پیشرفته — تب پیشرفته" width="470">
+
+</div>
 
 ---
 
-## 🇮🇷 فارسی
+## 📑 فهرست / Table of Contents
 
-### ✨ ویژگی‌ها
-- **فونت فارسی هوشمند:** فونت وزیرمتن فقط روی بخش‌های فارسیِ متن اعمال می‌شود؛ **متن انگلیسی سایت هرگز تغییر نمی‌کند.**
-- **اندازه‌ی هوشمند:** اندازه‌ی فونت فارسی بر اساس نوع عنصر (تیتر، پاراگراف، دکمه و …) تنظیم می‌شود تا هماهنگ دیده شود.
-- **راست‌چین هر سایت:** راست‌چین به‌صورت پیش‌فرض خاموش است و برای هر سایت جداگانه از پاپ‌آپ روشن می‌شود.
-- **حین تایپ:** فونت و راست‌چین در فیلدهای فرم و ویرایشگرهای متنی (contenteditable) هم اعمال می‌شود (ویرایشگرهای کد استثنا هستند).
-- **دیکشنری هاور:** کلید `Alt` را نگه دارید و روی هر کلمه‌ی انگلیسی صفحه بروید تا معنی فارسی سریع آن نمایش داده شود؛ کاملاً آفلاین، بدون هیچ درخواست اینترنتی.
-- **تنظیمات اختصاصی هر دامنه، ارقام فارسی، اصلاح فاصله‌ها، تایپوگرافی و ترجمه‌ی سریع.**
-- دامنه‌های `.ir` و همچنین فهرستی گسترده از سایت‌های شناخته‌شده‌ی ایرانی/فارسی‌زبان با دامنه‌ی غیر `.ir` (بیش از ۶۰ هزار دامنه) به‌طور خودکار مستثنا هستند.
-- **حالت سازگاری اختصاصی با ChatGPT (با رندر تدریجی):** روی `chatgpt.com` و `chat.openai.com` افزونه به‌جای موتور عمومی، از یک مسیر کاملاً غیرتهاجمی و فقط-CSS استفاده می‌کند.
-- **حالت سازگاری اختصاصی با Kick.com:** پردازش تا اتمام کامل لود صفحه به تعویق می‌افتد و فقط عناصر واقعاً مرئی لمس می‌شوند.
-- **حالت سازگاری اختصاصی با YouTube (جدید در ۲٫۰٫۰):** روی یوتیوب هیچ ساختاری از DOM تغییر نمی‌کند؛ فونت فارسی به‌صورت پیشوند به فونت خودِ عنصر اضافه می‌شود و راست‌چین فقط روی عنصر متن اعمال می‌شود.
-
-### 🆕 تغییرات نسخه‌ی ۲٫۰٫۰
-- **رفع باگ انباشتگی عنوان ویدیوهای YouTube:** پیش‌تر موتور عمومی افزونه متن‌ها را با `segmentTextNode` به `<span>` های جدا تجزیه می‌کرد. یوتیوب یک اپلیکیشن Polymer/ytd است و متن‌ها را با کامپوننت‌های سفارشی (مثل `yt-formatted-string`) رندر می‌کند؛ تغییر ساختار DOM با رندر مجدد این کامپوننت‌ها تداخل داشت و باعث می‌شد **عنوان ویدیوها بعد از چند ناوبری پاک نشوند و روی هم انباشته شوند** تا وقتی صفحه رفرش شود. حالا یک «حالت سازگاری مخصوص YouTube» اضافه شده که:
-  - هیچ گره‌ی متنی را نمی‌شکند و هیچ عنصر جدیدی نمی‌سازد (امکان انباشتگی صفر).
-  - فونت فارسی را به‌صورت **پیشوند** به `font-family` خودِ عنصر اضافه می‌کند؛ چون `@font-face` وزیرمتن `unicode-range` دارد، متن انگلیسی دقیقاً با فونت اصلی سایت رندر می‌ماند.
-  - راست‌چین را فقط روی نزدیک‌ترین بلوکِ متنیِ فارسی‌غالب (نه کانتینرهای ساختاری grid/flex) اعمال می‌کند.
-  - ناوبری داخلی یوتیوب (`yt-navigate-finish` و `pushState/replaceState`) را با اسکن سبک و debounce‌شده پوشش می‌دهد.
-- **پشتیبانی چندمرورگری:** یک منبع مشترک و دو مانیفست جداگانه:
-  - کروم / اج / اپرا → `manifest.json` (با `background.service_worker`)
-  - فایرفاکس → `manifest.firefox.json` (با `background.scripts`)
-  - اسکریپت `build.js` هر دو بسته‌ی آماده‌ی نصب را می‌سازد.
-- **رفع باگ ناهماهنگی نشان (badge) و منوی راست‌کلیک:** پیش‌تر اسکریپت پس‌زمینه فهرست کامل دامنه‌های مستثنا (`excluded-domains-data.js`) را بارگذاری نمی‌کرد و برای هزاران سایت فارسی‌زبانِ غیر `.ir` وضعیت اشتباه («فعال») نشان می‌داد؛ حالا این فهرست در پس‌زمینه **و در پاپ‌آپ/تنظیمات** هم بارگذاری می‌شود.
-- **استانداردسازی مقیاس فونت (مبنا ۱۰۰):** عدد «اندازه‌ی پایه‌ی فونت فارسی» از مبنای ۱۱۵ به مبنای استاندارد ۱۰۰ منتقل شد؛ **اندازه‌ی رندرشده هیچ تغییری نکرده** و پیش‌فرض ۱۰۰ دقیقاً همان ۱۱۵٪ قبلی است. بازه‌ی اسلایدر هم به ۷۵–۱۱۵ تغییر کرد تا محدوده‌ی مؤثر (≈۸۵٪ تا ۱۳۲٪) مثل قبل بماند. کاربرانِ ارتقا‌یافته به‌صورت خودکار و یک‌باره مهاجرت داده می‌شوند (نشان `faScaleBase`) تا فونتشان ناخواسته بزرگ‌تر نشود.
-- **پیش‌نمایش‌های تازه:** تصاویر `assets/` با اسکرین‌شات‌های واقعی و باکیفیت از پاپ‌آپ و پنل تنظیمات (تب عمومی و تب پیشرفته) جایگزین شدند.
-
-### 🆕 تغییرات نسخه‌ی ۱٫۳٫۳
-- **پشتیبانی رسمی از موزیلا فایرفاکس:** سازگاری کامل با معماری Manifest V3 فایرفاکس، اصلاح اسکریپت‌های پس‌زمینه (Event Pages)، رعایت الزامات جدید AMO برای شفافیت داده‌ها (`data_collection_permissions`) و بهینه‌سازی ظاهر اسلایدرها برای موتور Gecko.
-
-### 🆕 تغییرات نسخه‌ی ۱٫۳٫۲
-- **پیش‌فرض هوشمند برای Kick.com:** یک لایه‌ی جدید «پیش‌فرض‌های پیشنهادی هر دامنه» به هسته‌ی `exclusions.js` اضافه شد؛ Kick.com اولین عضو این فهرست است و از همان اولین بازدید راست‌چین نمایش داده می‌شود. انتخاب دستی کاربر همیشه اولویت دارد.
-
-### 🆕 تغییرات نسخه‌ی ۱٫۳٫۰
-- **رندر تدریجی (Incremental) روی ChatGPT**، **حالت سازگاری ChatGPT (پایه)**، **رفع باگ لود Kick.com**، **افزودن هزاران سایت جدید به فهرست استثناها** و **بهبود عملکرد تشخیص استثنا (Set به‌جای پیمایش خطی)**.
-
-### 🆕 تغییرات نسخه‌ی ۱٫۲٫۰
-- رفع باگ «متن ناقص می‌ماند»، رفع باگ «سایت لود نمی‌شود / ارور می‌خورد»، افزودن سایت‌های ایرانی با دامنه‌ی غیر `.ir`، و افزودن **دیکشنری هاور**.
+| بخش | Section |
+| --- | --- |
+| [✨ ویژگی‌ها](#-ویژگیها--features) | Features |
+| [🆕 تغییرات نسخه ۲.۰.۰](#-تغییرات-نسخه-۲۰۰--whats-new-in-200) | What's new in 2.0.0 |
+| [🧭 سازگاری مرورگرها](#-سازگاری-مرورگرها--browser-support) | Browser support |
+| [🚀 نصب](#-نصب--install) | Install |
+| [⌨️ میانبرها](#️-میانبرها--shortcuts) | Shortcuts |
+| [⚙️ تنظیمات](#️-تنظیمات--settings-reference) | Settings reference |
+| [🛠️ ساخت](#️-ساخت--build) | Build |
+| [📁 ساختار پروژه](#-ساختار-پروژه--project-structure) | Project structure |
+| [📜 تاریخچه تغییرات](#-تاریخچه-تغییرات--changelog) | Changelog |
+| [❓ پرسش‌های متداول](#-پرسشهای-متداول--faq) | FAQ |
+| [🤝 مشارکت](#-مشارکت--contributing) | Contributing |
 
 ---
 
-## 🚀 نصب
+## ✨ ویژگی‌ها / Features
 
-### 🌐 کروم / اج / اپرا (Chrome / Edge / Opera)
+| ویژگی | توضیح |
+| --- | --- |
+| 🔤 **فونت فارسی هوشمند** | فونت وزیرمتن فقط روی بخش‌های فارسیِ متن اعمال می‌شود؛ **متن انگلیسی سایت هرگز تغییر نمی‌کند** (به لطف `unicode-range`). |
+| 📐 **اندازه‌ی هوشمند** | اندازه‌ی فونت فارسی بر اساس نوع عنصر (تیتر، پاراگراف، دکمه، جدول و …) تنظیم می‌شود تا هماهنگ دیده شود. |
+| ↔️ **راست‌چین هر سایت** | راست‌چین پیش‌فرض خاموش است و برای هر سایت جداگانه از پاپ‌آپ روشن می‌شود. |
+| ✍️ **حین تایپ** | فونت و راست‌چین در فیلدهای فرم و ویرایشگرهای متنی (`contenteditable`) هم اعمال می‌شود — ویرایشگرهای کد استثنا هستند. |
+| 📖 **دیکشنری هاور** | کلید `Alt` را نگه دارید و روی هر کلمه‌ی انگلیسی بروید تا معنی فارسی فوری ببینید — **کاملاً آفلاین**. |
+| 🔢 **ارقام فارسی** | تبدیل خودکار ارقام لاتین به فارسی داخل متن فارسی. |
+| 🧹 **اصلاح فاصله و تایپوگرافی** | اصلاح محافظه‌کارانه‌ی فاصله‌ی خط/کلمه و افزودن نیم‌فاصله به «می‌»، «ها»، «تر». |
+| 🌐 **ترجمه‌ی سریع** | ترجمه‌ی متن انتخاب‌شده با `Alt+Shift+T`. |
+| 🚫 **بیش از ۶۰٬۰۰۰ دامنه‌ی مستثنا** | همه‌ی دامنه‌های `.ir` و فهرستی گسترده از سایت‌های فارسی‌زبانِ غیر `.ir` خودکار مستثنا می‌شوند. |
+| 🧩 **حالت‌های سازگاری اختصاصی** | مسیرهای ویژه و غیرتهاجمی برای **ChatGPT**، **Kick.com** و **YouTube**. |
+| 🎛️ **تنظیمات اختصاصی هر دامنه** | برای هر سایت به‌صورت جداگانه فونت، راست‌چین، ارقام و اندازه را تعیین کنید. |
+| 💾 **پشتیبان‌گیری JSON** | خروجی و ورودی همه‌ی تنظیمات با یک فایل. |
+
+---
+
+## 🆕 تغییرات نسخه ۲.۰.۰ / What's new in 2.0.0
+
+### 🎬 رفع باگ انباشتگی عنوان ویدیوهای YouTube
+مشکل: موتور عمومی افزونه هر گره‌ی متنی فارسی را با `segmentTextNode` به `<span>` های جدا می‌شکست. یوتیوب یک اپلیکیشن **Polymer/ytd** است و متن‌ها را با کامپوننت‌های سفارشی (مثل `yt-formatted-string`) رندر می‌کند؛ تغییر ساختار DOM با رندر مجدد این کامپوننت‌ها تداخل داشت و باعث می‌شد **عنوان ویدیوها بعد از چند ناوبری پاک نشوند و روی هم انباشته شوند** تا وقتی صفحه رفرش شود.
+
+راه‌حل — «حالت سازگاری مخصوص YouTube»:
+- هیچ گره‌ی متنی شکسته یا جایگزین نمی‌شود و هیچ عنصر جدیدی ساخته نمی‌شود → **امکان انباشتگی صفر**.
+- فونت فارسی به‌صورت **پیشوند** به `font-family` خودِ عنصر اضافه می‌شود؛ چون `@font-face` وزیرمتن `unicode-range` دارد، **متن انگلیسی دقیقاً با فونت اصلی سایت می‌ماند**.
+- راست‌چین فقط روی نزدیک‌ترین بلوکِ متنیِ فارسی‌غالب اعمال می‌شود — نه روی کانتینرهای ساختاری `grid`/`flex`.
+- ناوبری داخلی یوتیوب (`yt-navigate-finish` + `pushState`/`replaceState`) با اسکن سبک و debounce‌شده پوشش داده می‌شود.
+
+### 🌐 پشتیبانی چندمرورگری
+یک منبع مشترک و دو مانیفست جداگانه:
+
+| مرورگر | مانیفست | پس‌زمینه |
+| --- | --- | --- |
+| Chrome / Edge / Opera | `manifest.json` | `background.service_worker` |
+| Firefox | `manifest.firefox.json` | `background.scripts` |
+
+اسکریپت `build.js` هر دو بسته‌ی آماده‌ی نصب را می‌سازد (بدون هیچ وابستگی خارجی؛ ZIP با `zlib` داخلی Node).
+
+### 🎨 رابط کاربری بازطراحی‌شده
+- پاپ‌آپ و پنل تنظیمات با آیکون‌های اختصاصی هر گزینه، چیپ نسخه، اسلایدر رنگی، حالت‌های hover/focus و ظاهر شیشه‌ای تازه.
+- تب‌های تنظیمات آیکون‌دار شدند و کارت‌ها نشانگر رنگی گرفتند.
+
+### 📏 استانداردسازی مقیاس فونت (مبنا ۱۰۰)
+- عدد «اندازه‌ی پایه‌ی فونت فارسی» از مبنای ۱۱۵ به مبنای استاندارد **۱۰۰** منتقل شد؛ **اندازه‌ی رندرشده هیچ تغییری نکرده** و پیش‌فرض ۱۰۰ دقیقاً همان ۱۱۵٪ قبلی است.
+- بازه‌ی اسلایدر به `۷۵–۱۱۵` تغییر کرد تا محدوده‌ی مؤثر (≈۸۵٪ تا ۱۳۲٪) مثل قبل بماند.
+- کاربرانِ ارتقا‌یافته به‌صورت خودکار و یک‌باره مهاجرت داده می‌شوند (نشان `faScaleBase`) تا فونتشان ناخواسته بزرگ‌تر نشود.
+
+### 🐞 رفع باگ‌ها
+- **نشان (badge) و منوی راست‌کلیک:** اسکریپت پس‌زمینه فهرست کامل دامنه‌های مستثنا را بارگذاری نمی‌کرد و برای هزاران سایت وضعیت اشتباه نشان می‌داد. حالا در پس‌زمینه، پاپ‌آپ و تنظیمات بارگذاری می‌شود.
+- **پایداری بیشتر در محیط‌های Firefox MV3** و مقاوم‌سازی در برابر خطای `Extension context invalidated`.
+
+---
+
+## 🧭 سازگاری مرورگرها / Browser support
+
+| مرورگر | نسخه | وضعیت |
+| --- | --- | --- |
+| ![Chrome](https://img.shields.io/badge/-Chrome-4285F4?style=flat-square&logo=googlechrome&logoColor=white) | ۱۰۹+ | ✅ پشتیبانی کامل |
+| ![Edge](https://img.shields.io/badge/-Edge-0078D7?style=flat-square&logo=microsoftedge&logoColor=white) | ۱۰۹+ | ✅ پشتیبانی کامل |
+| ![Opera](https://img.shields.io/badge/-Opera-FF1B2D?style=flat-square&logo=opera&logoColor=white) | ۹۵+ | ✅ پشتیبانی کامل |
+| ![Firefox](https://img.shields.io/badge/-Firefox-FF7139?style=flat-square&logo=firefoxbrowser&logoColor=white) | ۱۴۰+ | ✅ پشتیبانی کامل |
+
+---
+
+## 🚀 نصب / Install
+
+### 🌐 کروم / اج / اپرا
 1. فایل `dist/FA-v2.0.0-chrome.zip` را دانلود و از حالت فشرده خارج کنید.
 2. به `chrome://extensions` (یا `edge://extensions` / `opera://extensions`) بروید.
 3. **Developer mode** را روشن کنید.
 4. روی **Load unpacked** کلیک کنید و پوشه‌ی خارج‌شده را انتخاب کنید.
 
-### 🦊 فایرفاکس (Firefox)
-**روش ۱: نصب موقت در حالت توسعه‌دهنده (پیشنهادی برای تست سریع)**
+### 🦊 فایرفاکس
+**روش ۱ — نصب موقت (پیشنهادی برای تست):**
 1. فایل `dist/FA-v2.0.0-firefox.xpi` را دانلود و از حالت فشرده خارج کنید.
-2. فایرفاکس را باز کنید و به `about:debugging#/runtime/this-firefox` بروید.
-3. روی **Load Temporary Add-on...** کلیک کنید.
-4. فایل `manifest.json` داخل پوشه‌ی خارج‌شده را انتخاب کنید.
+2. به `about:debugging#/runtime/this-firefox` بروید.
+3. روی **Load Temporary Add-on...** کلیک کنید و `manifest.json` داخل پوشه را انتخاب کنید.
 
-**روش ۲: نصب دائمی بدون امضا (Developer Edition / Nightly)**
+**روش ۲ — نصب دائمی بدون امضا (Developer Edition / Nightly):**
 1. در `about:config` مقدار `xpinstall.signatures.required` را `false` کنید.
 2. فایل `dist/FA-v2.0.0-firefox.xpi` را با Drag & Drop داخل فایرفاکس بیندازید.
-
-### ⌨️ میانبرها
-- `Alt+Shift+F` → روشن/خاموش کردن کلی افزونه
-- `Alt+Shift+S` → روشن/خاموش کردن راست‌چین در سایت جاری
-- `Alt+Shift+T` → ترجمه‌ی سریع متن انتخاب‌شده (در صورت فعال بودن)
 
 ### 🔄 به‌روزرسانی
 پس از دریافت فایل‌های جدید، در صفحه‌ی مدیریت افزونه‌ها روی دکمه‌ی **Reload** کارت افزونه کلیک کنید.
 
 ---
 
-## 🛠️ ساخت (Build)
+## ⌨️ میانبرها / Shortcuts
 
-نیازمندی: فقط **Node.js** (هیچ وابستگی خارجی ندارد؛ ZIP با `zlib` داخلی ساخته می‌شود).
+| میانبر | عملکرد |
+| --- | --- |
+| `Alt+Shift+F` | روشن/خاموش کردن کلی افزونه |
+| `Alt+Shift+S` | روشن/خاموش کردن راست‌چین در سایت جاری |
+| `Alt+Shift+T` | ترجمه‌ی سریع متن انتخاب‌شده (در صورت فعال بودن) |
+| `Alt` + هاور | نمایش معنی فارسی کلمه‌ی انگلیسی (دیکشنری هاور) |
+
+---
+
+## ⚙️ تنظیمات / Settings reference
+
+<details>
+<summary><b>پاپ‌آپ (تنظیمات هر سایت)</b></summary>
+
+| گزینه | پیش‌فرض | توضیح |
+| --- | --- | --- |
+| فعال بودن در این سایت | روشن | خاموش‌کردن = سایت کاملاً دست‌نخورده |
+| فونت فارسی + اندازه هوشمند | روشن | فقط متن فارسی |
+| راست‌چین کردن این سایت | خاموش | مخصوص همین دامنه |
+| ارقام فارسی | روشن | تبدیل ارقام داخل متن فارسی |
+| اندازه فونت فارسی | ۱۰۰ | بازه‌ی ۷۵ تا ۱۱۵ |
+</details>
+
+<details>
+<summary><b>تنظیمات پیشرفته — تب عمومی</b></summary>
+
+- فعال بودن کلی افزونه
+- فونت فارسی پیش‌فرض روی همه‌ی سایت‌ها
+- راست‌چین پیش‌فرض
+- اندازه‌ی پایه‌ی فونت فارسی
+- پوسته‌ی پنل: خودکار / روشن / تیره
+</details>
+
+<details>
+<summary><b>تنظیمات پیشرفته — تب سایت‌ها</b></summary>
+
+- آمار سایت‌های دارای تنظیم اختصاصی و سلکتورهای مستثنا
+- افزودن سریع دامنه (راست‌چین برایش روشن می‌شود)
+- حذف تنظیم اختصاصی هر سایت
+</details>
+
+<details>
+<summary><b>تنظیمات پیشرفته — تب پیشرفته</b></summary>
+
+- ارقام فارسی
+- اصلاح فاصله‌ها (`line-height` / `word-spacing`)
+- اصلاح تایپوگرافی (نیم‌فاصله و نشانه‌گذاری)
+- میانبر ترجمه‌ی سریع
+- دیکشنری هاور
+- سلکتورهای CSS مستثنا (هر سلکتور در یک خط)
+</details>
+
+<details>
+<summary><b>تنظیمات پیشرفته — تب پشتیبان‌گیری</b></summary>
+
+- خروجی گرفتن از همه‌ی تنظیمات به‌صورت JSON
+- وارد کردن تنظیمات از فایل JSON
+- بازگردانی همه به حالت پیش‌فرض
+</details>
+
+---
+
+## 🛠️ ساخت / Build
+
+نیازمندی: فقط **Node.js** — هیچ وابستگی خارجی ندارد (ZIP با `zlib` داخلی Node ساخته می‌شود).
 
 ```bash
 node build.js
@@ -111,86 +217,140 @@ node build.js
 
 ```
 dist/
-├── FA-v2.0.0-chrome.zip    ← کروم / اج / اپرا (پس از خارج‌کردن از فشرده، Load unpacked)
+├── FA-v2.0.0-chrome.zip    ← کروم / اج / اپرا
 └── FA-v2.0.0-firefox.xpi   ← فایرفاکس
 ```
 
-### 📁 ساختار مخزن
+---
+
+## 📁 ساختار پروژه / Project structure
+
 | مسیر | توضیح |
 | --- | --- |
-| `content.js` | موتور اصلی: فونت، اندازه‌ی هوشمند، راست‌چین و حالت‌های سازگاری |
-| `background.js` | منوی راست‌کلیک، میانبرها، نشان آیکون و ترجمه |
+| `content.js` | موتور اصلی: فونت، اندازه‌ی هوشمند، راست‌چین، دیکشنری هاور و حالت‌های سازگاری |
+| `background.js` | منوی راست‌کلیک، میانبرها، نشان آیکون، ترجمه و مهاجرت تنظیمات |
 | `exclusions.js` | هسته‌ی متمرکز: پیش‌فرض‌ها، استثناها و منطق تفکیک هر سایت |
 | `excluded-domains-data.js` | فهرست ۶۰٬۰۰۰+ دامنه‌ی مستثنا (فقط داده) |
-| `dictionary.js` | دیکشنری آفلاین برای ویژگی «دیکشنری هاور» |
+| `dictionary.js` | دیکشنری آفلاین برای «دیکشنری هاور» |
+| `popup.html/css/js` | پاپ‌آپ تنظیمات هر سایت |
+| `options.html/css/js` | صفحه‌ی تنظیمات پیشرفته (۴ تب) |
 | `manifest.json` | مانیفست کروم / اج / اپرا |
 | `manifest.firefox.json` | مانیفست فایرفاکس |
 | `build.js` | ساخت بسته‌های آماده‌ی نصب هر مرورگر |
+| `fonts/` | فونت وزیرمتن (Regular / Medium / Bold) |
+| `icons/` | آیکون‌های افزونه |
+| `assets/` | تصاویر پیش‌نمایش README |
 
 ---
 
-## 🇬🇧 English
+## 📜 تاریخچه تغییرات / Changelog
 
-### ✨ Features
-- **Smart Persian font:** Vazirmatn is applied only to the Persian parts of the text — the site's **English text is never changed.**
-- **Smart sizing:** Persian font size is tuned per element type for visual balance.
-- **Per‑site RTL:** off by default, enabled per website from the popup.
-- **While typing:** font and RTL also apply inside form fields and rich‑text editors — code editors are excluded.
-- **Per‑domain overrides, Persian digits, spacing fixes, typography, and quick translate.**
-- `.ir` domains plus a 60,000+ non‑`.ir` curated exclusion list are auto‑excluded.
-- **ChatGPT compatibility mode** with incremental, CSS‑only rendering.
-- **Kick.com compatibility mode** for a stable, near‑live experience.
-- **YouTube compatibility mode (new in 2.0.0):** nothing in the DOM structure is modified; the Persian font is prepended to each element's own font stack, and RTL is applied only to the text element itself.
+<details>
+<summary><b>۲.۰.۰</b> — چندمرورگری، رفع باگ YouTube و بازطراحی رابط کاربری</summary>
 
-### 🆕 What's new in 2.0.0
-- **Fixed the YouTube video‑title accumulation bug:** the general engine used to split Persian text nodes into `<span>`s. YouTube renders with Polymer/ytd custom components (e.g. `yt-formatted-string`), and mutating their DOM conflicted with re‑rendering, so **titles were not cleared between videos and stacked on top of each other** until a refresh. A dedicated YouTube compatibility mode now: never splits text nodes or creates elements (zero accumulation); prepends the Persian font to each element's own `font-family` (with `unicode-range`, English keeps the site's original font); applies RTL only to the nearest Persian‑dominant text block (never to grid/flex layout containers); and covers in‑app navigation via `yt-navigate-finish` + `pushState`/`replaceState`.
-- **Cross‑browser support:** one shared source with two manifests — `manifest.json` (Chrome/Edge/Opera, `background.service_worker`) and `manifest.firefox.json` (Firefox, `background.scripts`) — plus a `build.js` that produces ready‑to‑install packages for each.
-- **Fixed badge / context‑menu mismatch:** the background script previously did not load the full exclusion list, so thousands of Persian‑language non‑`.ir` sites showed the wrong state. The full list is now loaded in the background **and in the popup/options pages** too.
-- **Standardized font scale (base 100):** the "Persian base font size" setting moved from a 115 basis to a standard 100 basis — **the rendered size is unchanged**, and the new default of 100 is exactly the previous 115%. The slider range became 75–115 so the effective range (≈85%–132%) stays the same. Existing users are migrated automatically and once (via a `faScaleBase` marker) so their font never grows unexpectedly.
-- **New previews:** the `assets/` images were replaced with real, high‑resolution screenshots of the popup and the settings panel (general + advanced tabs).
+- رفع باگ انباشتگی عنوان ویدیوهای YouTube (حالت سازگاری مخصوص YouTube)
+- پشتیبانی Chrome / Edge / Opera / Firefox با مانیفست‌های جداگانه + `build.js`
+- بازطراحی رابط کاربری پاپ‌آپ و تنظیمات (آیکون‌ها، چیپ نسخه، اسلایدر رنگی، ظاهر شیشه‌ای)
+- استانداردسازی مقیاس فونت به مبنای ۱۰۰ با حفظ اندازه‌ی رندر + مهاجرت خودکار
+- رفع باگ نشان (badge) و منوی راست‌کلیک با بارگذاری کامل فهرست دامنه‌های مستثنا
+</details>
 
-### 🆕 What's new in 1.3.3
-- **Official Firefox release:** full Manifest V3 compatibility, event‑page background migration, AMO‑compliant `data_collection_permissions`, and Gecko‑specific slider polish.
+<details>
+<summary><b>۱.۳.۳</b> — پشتیبانی رسمی از فایرفاکس</summary>
 
-### 🆕 What's new in 1.3.2
-- **Kick.com is RTL by default** via a new "recommended site defaults" layer, and near‑live, low‑latency processing on Kick.
+- سازگاری با معماری Manifest V3 فایرفاکس و Event Pages
+- رعایت الزامات AMO (`data_collection_permissions`) و بهینه‌سازی اسلایدرها برای Gecko
+</details>
 
-### 🆕 What's new in 1.3.0
-- Incremental rendering on ChatGPT, a baseline CSS‑only ChatGPT mode, the Kick.com loading fix, 60,000+ new excluded domains, and O(depth) exclusion lookup.
+<details>
+<summary><b>۱.۳.۲</b> — پیش‌فرض هوشمند Kick.com</summary>
 
-### 🆕 What's new in 1.2.0
-- Fixed "text stays incomplete" and "site won't load / throws an error"; added non‑`.ir` Iranian sites to the exclusion list; added the Hover Dictionary.
+- لایه‌ی «پیش‌فرض‌های پیشنهادی هر دامنه» با `kick.com → { rtl: true }`
+- پردازش تقریباً زنده روی Kick (کاهش debounce از ۴۰۰ به ۶۰ میلی‌ثانیه)
+</details>
 
-### 🚀 Install
+<details>
+<summary><b>۱.۳.۰</b> — رندر تدریجی و رفع باگ Kick</summary>
 
-**Chrome / Edge / Opera:** unzip `dist/FA-v2.0.0-chrome.zip`, open `chrome://extensions`, enable Developer mode, click **Load unpacked** and pick the folder.
+- رندر تدریجی (Incremental) روی ChatGPT و حالت سازگاری پایه‌ی آن
+- رفع باگ گیرکردن Kick.com روی صفحه‌ی لودینگ
+- افزودن بیش از ۶۰٬۰۰۰ دامنه‌ی مستثنا و جست‌وجوی O(depth)
+</details>
 
-**Firefox:** unzip `dist/FA-v2.0.0-firefox.xpi`, open `about:debugging#/runtime/this-firefox`, click **Load Temporary Add-on...** and select the extracted `manifest.json` (or drag the `.xpi` into Firefox Developer Edition / Nightly with `xpinstall.signatures.required=false`).
+<details>
+<summary><b>۱.۲.۰</b> — پایداری و دیکشنری هاور</summary>
 
-### 🛠️ Build
-```bash
-node build.js
-```
-No external dependencies — the ZIP writer uses Node's built‑in `zlib`.
-
-### ⌨️ Shortcuts
-- `Alt+Shift+F` → toggle the whole extension
-- `Alt+Shift+S` → toggle RTL on the current site
-- `Alt+Shift+T` → quick‑translate the selected text (if enabled)
-
-### 🔄 Updating
-After updating the files, click the **Reload** button on the extension card in your browser's extension manager.
+- رفع باگ «متن ناقص می‌ماند» با ایزوله‌کردن پردازش هر گره
+- رفع باگ «سایت لود نمی‌شود» و مقاوم‌سازی در برابر `Extension context invalidated`
+- افزودن ویژگی دیکشنری هاور
+</details>
 
 ---
 
-## 🔗 Links / پیوندها
+## ❓ پرسش‌های متداول / FAQ
+
+<details>
+<summary><b>چرا فونت انگلیسی سایت‌ها تغییر نمی‌کند؟</b></summary>
+
+فونت وزیرمتن با `unicode-range` محدود به بازه‌های یونیکد فارسی تعریف شده؛ یعنی مرورگر فقط برای گلیف‌های فارسی از آن استفاده می‌کند و بقیه‌ی کاراکترها با فونت اصلی سایت رندر می‌شوند.
+</details>
+
+<details>
+<summary><b>چرا روی بعضی سایت‌های ایرانی هیچ تغییری نمی‌بینم؟</b></summary>
+
+دامنه‌های `.ir` و بیش از ۶۰٬۰۰۰ سایت فارسی‌زبانِ غیر `.ir` عمداً مستثنا هستند، چون از قبل فونت و راست‌چین مناسب خودشان را دارند.
+</details>
+
+<details>
+<summary><b>چرا راست‌چین به‌صورت پیش‌فرض خاموش است؟</b></summary>
+
+راست‌چین کردن خودکار می‌تواند چیدمان بعضی سایت‌ها را به‌هم بزند. بنابراین برای هر سایت جداگانه از پاپ‌آپ یا با `Alt+Shift+S` روشن می‌شود.
+</details>
+
+<details>
+<summary><b>عدد ۱۰۰ در «اندازه فونت» یعنی چه؟</b></summary>
+
+از نسخه ۲.۰.۰، عدد ۱۰۰ مبنای استاندارد است و دقیقاً معادل همان ۱۱۵٪ نسخه‌های ۱.x است. یعنی با ارتقا، اندازه‌ی فونت شما تغییری نمی‌کند.
+</details>
+
+<details>
+<summary><b>افزونه هیچ داده‌ای از من جمع می‌کند؟</b></summary>
+
+خیر. همه‌چیز محلی است. تنها موردی که به اینترنت وصل می‌شود، ویژگی اختیاری «ترجمه‌ی سریع» است که فقط متن انتخاب‌شده‌ی شما را به سرویس ترجمه می‌فرستد و به‌صورت پیش‌فرض خاموش است. دیکشنری هاور کاملاً آفلاین است.
+</details>
+
+---
+
+## 🤝 مشارکت / Contributing
+
+از مشارکت استقبال می‌شود!
+
+1. پروژه را Fork کنید.
+2. یک شاخه بسازید: `git checkout -b feature/my-feature`
+3. تغییرات را کامیت کنید: `git commit -m "افزودن قابلیت ..."`
+4. شاخه را push کنید و یک **Pull Request** باز کنید.
+
+لطفاً پیش از ارسال PR، خروجی `node build.js` را بررسی کنید و از سالم بودن فایل‌ها مطمئن شوید.
+
+---
+
+## 🔗 پیوندها / Links
+
 - **GitHub:** https://github.com/ArmanAZ44/FA_Persian_Extension
 - **Telegram:** https://t.me/ArmanAZPC
 - **حمایت / Support:** https://reymit.ir/armanaz44
 
-## 📄 License / مجوز
-Free & open source. فونت وزیرمتن تحت مجوز OFL منتشر شده است / Vazirmatn font is licensed under the SIL OFL.
+## 📄 مجوز / License
+
+رایگان و متن‌باز / Free & open source.
+فونت **وزیرمتن** تحت مجوز **SIL OFL** منتشر شده است / The **Vazirmatn** font is licensed under the **SIL OFL**.
+
+---
 
 <div align="center">
-ساخته‌شده با ♥ برای وب فارسی — Made with ♥ for the Persian web
+
+**ساخته‌شده با ♥ برای وب فارسی** — Made with ♥ for the Persian web
+
+اگر این افزونه برایتان مفید بود، یک ⭐ به مخزن بدهید.
+
 </div>

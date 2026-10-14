@@ -14,6 +14,7 @@
   font-weight: 700; font-display: swap;
 }
 
+/* ─────────── توکن‌های طراحی ─────────── */
 :root {
   --bg: #f6f7f9;
   --card: #ffffff;
@@ -26,7 +27,9 @@
   --red: #dc2626;
   --track: #e2e8f0;
   --shadow: 0 6px 24px rgba(15, 23, 42, .08);
+  --shadow-sm: 0 2px 10px rgba(15, 23, 42, .06);
   --radius: 14px;
+  --radius-sm: 11px;
 }
 @media (prefers-color-scheme: dark) {
   :root {
@@ -39,148 +42,202 @@
     --brand-soft: #0f2a1b;
     --track: #26282f;
     --shadow: 0 6px 24px rgba(0,0,0,.35);
+    --shadow-sm: 0 2px 10px rgba(0,0,0,.28);
   }
 }
 html[data-theme="light"] {
-  --bg:#f6f7f9;--card:#fff;--text:#0f172a;--muted:#64748b;--border:#e6e8ec;--brand:#16a34a;--brand-soft:#e7f6ec;--track:#e2e8f0;--shadow:0 6px 24px rgba(15,23,42,.08);
+  --bg:#f6f7f9;--card:#fff;--text:#0f172a;--muted:#64748b;--border:#e6e8ec;--brand:#16a34a;--brand-soft:#e7f6ec;--track:#e2e8f0;
+  --shadow:0 6px 24px rgba(15,23,42,.08);--shadow-sm:0 2px 10px rgba(15,23,42,.06);
 }
 html[data-theme="dark"] {
-  --bg:#0a0a0c;--card:#16171b;--text:#e8ecf4;--muted:#94a0ac;--border:#26282f;--brand:#22c55e;--brand-soft:#0f2a1b;--track:#26282f;--shadow:0 6px 24px rgba(0,0,0,.5);
+  --bg:#0a0a0c;--card:#16171b;--text:#e8ecf4;--muted:#94a0ac;--border:#26282f;--brand:#22c55e;--brand-soft:#0f2a1b;--track:#26282f;
+  --shadow:0 6px 24px rgba(0,0,0,.5);--shadow-sm:0 2px 10px rgba(0,0,0,.35);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
+
 body {
   font-family: 'Vazirmatn', Tahoma, sans-serif;
   direction: rtl;
-  width: 330px;
+  width: 340px;
   background: var(--bg);
   color: var(--text);
   padding: 14px;
   -webkit-font-smoothing: antialiased;
 }
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-thumb { background: var(--track); border-radius: 999px; }
+:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; border-radius: 8px; }
 
+/* ─────────── هدر ─────────── */
 .header {
-  display: flex; align-items: center; gap: 10px; margin-bottom: 12px;
+  display: flex; align-items: center; gap: 11px; margin-bottom: 12px;
 }
 .logo {
-  width: 38px; height: 38px; border-radius: 11px;
+  width: 40px; height: 40px; border-radius: 12px;
   object-fit: contain; flex: none;
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow-sm);
 }
+.header-text { min-width: 0; }
+.title-row { display: flex; align-items: center; gap: 7px; }
 .header .title { font-weight: 700; font-size: 15px; line-height: 1.3; }
-.header .subtitle { font-size: 11px; color: var(--muted); }
+.header .subtitle { font-size: 11px; color: var(--muted); margin-top: 1px; }
+.ver {
+  font-size: 10px; font-weight: 700; direction: ltr;
+  padding: 2px 7px; border-radius: 999px;
+  color: var(--brand); background: var(--brand-soft);
+  border: 1px solid rgba(22,163,74,.22);
+}
 
+/* ─────────── کارت سایت ─────────── */
 .site-card {
   background: var(--card); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 12px 14px; margin-bottom: 12px;
-  box-shadow: var(--shadow);
+  border-radius: var(--radius); padding: 11px 13px; margin-bottom: 12px;
+  box-shadow: var(--shadow-sm);
   display: flex; align-items: center; justify-content: space-between; gap: 8px;
 }
 .site-card .host {
-  font-weight: 600; font-size: 13px; direction: ltr; text-align: left;
+  font-weight: 600; font-size: 12.5px; direction: ltr; text-align: left;
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1;
+  letter-spacing: .2px;
 }
 .status-badge {
   font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 999px;
-  white-space: nowrap;
+  white-space: nowrap; display: inline-flex; align-items: center; gap: 5px;
+}
+.status-badge::before {
+  content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor;
+  flex: none;
 }
 .status-badge.on  { background: rgba(22,163,74,.12); color: var(--green); }
 .status-badge.rtl { background: var(--brand-soft); color: var(--brand); }
 .status-badge.off { background: rgba(220,38,38,.12); color: var(--red); }
 
 .section-label {
-  font-size: 11px; color: var(--muted); margin: 4px 2px 6px; font-weight: 600;
+  font-size: 11px; color: var(--muted); margin: 4px 2px 7px; font-weight: 600;
+  display: flex; align-items: center; gap: 6px;
+}
+.section-label::after {
+  content: ""; flex: 1; height: 1px; background: var(--border);
 }
 
-.card { background: var(--card); border: 1px solid var(--border);
-  border-radius: var(--radius); box-shadow: var(--shadow);
-  overflow: hidden; margin-bottom: 12px; }
+/* ─────────── کارت تنظیمات ─────────── */
+.card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); box-shadow: var(--shadow-sm);
+  overflow: hidden; margin-bottom: 12px;
+}
 
 .row {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 12px 14px; gap: 10px;
+  padding: 11px 13px; gap: 10px; transition: background .15s;
 }
 .row + .row { border-top: 1px solid var(--border); }
-.row .label { font-size: 13px; font-weight: 500; }
-.row .hint  { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.row:hover { background: rgba(127,127,127,.05); }
+.row-main { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.ico {
+  width: 30px; height: 30px; border-radius: 9px; flex: none;
+  display: grid; place-items: center;
+  background: var(--brand-soft); color: var(--brand);
+}
+.ico svg { width: 15px; height: 15px; display: block; }
+.row .label { font-size: 12.5px; font-weight: 600; }
+.row .hint  { font-size: 10.5px; color: var(--muted); margin-top: 2px; line-height: 1.45; }
 .row.highlight { background: var(--brand-soft); }
+.row.highlight:hover { background: var(--brand-soft); }
 
-/* سوییچ */
+/* ─────────── سوییچ ─────────── */
 .switch { position: relative; width: 42px; height: 24px; flex: none; }
-.switch input { opacity: 0; width: 0; height: 0; }
+.switch input { opacity: 0; width: 0; height: 0; position: absolute; }
 .slider {
   position: absolute; inset: 0; background: var(--track);
-  border-radius: 999px; transition: .2s; cursor: pointer;
+  border-radius: 999px; transition: background .2s; cursor: pointer;
 }
 .slider::before {
   content: ""; position: absolute; height: 18px; width: 18px;
-  right: 3px; top: 3px; background: #fff; border-radius: 50%; transition: .2s;
+  right: 3px; top: 3px; background: #fff; border-radius: 50%; transition: transform .2s;
   box-shadow: 0 1px 3px rgba(0,0,0,.25);
 }
 .switch input:checked + .slider { background: var(--brand); }
 .switch input:checked + .slider::before { transform: translateX(-18px); }
 .switch input:disabled + .slider { opacity: .45; cursor: not-allowed; }
+.switch input:focus-visible + .slider { outline: 2px solid var(--brand); outline-offset: 2px; }
 
-/* اسلایدر مقیاس */
-.scale-row { padding: 12px 14px; }
-.scale-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-.scale-head .val { font-weight: 700; color: var(--brand); font-size: 13px; }
-input[type=range] {
-  appearance: none;
-  -webkit-appearance: none; width: 100%; height: 6px; border-radius: 999px;
-  background: var(--track); outline: none;
+/* ─────────── اسلایدر مقیاس ─────────── */
+.scale-row { padding: 12px 13px 13px; }
+.scale-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 9px; }
+.scale-head .label { font-size: 12.5px; font-weight: 600; }
+.scale-head .val {
+  font-weight: 700; color: var(--brand); font-size: 12.5px;
+  background: var(--brand-soft); padding: 2px 9px; border-radius: 999px;
 }
+.scale-foot {
+  display: flex; justify-content: space-between; margin-top: 7px;
+  font-size: 10px; color: var(--muted);
+}
+input[type=range] {
+  appearance: none; -webkit-appearance: none;
+  width: 100%; height: 6px; border-radius: 999px; outline: none; cursor: pointer;
+  background: linear-gradient(to left, var(--brand) 0 var(--fill, 50%), var(--track) var(--fill, 50%) 100%);
+}
+input[type=range]:disabled { opacity: .5; cursor: not-allowed; }
 input[type=range]::-webkit-slider-thumb {
   -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%;
   background: var(--brand); cursor: pointer; border: 3px solid var(--card);
-  box-shadow: 0 1px 4px rgba(0,0,0,.25);
+  box-shadow: 0 1px 4px rgba(0,0,0,.25); transition: transform .12s;
 }
+input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.12); }
 input[type=range]::-moz-range-thumb {
   width: 18px; height: 18px; border-radius: 50%;
   background: var(--brand); cursor: pointer; border: 3px solid var(--card);
   box-shadow: 0 1px 4px rgba(0,0,0,.25);
 }
 input[type=range]::-moz-range-track {
-  width: 100%; height: 6px; border-radius: 999px;
-  background: var(--track);
+  width: 100%; height: 6px; border-radius: 999px; background: transparent;
 }
 
-.actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+/* ─────────── دکمه‌ها ─────────── */
+.actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
 .btn {
   border: 1px solid var(--border); background: var(--card); color: var(--text);
-  border-radius: 10px; padding: 10px; font-family: inherit; font-size: 12px;
+  border-radius: var(--radius-sm); padding: 10px; font-family: inherit; font-size: 12px;
   font-weight: 600; cursor: pointer; transition: .15s;
   display: flex; align-items: center; justify-content: center; gap: 6px;
 }
-.btn:hover { border-color: var(--brand); color: var(--brand); }
+.btn:hover { border-color: var(--brand); color: var(--brand); transform: translateY(-1px); }
+.btn:active { transform: translateY(0); }
 .btn.primary { background: var(--brand); color: #fff; border-color: var(--brand); }
-.btn.primary:hover { filter: brightness(1.05); color: #fff; }
+.btn.primary:hover { filter: brightness(1.07); color: #fff; }
 .btn.ghost { background: transparent; }
 .btn.full { grid-column: 1 / -1; }
 
 .reset-site {
-  width: 100%; text-align: center; background: transparent; border: none;
+  width: 100%; display: block; text-align: center;
+  background: transparent; border: 1px dashed var(--border);
   color: var(--muted); font-family: inherit; font-size: 11px; cursor: pointer;
-  padding: 6px; margin-bottom: 10px; text-decoration: underline;
+  padding: 8px; margin-bottom: 11px; border-radius: var(--radius-sm); transition: .15s;
 }
-.reset-site:hover { color: var(--brand); }
+.reset-site:hover { color: var(--brand); border-color: var(--brand); background: var(--brand-soft); }
 
+/* ─────────── اطلاع‌رسانی‌ها ─────────── */
 .note {
   background: rgba(220,38,38,.08); color: var(--red);
-  border: 1px solid rgba(220,38,38,.2); border-radius: 10px;
-  padding: 10px 12px; font-size: 12px; margin-bottom: 12px; display: none;
+  border: 1px solid rgba(220,38,38,.2); border-radius: var(--radius-sm);
+  padding: 10px 12px; font-size: 11.5px; line-height: 1.6; margin-bottom: 12px; display: none;
 }
 .note.show { display: block; }
-
 .note-info {
   background: rgba(29,191,115,.08); color: var(--brand, #1DBF73);
   border: 1px solid rgba(29,191,115,.25);
 }
 
-.footer { text-align: center; font-size: 10px; color: var(--muted); margin-top: 2px; }
+.footer {
+  text-align: center; font-size: 10px; color: var(--muted);
+  padding-top: 10px; border-top: 1px solid var(--border); margin-top: 2px;
+}
 .disabled-fade { opacity: .5; pointer-events: none; }
 
-/* ───────── پوسته شیشه‌ای (glassmorphism) ───────── */
+/* ─────────── پوسته شیشه‌ای ─────────── */
 :root { --glass: rgba(255,255,255,.55); --glass-border: rgba(255,255,255,.65); }
 @media (prefers-color-scheme: dark) { :root { --glass: rgba(16,17,20,.55); --glass-border: rgba(255,255,255,.09); } }
 html[data-theme="light"] { --glass: rgba(255,255,255,.55); --glass-border: rgba(255,255,255,.65); }
@@ -201,7 +258,7 @@ body {
 }
 .btn.ghost { background: var(--glass); border-color: var(--glass-border); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
 
-/* ───────── دکمه‌های شبکه‌های اجتماعی ───────── */
+/* ─────────── شبکه‌های اجتماعی ─────────── */
 .social { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
 .social-btn {
   display: flex; align-items: center; justify-content: center; gap: 7px;
@@ -215,7 +272,7 @@ body {
 .social-btn.github:hover   { color: #fff; background: #0a0a0a; border-color: #0a0a0a; }
 .social-btn.telegram:hover { color: #fff; background: #229ED9; border-color: #229ED9; }
 
-/* ───────── دکمه حمایت ───────── */
+/* ─────────── دکمه حمایت ─────────── */
 .support-btn {
   width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px;
   padding: 13px; border: none; border-radius: 14px; cursor: pointer;
