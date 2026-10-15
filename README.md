@@ -221,6 +221,8 @@ dist/
 | `fonts/`                   | ۲۰ فایل woff2 — هشت فونت فارسی                                                                 |
 | `assets/`                  | تصاویر مستندات                                                                                 |
 | `STORE_LISTING.md`         | متن‌های آماده برای صفحه‌ی فروشگاه‌ها                                                            |
+| `LICENSE`                  | مجوز MIT                                                                                       |
+| `THIRD-PARTY-NOTICES.md`   | مجوز فونت‌های همراه (SIL OFL) و منابع آن‌ها                                                     |
 
 <a id="fa-faq"></a>
 
@@ -267,7 +269,7 @@ dist/
 
 از مشارکت استقبال می‌شود: پروژه را Fork کنید، شاخه بسازید، تغییرات را کامیت کنید و یک **Pull Request** باز کنید. پیش از ارسال، خروجی `node build.js` را بررسی کنید.
 
-این پروژه تحت مجوز **MIT** منتشر شده است — فایل [LICENSE](./LICENSE). فونت‌های همراه تحت **SIL OFL** هستند.
+این پروژه تحت مجوز **MIT** منتشر شده است — فایل [LICENSE](./LICENSE). فونت‌های همراه تحت **SIL OFL** هستند؛ فهرست کامل دارایی‌های شخص ثالث در [THIRD-PARTY-NOTICES.md](./THIRD-PARTY-NOTICES.md).
 
 ---
 
@@ -423,6 +425,8 @@ dist/
 | `fonts/`                   | 20 woff2 files — eight Persian fonts                                                                    |
 | `assets/`                  | Documentation images                                                                                    |
 | `STORE_LISTING.md`         | Ready-to-paste store listing copy                                                                       |
+| `LICENSE`                  | MIT license                                                                                             |
+| `THIRD-PARTY-NOTICES.md`   | Licenses of the bundled fonts (SIL OFL) and their sources                                               |
 
 <a id="en-faq"></a>
 
@@ -469,7 +473,7 @@ No. Everything runs locally. The only network feature is the optional quick-tran
 
 Contributions are welcome: fork the project, create a branch, commit your changes and open a **Pull Request**. Please run `node build.js` before submitting.
 
-Released under the **MIT License** — see [LICENSE](./LICENSE). The bundled fonts are licensed under the **SIL OFL**.
+Released under the **MIT License** — see [LICENSE](./LICENSE). The bundled fonts are licensed under the **SIL OFL**; the full list of third-party assets is in [THIRD-PARTY-NOTICES.md](./THIRD-PARTY-NOTICES.md).
 
 ---
 
