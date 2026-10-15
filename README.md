@@ -1,18 +1,18 @@
 <div align="center">
 
-![افزونه فا](./icons/icon128.png)
+<img src="./assets/banner.png" alt="افزونه فا — راست‌چین‌ساز و فونت فارسی" width="100%">
 
-# فا | راست‌چین‌ساز و فونت فارسی
+<br>
 
-### FA | Persian Font & RTL Extension
+**۸ فونت فارسی، اندازه‌ی هوشمند و راست‌چینِ هر سایت — بدون تغییر متن انگلیسی**
 
-افزونه‌ی چندمرورگری برای اعمال **۸ فونت فارسی**، **اندازه‌ی هوشمند** و **راست‌چینِ اختیاریِ هر سایت** روی متن صفحات وب — بدون این‌که متن انگلیسی سایت تغییر کند.
+*8 Persian fonts, smart sizing and per-site RTL — without ever changing the site's English text.*
 
 [![Version](https://img.shields.io/badge/version-2.0.0-1DBF73?style=flat-square)](https://github.com/ArmanAZ44/FA_Persian_Extension/releases)
 
 [![Firefox Add-ons](https://img.shields.io/amo/v/fa_persian_extension?style=flat-square&logo=firefoxbrowser&logoColor=white&label=Firefox%20Add-ons&color=FF7139)](https://addons.mozilla.org/en-US/firefox/addon/fa_persian_extension/)
 
-[![Chrome Web Store](https://img.shields.io/badge/Chrome%20Web%20Store-coming%20soon-fbbc05?style=flat-square&logo=googlechrome&logoColor=white)](#-نصب--install)
+[![Chrome Web Store](https://img.shields.io/badge/Chrome%20Web%20Store-coming%20soon-fbbc05?style=flat-square&logo=googlechrome&logoColor=white)](#en-install)
 
 ![Manifest](https://img.shields.io/badge/manifest-v3-blue?style=flat-square)
 
@@ -26,44 +26,81 @@
 
 ![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square)
 
+<br>
+
+**🇮🇷 [فارسی](#persian)** &nbsp;·&nbsp; **🇬🇧 [English](#english)**
+
 </div>
 
 ---
+
+## 🖼️ پیش‌نمایش / Preview
 
 <div align="center">
 
-### 🖼️ پیش‌نمایش / Preview
+<img src="./assets/before-after.png" alt="مقایسه‌ی متن فارسی با و بدون افزونه فا" width="100%">
 
-<img src="./assets/preview-popup.png" alt="پاپ‌آپ افزونه فا" width="280">
-&nbsp;&nbsp;&nbsp;
-<img src="./assets/preview-options.png" alt="تنظیمات پیشرفته — تب عمومی" width="520">
+<br>
 
-<br><br>
-
-<img src="./assets/preview-options-advanced.png" alt="تنظیمات پیشرفته — تب پیشرفته" width="520">
+<img src="./assets/fonts-showcase.png" alt="هشت فونت فارسی همراه افزونه" width="100%">
 
 </div>
 
+<details>
+<summary><b>نمای پنل‌ها / Panel screenshots</b></summary>
+
+<br>
+
+<div align="center">
+
+<img src="./assets/preview-popup.png" alt="پاپ‌آپ افزونه فا" width="270">
+&nbsp;&nbsp;
+<img src="./assets/preview-options.png" alt="تنظیمات پیشرفته — تب عمومی" width="490">
+
+<br><br>
+
+<img src="./assets/preview-options-advanced.png" alt="تنظیمات پیشرفته — تب پیشرفته" width="490">
+
+</div>
+
+</details>
+
 ---
 
-## 📑 فهرست / Table of Contents
+<a id="persian"></a>
 
-| بخش                                                           | Section             |
-| ------------------------------------------------------------- | ------------------- |
-| [✨ ویژگی‌ها](#-ویژگیها--features)                             | Features            |
-| [🆕 تغییرات نسخه ۲.۰.۰](#-تغییرات-نسخه-۲۰۰--whats-new-in-200) | What's new in 2.0.0 |
-| [🧭 سازگاری مرورگرها](#-سازگاری-مرورگرها--browser-support)    | Browser support     |
-| [🚀 نصب](#-نصب--install)                                      | Install             |
-| [⌨️ میانبرها](#️-میانبرها--shortcuts)                         | Shortcuts           |
-| [⚙️ تنظیمات](#️-تنظیمات--settings-reference)                  | Settings reference  |
-| [🛠️ ساخت](#️-ساخت--build)                                    | Build               |
-| [📁 ساختار پروژه](#-ساختار-پروژه--project-structure)          | Project structure   |
-| [❓ پرسش‌های متداول](#-پرسشهای-متداول--faq)                    | FAQ                 |
-| [🤝 مشارکت](#-مشارکت--contributing)                           | Contributing        |
+## 🇮🇷 فارسی
 
----
+<table>
+<tr><td>
 
-## ✨ ویژگی‌ها / Features
+**📑 فهرست**
+
+- [✨ ویژگی‌ها](#fa-features)
+- [🆕 تغییرات نسخه ۲.۰.۰](#fa-news)
+- [🧭 سازگاری مرورگرها](#fa-browsers)
+- [🚀 نصب](#fa-install)
+- [⌨️ میانبرها](#fa-shortcuts)
+- [🛠️ ساخت](#fa-build)
+- [📁 ساختار پروژه](#fa-structure)
+- [❓ پرسش‌های متداول](#fa-faq)
+- [🤝 مشارکت و مجوز](#fa-license)
+
+</td><td>
+
+**🔗 پیوندهای سریع**
+
+- [⬇ دریافت از Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/fa_persian_extension/)
+- [⬇ بسته‌ی کروم / اج / اپرا](https://github.com/ArmanAZ44/FA_Persian_Extension/raw/main/dist/FA-v2.0.0-chrome.zip)
+- [💬 تلگرام](https://t.me/ArmanAZPC)
+- [❤️ حمایت](https://reymit.ir/armanaz44)
+
+</td></tr>
+</table>
+
+<a id="fa-features"></a>
+
+### ✨ ویژگی‌ها
 
 | ویژگی                               | توضیح                                                                                                                                                                        |
 | ----------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -88,138 +125,58 @@
 | ⇅ **اعمال روی همه‌ی تب‌های باز**    | با یک کلیک، همه‌ی تب‌های بازخوانی می‌شوند.                                                                                                                                   |
 | 💾 **پشتیبان‌گیری خودکار + JSON**   | تنظیمات خودکار پشتیبان‌گیری و هم‌گام می‌شوند؛ خروجی/ورودی JSON هم موجود است.                                                                                                |
 
----
+<a id="fa-news"></a>
 
-## 🆕 تغییرات نسخه ۲.۰.۰ / What's new in 2.0.0
+### 🆕 تغییرات نسخه ۲.۰.۰
 
-### 🎬 رفع باگ انباشتگی عنوان ویدیوهای YouTube
+- **🎬 رفع باگ انباشتگی عنوان ویدیوهای YouTube:** موتور عمومی متن‌ها را با `segmentTextNode` می‌شکست و این با رندر مجدد کامپوننت‌های Polymer/ytd یوتیوب تداخل داشت؛ نتیجه این بود که عنوان ویدیوها روی هم انباشته می‌شدند. حالا «حالت سازگاری مخصوص YouTube» هیچ ساختاری از DOM را تغییر نمی‌دهد.
+- **🌐 پشتیبانی چندمرورگری:** یک منبع مشترک + `manifest.json` (کروم/اج/اپرا با `service_worker`) و `manifest.firefox.json` (فایرفاکس با `background.scripts`) و اسکریپت `build.js` برای تولید هر دو بسته.
+- **🅰️ هشت فونت فارسی:** همراه بسته، آفلاین، تحت مجوز OFL، با انتخابگر فونت در پاپ‌آپ و تنظیمات.
+- **⚡ ده قابلیت تازه:** پیش‌نمایش زنده، پروفایل‌های آماده، ضخامت فونت، اسلایدر فاصله‌ی خط و حروف، نرمال‌سازی «ي/ك»، حالت لیست سفید، پشتیبان‌گیری خودکار، اعمال روی همه‌ی تب‌ها، فاوآیکون و کپی دامنه.
+- **🎨 رابط کاربری بازطراحی‌شده** با آیکون، اسلایدر رنگی و ظاهر شیشه‌ای.
+- **📏 استانداردسازی مقیاس فونت به مبنای ۱۰۰** با حفظ دقیق اندازه‌ی رندر و مهاجرت خودکار کاربران قبلی.
+- **🐞 رفع باگ‌ها:** جلوگیری از راست‌چین‌شدن کل صفحه، رفع حلقه‌ی بی‌پایان پشتیبان‌گیری، و رفع ناهماهنگی نشان آیکون.
 
-مشکل: موتور عمومی افزونه هر گره‌ی متنی فارسی را با `segmentTextNode` به `<span>` های جدا می‌شکست. یوتیوب یک اپلیکیشن **Polymer/ytd** است و متن‌ها را با کامپوننت‌های سفارشی (مثل `yt-formatted-string`) رندر می‌کند؛ تغییر ساختار DOM با رندر مجدد این کامپوننت‌ها تداخل داشت و باعث می‌شد **عنوان ویدیوها بعد از چند ناوبری پاک نشوند و روی هم انباشته شوند** تا وقتی صفحه رفرش شود.
+<a id="fa-browsers"></a>
 
-راه‌حل — «حالت سازگاری مخصوص YouTube»:
+### 🧭 سازگاری مرورگرها
 
-- هیچ گره‌ی متنی شکسته یا جایگزین نمی‌شود و هیچ عنصر جدیدی ساخته نمی‌شود → **امکان انباشتگی صفر**.
-- فونت فارسی به‌صورت **پیشوند** به `font-family` خودِ عنصر اضافه می‌شود؛ چون `@font-face` فونت `unicode-range` دارد، **متن انگلیسی دقیقاً با فونت اصلی سایت می‌ماند**.
-- راست‌چین فقط روی نزدیک‌ترین بلوکِ متنیِ فارسی‌غالب اعمال می‌شود — نه روی کانتینرهای ساختاری `grid`/`flex`.
-- ناوبری داخلی یوتیوب (`yt-navigate-finish` + `pushState`/`replaceState`) با اسکن سبک و debounce‌شده پوشش داده می‌شود.
-
-### 🌐 پشتیبانی چندمرورگری
-
-یک منبع مشترک و دو مانیفست جداگانه:
-
-| مرورگر                | مانیفست                 | پس‌زمینه                    |
-| --------------------- | ----------------------- | --------------------------- |
-| Chrome / Edge / Opera | `manifest.json`         | `background.service_worker` |
-| Firefox               | `manifest.firefox.json` | `background.scripts`        |
-
-اسکریپت `build.js` هر دو بسته‌ی آماده‌ی نصب را می‌سازد (بدون هیچ وابستگی خارجی؛ ZIP با `zlib` داخلی Node).
-
-### 🎨 رابط کاربری بازطراحی‌شده
-
-- پاپ‌آپ و پنل تنظیمات با آیکون‌های اختصاصی هر گزینه، چیپ نسخه، اسلایدر رنگی، حالت‌های hover/focus و ظاهر شیشه‌ای تازه.
-- تب‌های تنظیمات آیکون‌دار شدند و کارت‌ها نشانگر رنگی گرفتند.
-
-### 🅰️ هشت فونت فارسی برای رابط کاربری
-
-همه‌ی فونت‌ها **آفلاین و همراه بسته** عرضه می‌شوند (هیچ درخواست اینترنتی) و تحت مجوز **OFL** هستند. از **پاپ‌آپ** برای هر سایت و از **تنظیمات پیشرفته** به‌صورت سراسری قابل انتخاب‌اند:
-
-| فونت                       | حالت    | مناسب برای                  |
-| -------------------------- | ------- | --------------------------- |
-| **وزیرمتن**                | پیش‌فرض | خوانایی عمومی و رابط کاربری |
-| **ساحل**                   | نرم     | متن‌های طولانی               |
-| **صمیم**                   | متعادل  | رابط کاربری و فرم‌ها         |
-| **شبنم**                   | کلاسیک  | متن‌های رسمی                 |
-| **استعداد**                | مدرن    | تیتر و رابط کاربری امروزی   |
-| **نوتو سنس عربی**          | خنثی    | چندزبانه و رسمی             |
-| **آی‌بی‌ام پلکس سنس عربی** | دقیق    | محیط‌های شرکتی               |
-| **قاهره**                  | هندسی   | ظاهر امروزی                 |
-
-هر فونت با نام CSS یکتا (`FaExtFont*`) بارگذاری می‌شود تا **هرگز با فونت خود سایت تداخل نکند**.
-
-### ⚡ قابلیت‌های تازه‌ی این نسخه
-
-- **پیش‌نمایش زنده** در پاپ‌آپ و تنظیمات — نتیجه را بدون بازکردن سایت ببینید.
-- **پروفایل‌های آماده**: خوانا / فشرده / درشت / شیک.
-- **ضخامت فونت**: نازک / معمولی / ضخیم / خودکار.
-- **اسلایدر فاصله‌ی خط و فاصله‌ی حروف** (مستقل از تنظیم «اصلاح فاصله‌ها»).
-- **نرمال‌سازی «ي / ك» عربی به «ی / ک» فارسی**.
-- **حالت لیست سفید**: افزونه فقط روی سایت‌های انتخاب‌شده‌ی شما فعال باشد.
-- **پشتیبان‌گیری خودکار** با امکان بازگردانی به آخرین نسخه‌ی سالم.
-- **اعمال روی همه‌ی تب‌های باز** با یک کلیک.
-- **فاوآیکون و کپی سریع دامنه** در پاپ‌آپ.
-
-### 📏 استانداردسازی مقیاس فونت (مبنا ۱۰۰)
-
-- عدد «اندازه‌ی پایه‌ی فونت فارسی» از مبنای ۱۱۵ به مبنای استاندارد **۱۰۰** منتقل شد؛ **اندازه‌ی رندرشده هیچ تغییری نکرده** و پیش‌فرض ۱۰۰ دقیقاً همان ۱۱۵٪ قبلی است.
-- بازه‌ی اسلایدر به `۷۵–۱۱۵` تغییر کرد تا محدوده‌ی مؤثر (≈۸۵٪ تا ۱۳۲٪) مثل قبل بماند.
-- کاربرانِ ارتقا‌یافته به‌صورت خودکار و یک‌باره مهاجرت داده می‌شوند (نشان `faScaleBase`) تا فونتشان ناخواسته بزرگ‌تر نشود.
-
-### 🐞 رفع باگ‌ها
-
-- **راست‌چین‌شدن کل صفحه (باگ جدید رفع‌شده):** اگر نزدیک‌ترین والدِ متن «inline» بود (مثل `yt-formatted-string` در یوتیوب یا `<a>` در فهرست‌ها)، جست‌وجوی والد بلوکی تا `body` بالا می‌رفت و `direction: rtl` روی کل صفحه اعمال می‌شد و چیدمان سایت به‌هم می‌ریخت. حالا عناصر ساختاری (body/html/main/table/ul/… و کانتینرهای چندفرزندی) هرگز هدف راست‌چین‌سازی نمی‌شوند و راست‌چین فقط روی خودِ عنصر متن می‌نشیند.
-- **حلقه‌ی بی‌پایان پشتیبان‌گیری خودکار:** شنونده‌ی تغییرات حافظه، ناحیه‌ی ذخیره‌سازی را بررسی نمی‌کرد؛ چون پشتیبان در `storage.local` نوشته می‌شود، هر نوشتن یک رویداد تازه تولید می‌کرد و یک حلقه‌ی نوشتنِ هر ۱٫۵ ثانیه‌ای می‌ساخت. حالا فقط تغییرات `storage.sync` واکنش می‌دهند.
-- **به‌روزرسانی زنده‌ی پیش‌نمایش:** پیش‌تر هنگام کشیدن اسلایدرها، پیش‌نمایش تا رهاکردن دستگیره به‌روز نمی‌شد.
-- **متن گزینه‌ی ارقام:** برچسب گزینه به «تبدیل ارقام انگلیسی به فارسی» اصلاح شد (پیش‌تر «۰۱۲۳ به ۰۱۲۳» نمایش داده می‌شد که معنایی نداشت).
-- **نشان (badge) و منوی راست‌کلیک:** اسکریپت پس‌زمینه فهرست کامل دامنه‌های مستثنا را بارگذاری نمی‌کرد و برای هزاران سایت وضعیت اشتباه نشان می‌داد. حالا در پس‌زمینه، پاپ‌آپ و تنظیمات بارگذاری می‌شود.
-- **پایداری بیشتر در محیط‌های Firefox MV3** و مقاوم‌سازی در برابر خطای `Extension context invalidated`.
-
----
-
-## 🧭 سازگاری مرورگرها / Browser support
-
-| مرورگر              | نسخه | وضعیت                                 |
-| ------------------- | ---- | ------------------------------------- |
-| Firefox             | ۱۴۰+ | ✅ [منتشر شده در Firefox Add-ons][amo] |
-| Firefox for Android | ۱۴۲+ | ✅ [منتشر شده در Firefox Add-ons][amo] |
-| Chrome              | ۱۰۹+ | ✅ پشتیبانی کامل                       |
-| Edge                | ۱۰۹+ | ✅ پشتیبانی کامل                       |
-| Opera               | ۹۵+  | ✅ پشتیبانی کامل                       |
-| Chrome Web Store    | —    | ⏳ به‌زودی                             |
+| مرورگر              | نسخه | وضعیت                                  |
+| ------------------- | ---- | -------------------------------------- |
+| Firefox             | ۱۴۰+ | ✅ [منتشر شده در Firefox Add-ons][amo]  |
+| Firefox for Android | ۱۴۲+ | ✅ [منتشر شده در Firefox Add-ons][amo]  |
+| Chrome              | ۱۰۹+ | ✅ پشتیبانی کامل                        |
+| Edge                | ۱۰۹+ | ✅ پشتیبانی کامل                        |
+| Opera               | ۹۵+  | ✅ پشتیبانی کامل                        |
+| Chrome Web Store    | —    | ⏳ به‌زودی                              |
 
 [amo]: https://addons.mozilla.org/en-US/firefox/addon/fa_persian_extension/
 
----
+<a id="fa-install"></a>
 
-## 🚀 نصب / Install
+### 🚀 نصب
 
-### 🦊 از فروشگاه فایرفاکس (ساده‌ترین راه)
+**🦊 فایرفاکس (ساده‌ترین راه)**
 
-افزونه در فروشگاه رسمی Mozilla منتشر شده است:
+**[⬇ دریافت از Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/fa_persian_extension/)** — روی **Add to Firefox** کلیک کنید. به‌روزرسانی‌های بعدی خودکار نصب می‌شوند.
 
-**[⬇ دریافت از Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/fa_persian_extension/)**
+**🌐 کروم / اج / اپرا**
 
-پس از بازکردن صفحه، روی **Add to Firefox** کلیک کنید. به‌روزرسانی‌های بعدی خودکار نصب می‌شوند.
+> 🔜 به‌زودی در **Chrome Web Store**. تا آن زمان از نصب دستی استفاده کنید.
 
-### 🌐 کروم / اج / اپرا
-
-> 🔜 به‌زودی در **Chrome Web Store** منتشر می‌شود. تا آن زمان از نصب دستی زیر استفاده کنید.
-
-1. فایل `dist/FA-v2.0.0-chrome.zip` را دانلود و از حالت فشرده خارج کنید.
+1. فایل [`dist/FA-v2.0.0-chrome.zip`](https://github.com/ArmanAZ44/FA_Persian_Extension/raw/main/dist/FA-v2.0.0-chrome.zip) را دانلود و از حالت فشرده خارج کنید.
 2. به `chrome://extensions` (یا `edge://extensions` / `opera://extensions`) بروید.
-3. **Developer mode** را روشن کنید.
-4. روی **Load unpacked** کلیک کنید و پوشه‌ی خارج‌شده را انتخاب کنید.
+3. **Developer mode** را روشن کنید و روی **Load unpacked** کلیک کنید.
 
-### 🦊 فایرفاکس — نصب دستی
+**🦊 فایرفاکس — نصب دستی**
 
-**روش ۱ — نصب موقت (پیشنهادی برای تست):**
-
-1. فایل `dist/FA-v2.0.0-firefox.xpi` را دانلود و از حالت فشرده خارج کنید.
+1. فایل `dist/FA-v2.0.0-firefox.xpi` را از حالت فشرده خارج کنید.
 2. به `about:debugging#/runtime/this-firefox` بروید.
-3. روی **Load Temporary Add-on...** کلیک کنید و `manifest.json` داخل پوشه را انتخاب کنید.
+3. روی **Load Temporary Add-on...** کلیک کنید و `manifest.json` را انتخاب کنید.
 
-**روش ۲ — نصب دائمی بدون امضا (Developer Edition / Nightly):**
+<a id="fa-shortcuts"></a>
 
-1. در `about:config` مقدار `xpinstall.signatures.required` را `false` کنید.
-2. فایل `dist/FA-v2.0.0-firefox.xpi` را با Drag & Drop داخل فایرفاکس بیندازید.
-
-### 🔄 به‌روزرسانی
-
-- **نسخه‌ی فروشگاه فایرفاکس:** خودکار به‌روزرسانی می‌شود.
-- **نصب دستی:** پس از دریافت فایل‌های جدید، در صفحه‌ی مدیریت افزونه‌ها روی دکمه‌ی **Reload** کارت افزونه کلیک کنید.
-
----
-
-## ⌨️ میانبرها / Shortcuts
+### ⌨️ میانبرها
 
 | میانبر        | عملکرد                                          |
 | ------------- | ----------------------------------------------- |
@@ -228,90 +185,15 @@
 | `Alt+Shift+T` | ترجمه‌ی سریع متن انتخاب‌شده (در صورت فعال بودن) |
 | `Alt` + هاور  | نمایش معنی فارسی کلمه‌ی انگلیسی (دیکشنری هاور)  |
 
----
+<a id="fa-build"></a>
 
-## ⚙️ تنظیمات / Settings reference
+### 🛠️ ساخت
 
-<details>
-
-<summary><b>پاپ‌آپ (تنظیمات هر سایت)</b></summary>
-
-| گزینه                      | پیش‌فرض | توضیح                                   |
-| -------------------------- | ------- | --------------------------------------- |
-| فعال بودن در این سایت      | روشن    | خاموش‌کردن = سایت کاملاً دست‌نخورده     |
-| فونت فارسی + اندازه هوشمند | روشن    | فقط متن فارسی                           |
-| راست‌چین کردن این سایت     | خاموش   | مخصوص همین دامنه                        |
-| ارقام فارسی                | روشن    | تبدیل ارقام انگلیسی به فارسی            |
-| فونت فارسی این سایت        | وزیرمتن | انتخاب از میان ۸ فونت همراه             |
-| ضخامت فونت                 | خودکار  | نازک / معمولی / ضخیم / خودکار           |
-| اندازه فونت فارسی          | ۱۰۰     | بازه‌ی ۷۵ تا ۱۱۵                        |
-| پیش‌نمایش زنده             | —       | نتیجه‌ی تنظیمات را همان لحظه نشان می‌دهد |
-| پروفایل آماده              | —       | خوانا / فشرده / درشت / شیک              |
-
-</details>
-
-<details>
-
-<summary><b>تنظیمات پیشرفته — تب عمومی</b></summary>
-
-- فعال بودن کلی افزونه
-- فونت فارسی پیش‌فرض روی همه‌ی سایت‌ها
-- راست‌چین پیش‌فرض
-- اندازه‌ی پایه‌ی فونت فارسی
-- **فونت پیش‌فرض** و **ضخامت فونت** (سراسری)
-- **پروفایل‌های آماده** و **پیش‌نمایش زنده**
-- پوسته‌ی پنل: خودکار / روشن / تیره
-
-</details>
-
-<details>
-
-<summary><b>تنظیمات پیشرفته — تب سایت‌ها</b></summary>
-
-- **حالت لیست سفید**: افزونه فقط روی سایت‌های انتخاب‌شده فعال باشد
-- آمار سایت‌های دارای تنظیم اختصاصی و سلکتورهای مستثنا
-- افزودن سریع دامنه (فعال + راست‌چین برایش روشن می‌شود)
-- حذف تنظیم اختصاصی هر سایت
-
-</details>
-
-<details>
-
-<summary><b>تنظیمات پیشرفته — تب پیشرفته</b></summary>
-
-- ارقام فارسی
-- **نرمال‌سازی «ي / ك» عربی به «ی / ک» فارسی**
-- اصلاح فاصله‌ها (`line-height` / `word-spacing`)
-- **اسلایدر فاصله‌ی خط** و **اسلایدر فاصله‌ی حروف**
-- اصلاح تایپوگرافی (نیم‌فاصله و نشانه‌گذاری)
-- میانبر ترجمه‌ی سریع
-- دیکشنری هاور
-- سلکتورهای CSS مستثنا (هر سلکتور در یک خط)
-
-</details>
-
-<details>
-
-<summary><b>تنظیمات پیشرفته — تب پشتیبان‌گیری</b></summary>
-
-- **پشتیبان‌گیری خودکار** + نمایش زمان آخرین نسخه و دکمه‌ی **بازگردانی**
-- خروجی گرفتن از همه‌ی تنظیمات به‌صورت JSON
-- وارد کردن تنظیمات از فایل JSON
-- بازگردانی همه به حالت پیش‌فرض
-
-</details>
-
----
-
-## 🛠️ ساخت / Build
-
-نیازمندی: فقط **Node.js** — هیچ وابستگی خارجی ندارد (ZIP با `zlib` داخلی Node ساخته می‌شود).
+نیازمندی: فقط **Node.js** — بدون هیچ وابستگی خارجی (ZIP با `zlib` داخلی Node ساخته می‌شود).
 
 ```bash
 node build.js
 ```
-
-خروجی در پوشه‌ی `dist/`:
 
 ```
 dist/
@@ -319,9 +201,9 @@ dist/
 └── FA-v2.0.0-firefox.xpi   ← فایرفاکس
 ```
 
----
+<a id="fa-structure"></a>
 
-## 📁 ساختار پروژه / Project structure
+### 📁 ساختار پروژه
 
 | مسیر                       | توضیح                                                                                        |
 | -------------------------- | -------------------------------------------------------------------------------------------- |
@@ -336,74 +218,36 @@ dist/
 | `manifest.json`            | مانیفست کروم / اج / اپرا                                                                      |
 | `manifest.firefox.json`    | مانیفست فایرفاکس                                                                              |
 | `build.js`                 | ساخت بسته‌های آماده‌ی نصب هر مرورگر                                                            |
-| `fonts/`                   | ۲۰ فایل woff2 — هشت فونت فارسی (وزیرمتن، ساحل، صمیم، شبنم، استعداد، نوتو، پلکس، قاهره)         |
-| `icons/`                   | آیکون‌های افزونه                                                                               |
-| `assets/`                  | تصاویر پیش‌نمایش README                                                                        |
-| `STORE_LISTING.md`         | متن‌های آماده برای صفحه‌ی فروشگاه‌ها (AMO و Chrome Web Store)                                   |
-| `LICENSE`                  | مجوز MIT                                                                                     |
+| `fonts/`                   | ۲۰ فایل woff2 — هشت فونت فارسی                                                                 |
+| `assets/`                  | تصاویر مستندات                                                                                 |
+| `STORE_LISTING.md`         | متن‌های آماده برای صفحه‌ی فروشگاه‌ها                                                            |
 
----
+<a id="fa-faq"></a>
 
-## ❓ پرسش‌های متداول / FAQ
+### ❓ پرسش‌های متداول
 
 <details>
-
-<summary><b>افزونه را از کجا نصب کنم؟</b></summary>
-
-برای **فایرفاکس** نسخه‌ی رسمی و امضاشده در [Firefox Add-ons][amo] موجود است و خودکار به‌روزرسانی می‌شود. نسخه‌ی **کروم / اج / اپرا** به‌زودی در Chrome Web Store منتشر می‌شود؛ تا آن زمان از بسته‌ی `dist/FA-v2.0.0-chrome.zip` و نصب دستی استفاده کنید.
-
-</details>
-
-<details>
-
 <summary><b>چرا فونت انگلیسی سایت‌ها تغییر نمی‌کند؟</b></summary>
 
-فونت‌های فارسی این افزونه با `unicode-range` محدود به بازه‌های یونیکد فارسی تعریف شده‌اند؛ یعنی مرورگر فقط برای گلیف‌های فارسی از آن‌ها استفاده می‌کند و بقیه‌ی کاراکترها با فونت اصلی سایت رندر می‌شوند.
+فونت‌های فارسی با `unicode-range` محدود به بازه‌های یونیکد فارسی تعریف شده‌اند؛ یعنی مرورگر فقط برای گلیف‌های فارسی از آن‌ها استفاده می‌کند و بقیه‌ی کاراکترها با فونت اصلی سایت رندر می‌شوند.
 
 </details>
 
 <details>
+<summary><b>فونت‌ها به اینترنت وصل می‌شوند؟</b></summary>
 
-<summary><b>فونت‌های همراه افزونه از کجا می‌آیند و آیا به اینترنت وصل می‌شوند؟</b></summary>
-
-هر ۸ فونت به‌صورت فایل woff2 داخل خودِ بسته عرضه شده‌اند و **هیچ درخواست اینترنتی‌ای برای بارگذاری فونت زده نمی‌شود**. منبع فونت‌ها: وزیرمتن، ساحل، صمیم، شبنم (صابر راستی‌کردار)، استعداد (امین عابدی)، و نوتو سنس عربی، آی‌بی‌ام پلکس سنس عربی و قاهره (Google Fonts) — همه تحت مجوز OFL.
+خیر. هر ۸ فونت به‌صورت فایل woff2 داخل خودِ بسته عرضه شده‌اند و هیچ درخواست اینترنتی‌ای برای بارگذاری فونت زده نمی‌شود.
 
 </details>
 
 <details>
-
 <summary><b>حالت لیست سفید چطور کار می‌کند؟</b></summary>
 
-در تب «سایت‌ها» گزینه‌ی «فقط روی سایت‌های انتخاب‌شده فعال باشد» را روشن کنید. از آن به بعد افزونه فقط روی سایت‌هایی کار می‌کند که در همان فهرست (یا از پاپ‌آپ) فعالشان کرده باشید. دامنه‌های `.ir` همچنان کاملاً مستثنا می‌مانند.
+در تب «سایت‌ها» گزینه‌ی «فقط روی سایت‌های انتخاب‌شده فعال باشد» را روشن کنید. از آن به بعد افزونه فقط روی سایت‌هایی کار می‌کند که خودتان فعالشان کرده باشید. دامنه‌های `.ir` همچنان کاملاً مستثنا می‌مانند.
 
 </details>
 
 <details>
-
-<summary><b>پشتیبان‌گیری خودکار چه‌کاری می‌کند؟</b></summary>
-
-تنظیمات در `storage.sync` نگه‌داری می‌شوند و مرورگر خودش آن‌ها را بین دستگاه‌های شما هم‌گام می‌کند. علاوه بر آن، هر بار تنظیمات تغییر کند یک نسخه‌ی پشتیبان در حافظه‌ی محلی ذخیره می‌شود؛ از تب «پشتیبان‌گیری» می‌توانید زمان آخرین نسخه را ببینید و با یک کلیک برگردانید.
-
-</details>
-
-<details>
-
-<summary><b>چرا روی بعضی سایت‌های ایرانی هیچ تغییری نمی‌بینم؟</b></summary>
-
-دامنه‌های `.ir` و بیش از ۶۰٬۰۰۰ سایت فارسی‌زبانِ غیر `.ir` عمداً مستثنا هستند، چون از قبل فونت و راست‌چین مناسب خودشان را دارند.
-
-</details>
-
-<details>
-
-<summary><b>چرا راست‌چین به‌صورت پیش‌فرض خاموش است؟</b></summary>
-
-راست‌چین کردن خودکار می‌تواند چیدمان بعضی سایت‌ها را به‌هم بزند. بنابراین برای هر سایت جداگانه از پاپ‌آپ یا با `Alt+Shift+S` روشن می‌شود.
-
-</details>
-
-<details>
-
 <summary><b>عدد ۱۰۰ در «اندازه فونت» یعنی چه؟</b></summary>
 
 از نسخه ۲.۰.۰، عدد ۱۰۰ مبنای استاندارد است و دقیقاً معادل همان ۱۱۵٪ نسخه‌های ۱.x است. یعنی با ارتقا، اندازه‌ی فونت شما تغییری نمی‌کند.
@@ -411,41 +255,221 @@ dist/
 </details>
 
 <details>
+<summary><b>افزونه داده‌ای از من جمع می‌کند؟</b></summary>
 
-<summary><b>افزونه هیچ داده‌ای از من جمع می‌کند؟</b></summary>
-
-خیر. همه‌چیز محلی است. تنها موردی که به اینترنت وصل می‌شود، ویژگی اختیاری «ترجمه‌ی سریع» است که فقط متن انتخاب‌شده‌ی شما را به سرویس ترجمه می‌فرستد و به‌صورت پیش‌فرض خاموش است. دیکشنری هاور کاملاً آفلاین است. در صفحه‌ی فروشگاه Mozilla هم «Data collection: none» اعلام شده است.
+خیر. همه‌چیز محلی است. تنها ویژگی متصل به اینترنت «ترجمه‌ی سریع» است که پیش‌فرض خاموش است. در صفحه‌ی فروشگاه Mozilla هم «Data collection: none» اعلام شده است.
 
 </details>
 
----
+<a id="fa-license"></a>
 
-## 🤝 مشارکت / Contributing
+### 🤝 مشارکت و مجوز
 
-از مشارکت استقبال می‌شود!
+از مشارکت استقبال می‌شود: پروژه را Fork کنید، شاخه بسازید، تغییرات را کامیت کنید و یک **Pull Request** باز کنید. پیش از ارسال، خروجی `node build.js` را بررسی کنید.
 
-1. پروژه را Fork کنید.
-2. یک شاخه بسازید: `git checkout -b feature/my-feature`
-3. تغییرات را کامیت کنید: `git commit -m "افزودن قابلیت ..."`
-4. شاخه را push کنید و یک **Pull Request** باز کنید.
-
-لطفاً پیش از ارسال PR، خروجی `node build.js` را بررسی کنید و از سالم بودن فایل‌ها مطمئن شوید.
+این پروژه تحت مجوز **MIT** منتشر شده است — فایل [LICENSE](./LICENSE). فونت‌های همراه تحت **SIL OFL** هستند.
 
 ---
 
-## 🔗 پیوندها / Links
+<a id="english"></a>
 
-- **Firefox Add-ons:** <https://addons.mozilla.org/en-US/firefox/addon/fa_persian_extension/>
-- **Chrome Web Store:** به‌زودی
-- **GitHub:** <https://github.com/ArmanAZ44/FA_Persian_Extension>
-- **Telegram:** <https://t.me/ArmanAZPC>
-- **حمایت / Support:** <https://reymit.ir/armanaz44>
+## 🇬🇧 English
 
-## 📄 مجوز / License
+<table>
+<tr><td>
 
-این پروژه تحت مجوز **MIT** منتشر شده است / Released under the **MIT License** — فایل [LICENSE](./LICENSE) را ببینید.
+**📑 Contents**
 
-فونت‌های همراه تحت مجوز **SIL OFL** منتشر شده‌اند / The bundled fonts are licensed under the **SIL OFL**.
+- [✨ Features](#en-features)
+- [🆕 What's new in 2.0.0](#en-news)
+- [🧭 Browser support](#en-browsers)
+- [🚀 Install](#en-install)
+- [⌨️ Shortcuts](#en-shortcuts)
+- [🛠️ Build](#en-build)
+- [📁 Project structure](#en-structure)
+- [❓ FAQ](#en-faq)
+- [🤝 Contributing & License](#en-license)
+
+</td><td>
+
+**🔗 Quick links**
+
+- [⬇ Get it on Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/fa_persian_extension/)
+- [⬇ Chrome / Edge / Opera package](https://github.com/ArmanAZ44/FA_Persian_Extension/raw/main/dist/FA-v2.0.0-chrome.zip)
+- [💬 Telegram](https://t.me/ArmanAZPC)
+- [❤️ Support](https://reymit.ir/armanaz44)
+
+</td></tr>
+</table>
+
+<a id="en-features"></a>
+
+### ✨ Features
+
+| Feature                             | Description                                                                                                                                                                            |
+| ----------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 🔤 **Smart Persian font**           | The chosen font is applied only to the Persian parts of the text — the site's **English text is never changed** (thanks to `unicode-range`).                                           |
+| 🎨 **8 bundled Persian fonts**      | Vazirmatn, Sahel, Samim, Shabnam, Estedad, Noto Sans Arabic, IBM Plex Sans Arabic and Cairo — all **offline** and **OFL**-licensed. Switchable per site (popup) and globally (options). |
+| 🅱 **Font weight**                  | Light / normal / bold / auto (inherit from the site).                                                                                                                                  |
+| 📐 **Smart sizing**                 | Persian font size is tuned per element type (heading, paragraph, button, table, …) for visual balance.                                                                                  |
+| 📏 **Line-height & letter-spacing** | Independent sliders for both (default: auto).                                                                                                                                          |
+| ↔️ **Per-site RTL**                 | Off by default; enabled per website from the popup.                                                                                                                                    |
+| ✍️ **While typing**                 | Font and RTL also apply inside form fields and rich-text editors — code editors are excluded.                                                                                           |
+| 📖 **Hover dictionary**             | Hold `Alt` and hover any English word for an instant Persian meaning — **fully offline**.                                                                                              |
+| 🔢 **Persian digits**               | Automatic conversion of English digits inside Persian text.                                                                                                                             |
+| 🧹 **Arabic yeh/kaf normalization** | Converts `ي / ك` to `ی / ک`.                                                                                                                                                            |
+| ✒️ **Typography fixes**             | Adds the Persian zero-width non-joiner to «می», «ها», «تر» and fixes punctuation.                                                                                                      |
+| 🌐 **Quick translate**              | Translate the selected text with `Alt+Shift+T`.                                                                                                                                         |
+| 👁️ **Live preview**                 | See the result of font/size/spacing instantly, in the popup and in the options page.                                                                                                    |
+| ⚡ **Presets**                       | Readable / Compact / Large / Elegant — one click each.                                                                                                                                  |
+| 🚫 **60,000+ excluded domains**     | Every `.ir` domain plus a large curated list of Persian-language sites on other TLDs.                                                                                                   |
+| ⚪ **Whitelist mode**                | Run the extension only on the sites you choose.                                                                                                                                         |
+| 🧩 **Compatibility modes**          | Non-invasive paths for **ChatGPT**, **Kick.com** and **YouTube**.                                                                                                                       |
+| 🎛️ **Per-domain overrides**         | Set font, RTL, weight, size, digits and spacing per website.                                                                                                                            |
+| ⇅ **Apply to all open tabs**        | Reload every open tab with one click.                                                                                                                                                   |
+| 💾 **Auto-backup + JSON**           | Settings are backed up and synced automatically; JSON export/import is also available.                                                                                                  |
+
+<a id="en-news"></a>
+
+### 🆕 What's new in 2.0.0
+
+- **🎬 Fixed the YouTube title accumulation bug:** the general engine split text nodes with `segmentTextNode`, which conflicted with how YouTube's Polymer/ytd components re-render — video titles stacked on top of each other. The dedicated YouTube compatibility mode now never mutates the DOM structure.
+- **🌐 Cross-browser support:** one shared source with `manifest.json` (Chrome/Edge/Opera, `service_worker`) and `manifest.firefox.json` (Firefox, `background.scripts`), plus a `build.js` that produces both packages.
+- **🅰️ Eight Persian fonts** bundled offline under the OFL, with a font picker in the popup and options.
+- **⚡ Ten new capabilities:** live preview, presets, font weight, line-height/letter-spacing sliders, Arabic yeh/kaf normalization, whitelist mode, auto-backup, apply-to-all-tabs, favicon and domain copy.
+- **🎨 Redesigned UI** with icons, filled sliders and a glassmorphism look.
+- **📏 Font scale standardized to a 100 basis** while keeping the rendered size identical, with automatic migration for existing users.
+- **🐞 Bug fixes:** prevented whole-page RTL flips, fixed an infinite auto-backup loop, and fixed the badge mismatch.
+
+<a id="en-browsers"></a>
+
+### 🧭 Browser support
+
+| Browser             | Version | Status                                 |
+| ------------------- | ------- | -------------------------------------- |
+| Firefox             | 140+    | ✅ [Published on Firefox Add-ons][amo]  |
+| Firefox for Android | 142+    | ✅ [Published on Firefox Add-ons][amo]  |
+| Chrome              | 109+    | ✅ Fully supported                      |
+| Edge                | 109+    | ✅ Fully supported                      |
+| Opera               | 95+     | ✅ Fully supported                      |
+| Chrome Web Store    | —       | ⏳ Coming soon                          |
+
+<a id="en-install"></a>
+
+### 🚀 Install
+
+**🦊 Firefox (easiest)**
+
+**[⬇ Get it on Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/fa_persian_extension/)** — click **Add to Firefox**. Future updates install automatically.
+
+**🌐 Chrome / Edge / Opera**
+
+> 🔜 Coming soon to the **Chrome Web Store**. Until then, install manually.
+
+1. Download and unzip [`dist/FA-v2.0.0-chrome.zip`](https://github.com/ArmanAZ44/FA_Persian_Extension/raw/main/dist/FA-v2.0.0-chrome.zip).
+2. Open `chrome://extensions` (or `edge://extensions` / `opera://extensions`).
+3. Enable **Developer mode** and click **Load unpacked**.
+
+**🦊 Firefox — manual install**
+
+1. Unzip `dist/FA-v2.0.0-firefox.xpi`.
+2. Open `about:debugging#/runtime/this-firefox`.
+3. Click **Load Temporary Add-on...** and select `manifest.json`.
+
+<a id="en-shortcuts"></a>
+
+### ⌨️ Shortcuts
+
+| Shortcut      | Action                                         |
+| ------------- | ---------------------------------------------- |
+| `Alt+Shift+F` | Toggle the whole extension                     |
+| `Alt+Shift+S` | Toggle RTL on the current site                 |
+| `Alt+Shift+T` | Quick-translate the selected text (if enabled) |
+| `Alt` + hover | Show the Persian meaning of an English word    |
+
+<a id="en-build"></a>
+
+### 🛠️ Build
+
+Requires only **Node.js** — no external dependencies (the ZIP writer uses Node's built-in `zlib`).
+
+```bash
+node build.js
+```
+
+```
+dist/
+├── FA-v2.0.0-chrome.zip    ← Chrome / Edge / Opera
+└── FA-v2.0.0-firefox.xpi   ← Firefox
+```
+
+<a id="en-structure"></a>
+
+### 📁 Project structure
+
+| Path                       | Description                                                                                           |
+| -------------------------- | ----------------------------------------------------------------------------------------------------- |
+| `content.js`               | Core engine: font, smart sizing, RTL, yeh/kaf normalization, hover dictionary and compatibility modes |
+| `background.js`            | Context menus, shortcuts, badge, translation, settings migration and auto-backup                       |
+| `exclusions.js`            | Central core: defaults, exclusions, **font registry**, presets and per-site resolution                  |
+| `excluded-domains-data.js` | The 60,000+ excluded domain list (data only)                                                            |
+| `dictionary.js`            | Offline dictionary for the hover feature                                                                |
+| `popup.html/css/js`        | Popup: live preview, font picker, presets and per-site settings                                         |
+| `options.html/css/js`      | Advanced settings page (4 tabs)                                                                         |
+| `panel-fonts.css`          | `@font-face` declarations for all bundled fonts, shared by both panels                                  |
+| `manifest.json`            | Chrome / Edge / Opera manifest                                                                          |
+| `manifest.firefox.json`    | Firefox manifest                                                                                        |
+| `build.js`                 | Builds ready-to-install packages for every browser                                                      |
+| `fonts/`                   | 20 woff2 files — eight Persian fonts                                                                    |
+| `assets/`                  | Documentation images                                                                                    |
+| `STORE_LISTING.md`         | Ready-to-paste store listing copy                                                                       |
+
+<a id="en-faq"></a>
+
+### ❓ FAQ
+
+<details>
+<summary><b>Why is the site's English text never changed?</b></summary>
+
+The Persian fonts are declared with a `unicode-range` limited to Persian Unicode blocks, so the browser only uses them for Persian glyphs; every other character keeps the site's original font.
+
+</details>
+
+<details>
+<summary><b>Do the fonts require an internet connection?</b></summary>
+
+No. All eight fonts ship as woff2 files inside the package, and no network request is ever made to load a font.
+
+</details>
+
+<details>
+<summary><b>How does whitelist mode work?</b></summary>
+
+Enable “Only run on selected sites” in the Sites tab. From then on the extension only works on sites you have explicitly enabled. `.ir` domains remain fully excluded.
+
+</details>
+
+<details>
+<summary><b>What does 100 mean in “font size”?</b></summary>
+
+Since 2.0.0, 100 is the standard basis and is exactly equivalent to the previous 115% from the 1.x releases — upgrading does not change your rendered font size.
+
+</details>
+
+<details>
+<summary><b>Does the extension collect any data?</b></summary>
+
+No. Everything runs locally. The only network feature is the optional quick-translate (off by default). The Mozilla listing also declares “Data collection: none”.
+
+</details>
+
+<a id="en-license"></a>
+
+### 🤝 Contributing & License
+
+Contributions are welcome: fork the project, create a branch, commit your changes and open a **Pull Request**. Please run `node build.js` before submitting.
+
+Released under the **MIT License** — see [LICENSE](./LICENSE). The bundled fonts are licensed under the **SIL OFL**.
 
 ---
 
@@ -453,6 +477,6 @@ dist/
 
 **ساخته‌شده با ♥ برای وب فارسی** — Made with ♥ for the Persian web
 
-اگر این افزونه برایتان مفید بود، یک ⭐ به مخزن بدهید.
+اگر این افزونه برایتان مفید بود، یک ⭐ به مخزن بدهید · If you find it useful, please star the repo.
 
 </div>
