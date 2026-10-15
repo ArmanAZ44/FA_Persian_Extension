@@ -8,7 +8,9 @@
 
 *8 Persian fonts, smart sizing and per-site RTL — without ever changing the site's English text.*
 
-[![Version](https://img.shields.io/badge/version-2.0.0-1DBF73?style=flat-square)](https://github.com/ArmanAZ44/FA_Persian_Extension/releases)
+[![Version](https://img.shields.io/badge/version-2.0.0-1DBF73?style=flat-square)](https://github.com/ArmanAZ44/FA_Persian_Extension/releases/latest)
+
+[![Release](https://img.shields.io/github/v/release/ArmanAZ44/FA_Persian_Extension?style=flat-square&label=release&color=1DBF73)](https://github.com/ArmanAZ44/FA_Persian_Extension/releases/latest)
 
 [![Firefox Add-ons](https://img.shields.io/amo/v/fa_persian_extension?style=flat-square&logo=firefoxbrowser&logoColor=white&label=Firefox%20Add-ons&color=FF7139)](https://addons.mozilla.org/en-US/firefox/addon/fa_persian_extension/)
 
@@ -91,7 +93,7 @@
 **🔗 پیوندهای سریع**
 
 - [⬇ دریافت از Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/fa_persian_extension/)
-- [⬇ بسته‌ی کروم / اج / اپرا](https://github.com/ArmanAZ44/FA_Persian_Extension/raw/main/dist/FA-v2.0.0-chrome.zip)
+- [📦 آخرین نسخه (Releases)](https://github.com/ArmanAZ44/FA_Persian_Extension/releases/latest)
 - [💬 تلگرام](https://t.me/ArmanAZPC)
 - [❤️ حمایت](https://reymit.ir/armanaz44)
 
@@ -164,7 +166,7 @@
 
 > 🔜 به‌زودی در **Chrome Web Store**. تا آن زمان از نصب دستی استفاده کنید.
 
-1. فایل [`dist/FA-v2.0.0-chrome.zip`](https://github.com/ArmanAZ44/FA_Persian_Extension/raw/main/dist/FA-v2.0.0-chrome.zip) را دانلود و از حالت فشرده خارج کنید.
+1. فایل [`FA-v2.0.0-chrome.zip`](https://github.com/ArmanAZ44/FA_Persian_Extension/releases/latest/download/FA-v2.0.0-chrome.zip) را از بخش [Releases](https://github.com/ArmanAZ44/FA_Persian_Extension/releases/latest) دانلود و از حالت فشرده خارج کنید.
 2. به `chrome://extensions` (یا `edge://extensions` / `opera://extensions`) بروید.
 3. **Developer mode** را روشن کنید و روی **Load unpacked** کلیک کنید.
 
@@ -297,7 +299,7 @@ dist/
 **🔗 Quick links**
 
 - [⬇ Get it on Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/fa_persian_extension/)
-- [⬇ Chrome / Edge / Opera package](https://github.com/ArmanAZ44/FA_Persian_Extension/raw/main/dist/FA-v2.0.0-chrome.zip)
+- [📦 Latest release](https://github.com/ArmanAZ44/FA_Persian_Extension/releases/latest)
 - [💬 Telegram](https://t.me/ArmanAZPC)
 - [❤️ Support](https://reymit.ir/armanaz44)
 
@@ -368,7 +370,7 @@ dist/
 
 > 🔜 Coming soon to the **Chrome Web Store**. Until then, install manually.
 
-1. Download and unzip [`dist/FA-v2.0.0-chrome.zip`](https://github.com/ArmanAZ44/FA_Persian_Extension/raw/main/dist/FA-v2.0.0-chrome.zip).
+1. Download and unzip [`FA-v2.0.0-chrome.zip`](https://github.com/ArmanAZ44/FA_Persian_Extension/releases/latest/download/FA-v2.0.0-chrome.zip) from the [Releases](https://github.com/ArmanAZ44/FA_Persian_Extension/releases/latest) page.
 2. Open `chrome://extensions` (or `edge://extensions` / `opera://extensions`).
 3. Enable **Developer mode** and click **Load unpacked**.
 
